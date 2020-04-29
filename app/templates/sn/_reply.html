@@ -1,0 +1,5 @@
+<div class="content-section">
+    <div class="text-secondary"> You sent {{ post.recipient.username}} the message: </div>
+    <div class="text-secondary">{{ post.body }}</div>
+    <div class="text-secondary">On: {{ moment(post.timestamp).format('LLL') }}</div>
+</div>

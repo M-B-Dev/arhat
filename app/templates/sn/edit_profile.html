@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="content-section">
+        <div class="media">
+            <img class="rounded-circle account-img" src="{{ image_file }}">
+            <div class="media-body">
+                <h2 class="account-heading">User: {{ current_user.username}}</h2>
+                <p class="text-secondary">Email: {{ current_user.email}}</div>
+
+        </div>
+        {% if current_user.last_seen %}
+        <p class="text-secondary">Last seen on: {{ moment(current_user.last_seen).format('LLL') }}</p>
+    {% endif %}
+        <form action='' method='post' enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">User Info</legend>
+                <div class="form-group">
+                    {{ form.username.label(class="form-control-label") }}
+                    {% if form.username.errors %}
+                        {{ form.username(class='form-control form-control-lg is-invalid')}}
+                        <div class='invalid-feedback'>
+                            {% for error in form.username.errors %}
+                                <span> {{ error }} </span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.username(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label") }}
+                    {% if form.email.errors %}
+                        {{ form.email(class='form-control form-control-lg is-invalid')}}
+                        <div class='invalid-feedback'>
+                            {% for error in form.email.errors %}
+                                <span> {{ error }} </span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.threshold.label(class="form-control-label") }}
+                    {% if form.threshold.errors %}
+                        {{ form.threshold(class='form-control form-control-lg is-invalid')}}
+                        <div class='invalid-feedback'>
+                            {% for error in form.threshold.errors %}
+                                <span> {{ error }} </span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.threshold(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.days.label(class="form-control-label") }}
+                    {% if form.days.errors %}
+                        {{ form.days(class='form-control form-control-lg is-invalid')}}
+                        <div class='invalid-feedback'>
+                            {% for error in form.days.errors %}
+                                <span> {{ error }} </span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.days(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            <div class="form-group">
+                {{ form.picture.label() }}
+                {{ form.picture(class="form-control-file") }}
+                {% if form.picture.errors %}
+                    {% for error in form.picture.errors %}
+                        <span class='text-danger'>{{ error }}</span><br>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </fieldset>
+            <p>{{ form.submit(class="btn btn-outline-info") }}</p>
+        </form>
+        <p>
+            {% if current_user.subscribed == true %}
+            <a href="{{ url_for('main.flask_subscribe') }}"><button class="btn btn-outline-danger">
+            
+            Disable Push Messaging         
+            </button>
+            {% else %}
+            <button class="btn btn-outline-danger", onclick='subscribeUser()'>Enable Push Messaging</button>
+            {% endif %}
+
+        </p>
+       
+    </div>
+
+
+
+{% endblock %}

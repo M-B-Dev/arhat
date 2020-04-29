@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Received Messages</h1>
+    {% for post in messages %}
+        {% include 'sn/_post.html' %}
+    {% endfor %}
+    {% if prev_url %}
+    <a class="btn btn-outline-info" href="{{ prev_url }}">Previous page</a>
+{% endif %}
+{% if next_url %}
+    <a class="btn btn-outline-info" href="{{ next_url }}">Next page</a>
+{% endif %}
+<p></p><a class="btn btn-outline-info" href="{{ url_for('sn.sent_messages') }}">Sent Messages</a></p>
+{% endblock %}

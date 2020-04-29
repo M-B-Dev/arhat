@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="content-section">
+        <div class="media">
+            <img class="rounded-circle account-img" src="{{ 'static/profile_pics/' + current_user.image_file }}">
+            <div class="media-body">
+                <h2 class="account-heading">You are followed by</h2>
+                <a href="{{ url_for('sn.following') }}"><div class="text-secondary">{{ user.followed.count() }} following </div></a>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-md-2'></div>
+            <div class='col-md-10'>
+                {% for person in people %}
+                    <div class="media">
+                        {% if person != current_user %}
+                            <img class="rounded account-img" src="{{ 'static/profile_pics/' + person.image_file }}">
+                            <div class="media-body">    
+                                <h2 class="account-heading">{{ person.username }}</h2>
+                                {% if not current_user.is_following(person) and not current_user.is_pending(person) %}
+                                    <div class="text-secondary">
+                                        <a href="{{ url_for('sn.follow_request', username=person.username) }}">Follow</a>
+                                    </div>
+                                {% elif not current_user.is_following(person) and current_user.is_pending(person) %}
+                                    <div class="text-secondary">
+                                        <p>Pending</p>
+                                    </div>
+                                {% else %}
+                                    <div class="text-secondary">
+                                        <a href="{{ url_for('sn.unfollow', username=person.username) }}">Unfollow</a>
+                                    </div>
+                                    <div class="text-secondary">
+                                        <a href="{{ url_for('sn.send_message', recipient=person.username) }}">Send private message</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div> 
+                {% endfor %}
+                {% if prev_url %}
+                    <a class="btn btn-outline-info" href="{{ prev_url }}">Previous page</a>
+                {% endif %}
+                {% if next_url %}
+                    <a class="btn btn-outline-info" href="{{ next_url }}">Next page</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

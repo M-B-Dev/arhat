@@ -1,0 +1,9 @@
+*.pyc
+*.flaskenv
+/venv/*
+*.db
+/migrations/*
+.env
+/.vscode/*
+/__pycache__/*
+

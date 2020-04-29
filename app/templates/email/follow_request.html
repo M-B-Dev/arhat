@@ -1,0 +1,10 @@
+<p>Dear {{ user.username }},</p>
+<p>
+    To connect with {{ follow_requester.username }}
+    <a href="{{ url_for('main.follow', username=user.username, follow_requester=follow_requester.username, token=token, _external=True) }}">
+        click here
+    </a>.
+</p>
+<p>If you do not want to connect with them then simply ignore this email.</p>
+<p>Sincerely,</p>
+<p>The Teamplate Team</p>

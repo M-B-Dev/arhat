@@ -1,0 +1,159 @@
+<html>
+    <head>
+
+        {{ moment.include_jquery() }}
+        {{ moment.include_moment() }}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+        {% if title %}
+        <title>{{ title }} Template </title>
+        {% else %}
+        <title>Welcome to Template</title>
+        {% endif %}
+    </head>
+    <body>
+        <!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+        <div style='text-align: center;'> 
+            <br>
+            <h1 id="modal-title"></h1>
+            <br>
+            <p id="button"></p>
+            <br>
+            <p id="button2"></p>
+        </div>
+    </div>
+  
+  </div>
+
+  
+        <header class="site-header">
+                <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+                    <div class="container">
+                        {% if not current_user.is_anonymous %}
+                            <a href="{{ url_for('main.index', date_set='ph') }}" class="navbar-brand mr-4">Arhat</a>
+                        {% else %}
+                            <a class="navbar-brand mr-4" href="{{ url_for('auth.login') }}">Template</a>
+                        {% endif %}
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarToggle">
+                            <div class="navbar-nav mr-auto">
+                                {% if not current_user.is_anonymous %}
+                                <a class="nav-item nav-link" href="{{ url_for('main.index', date_set='ph') }}">Home</a>
+                                <a class="nav-item nav-link" href="{{ url_for('sn.edit_profile') }}">Edit Profile</a>
+                                <a class="nav-item nav-link" href="{{ url_for('sn.contacts', username=current_user.username) }}">Contacts</a>
+                                {% endif %}
+                            </div>
+                            <!-- Navbar Right Side -->
+                            <div class="navbar-nav">
+                                {% if current_user.is_anonymous %}
+                                <a class="nav-item nav-link" href="{{ url_for('auth.login') }}" >Login</a>
+                                <a class="nav-item nav-link" href="{{ url_for('auth.register') }}">Register</a>
+                                {% else %}
+                                <a class="nav-item nav-link" href="{{ url_for('sn.messages') }}">
+                                    Messages
+                                    {% set new_messages = current_user.new_messages() %}
+                                    {% if new_messages %}
+                                    <span id="message_count" class="badge"
+                                          style="visibility: visible;">
+                                    {% else %}
+                                          <span id="message_count" class="badge"
+                                          style="visibility:hidden ;">
+                                          {% endif %}
+                                        {{ new_messages }}
+                                    </span>
+                                <a class="nav-item nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+        </header>
+        <main role="main" class="container">
+            <div class="row">
+              <div class="col-md-12">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                {% block content %}
+                {% endblock %}
+              </div>
+            </div>
+          </main>
+        <span style=" visibility: hidden;">
+        <p>
+			<button disabled class="js-push-btn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+				Enable Push Messaging
+			</button>
+        </p>
+        <section class="subscription-details js-subscription-details is-invisible">
+			<p>Once you've subscribed your user, you'd send their subscription to your
+				server to store in a database so that when you want to send a message
+				you can lookup the subscription and send a message to it.</p>
+			<pre><code class="js-subscription-json"></code></pre>
+
+			<hr>
+			<p>You can test push notification below.</p>
+			<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="push_message()">Test Push Notification</button>
+		</section>
+    </span>
+
+        <script>
+            // ...
+            function set_message_count(n) {
+                $('#message_count').text(n);
+                $('#message_count').css('visibility', n ? 'visible' : 'hidden');
+            }
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script src=https://cdn.jsdelivr.net/npm/interactjs@latest></script>
+        <script src="{{ url_for('static', filename='jquery-3.3.1.min.js') }}"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script src="{{ url_for('static',filename='main.js') }}"></script>
+        <script src="{{ url_for('static', filename='sw.js') }}"></script>
+
+        <script src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+       
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <script src=https://cdn.jsdelivr.net/npm/interactjs@latest></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="{{ url_for('static', filename='jscolor.js') }}"></script>
+        <script src="{{ url_for('static', filename='modal.js') }}"></script>
+        
+        <script>
+            $(function() {
+                $( ".dtpick" ).datepicker(
+                    {
+                        Format: "dd-mm-yy",
+                        dateFormat: "dd-mm-yy"
+                      }
+                );
+            });
+            </script>
+        <!-- <script>sendNotifications()</script> -->
+        
+            {% block scripts %}
+            {% endblock %}
+    </body>
+</html>

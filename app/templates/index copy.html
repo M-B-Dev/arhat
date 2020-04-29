@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="conten-section">
+    <form action='' id="date" method='post' enctype="multipart/form-data">
+        {{ date_form.hidden_tag() }}
+        <div class="row">
+            <div class='col-md-1'>Date: </div>
+            <div class='col-md-3'>
+                {{date_form.datepicker(class="dtpick form-control")}}
+            </div>
+            <div class='col-md-2'>{{ date_form.submit(class="btn btn-outline-info", form="date") }}</div>
+        </div>
+    </form>
+    <br>
+    <table> 
+        <tr> 
+            <th class="outer">Hour</th>
+            <th>Task</th> 
+            <th class="outer">Done</th> 
+        </tr> 
+        <tr> 
+        <th class="outer">0:00</th> 
+        <td rowspan='1440' id='taskArea'><svg>
+        </svg></td> 
+        <td class="outer"></td>
+        </tr> 
+        {% for i in range(719) %}
+        <tr> 
+            {% if (i + 2) % 30 == 0 and (i +2)/30 != 24 %}
+            <th class="outer">{{((i +2)/30) | int}}:00</th> 
+            {% else %}
+            <th class="outer"></th> 
+            <td class="outer"></td> 
+            {% endif %}
+        </tr> 
+        {% endfor %}
+    </table>
+</div>
+<div id="myTaskModal" class="taskmodal">
+<!-- Modal content -->
+    <div class="modal-task-input">
+        <span class="task-close">&times;</span>
+        <div style='text-align: center;'> 
+            <form action='' id="tasks" method='post' enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                {{ form.date(value=date_form.datepicker.data, type="hidden")}}
+                {{ form.start_time.label }}
+                {{ form.start_time(class='form-control form-control-lg', id='start') }}
+                {{ form.end_time.label }}
+                {{ form.end_time(class='form-control form-control-lg') }}
+                {{ form.task.label }}
+                {{ form.task(class='form-control form-control-lg') }}
+                {{ form.submit(class="btn btn-outline-info", id="tasks") }}
+            </form>
+        </div>
+    </div>
+</div>
+         
+{% endblock %}
+
+{% block scripts %}
+{% for todo in todos %}
+{{todo.body}}
+<script>new Rectangle(0, {{todo.start_time}}, 20, {{todo.end_time}}-{{todo.start_time}}, svgCanvas, '{{todo.body}}', {{todo.id}})</script>
+{% endfor %}      
+
+<div class="resize-drag"></div>
+{% endblock %}
+
+<!-- {% for hr in form.Todos %}
+    {% if loop.index in task_hours %}
+    {{ hr.post(class='form-control form-control-lg', value=tasks[loop.index]) }}
+    {% else %}
+    {{ hr.post(class='form-control form-control-lg') }}
+    {% endif %}
+    <div class='invalid-feedback'>
+        {% for error in hr.post.errors %}
+            <span>{{ error }}</span>
+        {% endfor %}
+    </div>
+{% endfor %} -->

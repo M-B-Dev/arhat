@@ -1,0 +1,13 @@
+Dear {{ user.username }},
+
+{{ follow_requester.username }} has requested to be your contact. 
+
+If you would like to connect with them please click the link below:
+
+"link for email token needs to go here"
+
+If you don't want to be their friend simply ignore this email.
+
+Sincerely,
+
+The Template Team

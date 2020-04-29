@@ -1,0 +1,27 @@
+
+  .container{
+
+      width: 90%;
+      background-color: aquamarine;
+  }
+
+  .content{
+
+    width: 50%;
+    height: 1000px;
+    margin: auto;
+    background-color: blueviolet;
+    
+
+}
+
+#draggable { 
+    position: absolute; 
+    height: 150px; 
+    padding: 0; }
+
+#draggable2 { 
+        position: absolute; 
+        height: 150px; 
+        padding: 0; }
+    

@@ -1,0 +1,6 @@
+<div class="content-section">
+    <div class="text-secondary"> {{ post.author.username}} said : </div>
+    <div class="text-secondary">{{ post.body }}</div>
+    <div class="text-secondary">On: {{ moment(post.timestamp).format('LLL') }}</div>
+    <a href="{{ url_for('sn.reply', recipient=post.author.username, ident=post.id) }}">Reply</a>
+</div>

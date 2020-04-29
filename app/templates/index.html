@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="conten-section">
+    <div class="content">
+    <form action='' id="date" method='post' enctype="multipart/form-data">
+        {{ date_form.hidden_tag() }}
+        <div class="row">
+            <div class='col-md-1'>Date: </div>
+            <div class='col-md-3'>
+                {{date_form.datepicker(class="dtpick form-control")}}
+            </div>
+            <div class='col-md-2'>{{ date_form.submit(class="btn btn-outline-info", form="date") }}</div>
+        </div>
+    </form>
+</div>
+<div class="contentWrapper">
+    <div class="leftCol" id="colLeft"></div>
+    <div class="content" id="taskArea">
+        {% if today == true %}
+        <div id="timeline"></div>
+        {% endif %}
+    </div>
+</div>
+</div>
+<div id="myTaskModal" class="taskmodal">
+<!-- Modal content -->
+    <div class="modal-task-input">
+        <span class="task-close">&times;</span>
+        <div style='text-align: center;'> 
+            <form action='' id="tasks" method='post' enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                {{ form.date(value=date_form.datepicker.data, type="hidden")}}
+                {{ form.start_time.label }}
+                {{ form.start_time(class='form-control form-control-lg', id='start') }}
+                {{ form.end_time.label }}
+                {{ form.end_time(class='form-control form-control-lg') }}
+                {{ form.task.label }}
+                {{ form.task(class='form-control form-control-lg') }}
+                {{ form.color.label }}
+                {{ form.color(class='form-control form-control-lg jscolor', value="6c757d") }}
+                {{ form.frequency.label }}
+                {{ form.frequency(class='form-control form-control-lg') }}
+                {{ form.to_date.label }}
+                {{ form.to_date(class="dtpick form-control") }}
+                {{ form.submit(class="btn btn-outline-info", id="tasks") }}
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="myEditTaskModal" class="taskmodal">
+    <!-- Modal content -->
+        <div class="modal-task-input">
+            <span class="task-close">&times;</span>
+            <div style='text-align: center;'> 
+                <form action='' id="editTasks" method='post' enctype="multipart/form-data">
+                    This form
+                    {{ form.hidden_tag() }}
+                    {{ form.date(type="hidden", value=date_form.datepicker.data) }}
+                    {{ form.ident(type="hidden", id="editID") }}
+                    {{ form.start_time.label }}
+                    {{ form.start_time(class='form-control form-control-lg', id='editStart') }}
+                    {{ form.end_time.label }}
+                    {{ form.end_time(class='form-control form-control-lg', id='end') }}
+                    {{ form.task.label }}
+                    {{ form.task(class='form-control form-control-lg', id='taskEdit') }}
+                    {{ form.done.label }}
+                    {{ form.done(class='form-control form-control-lg') }}
+                    {{ form.color.label }}
+                    {{ form.color(class='form-control form-control-lg jscolor', id='editColor') }}
+                    {{ form.frequency.label(id="editFrequencyLabel") }}
+                    {{ form.frequency(class='form-control form-control-lg', id="editFrequency") }}
+                    {{ form.to_date.label }}
+                    {{ form.to_date(class="dtpick form-control") }}
+                    {{ form.single_event.label }}
+                    {{ form.single_event(class='form-control form-control-lg', id="editSingleEvent", value=false, onclick="javascript:indOrGrp();") }}
+                    {{ form.submit(class="btn btn-outline-info", id="editTasks") }}
+                </form>
+            </div>
+        </div>
+    </div>
+         
+{% endblock %}
+
+{% block scripts %}
+{% for todo in frequency_tasks %}
+{% if todo not in todos %}
+<script>new Rectangle({{todo.start_time}}, {{todo.end_time}}-{{todo.start_time}}, '{{todo.body}}', {{todo.id}}, '{{todo.color}}', '{{ todo.frequency }}')</script>
+{% endif %}
+{% endfor %}  
+{% for todo in todos %}
+{% if todo.done == false %}
+{% if todo.color %}
+<script>new Rectangle({{todo.start_time}}, {{todo.end_time}}-{{todo.start_time}}, '{{todo.body}}', {{todo.id}}, '{{todo.color}}', '{{ todo.frequency }}')</script>
+{% else %}
+<script>new Rectangle({{todo.start_time}}, {{todo.end_time}}-{{todo.start_time}}, '{{todo.body}}', {{todo.id}}, '6c757d', '{{ todo.frequency }}')</script>
+{% endif %}
+{% endif %}
+{% endfor %}      
+
+<div class="resize-drag"></div>
+{% endblock %}
+
+<!-- {% for hr in form.Todos %}
+    {% if loop.index in task_hours %}
+    {{ hr.post(class='form-control form-control-lg', value=tasks[loop.index]) }}
+    {% else %}
+    {{ hr.post(class='form-control form-control-lg') }}
+    {% endif %}
+    <div class='invalid-feedback'>
+        {% for error in hr.post.errors %}
+            <span>{{ error }}</span>
+        {% endfor %}
+    </div>
+{% endfor %} -->
