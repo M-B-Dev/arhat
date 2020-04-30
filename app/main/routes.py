@@ -31,9 +31,6 @@ from app.main.forms import(
 
 from app import db
 
-@bp.route('/test')
-def test():
-    return render_template('test.html')
 
 @bp.route('/index/<date_set>', methods=['GET', 'POST'])
 @login_required
@@ -61,19 +58,23 @@ def index(date_set):
         today = True
     check_depression_on_index(date)
     date_form.datepicker.data = date
-    all_frequency_tasks = current_user.posts.filter(Post.frequency != None).all()
+    all_frequency_tasks = current_user.posts.filter(
+        Post.frequency != None
+        ).all()
     todos = current_user.posts.filter_by(date=date)
     exclusions = [todo.exclude for todo in todos if todo.exclude]
-    frequency_tasks = [task for task in all_frequency_tasks if task.frequency > 0 and (date-task.date).days > 0 and ((date-task.date).days%task.frequency) == 0 and task.date < date and task.id not in exclusions]
+    frequency_tasks = [task for task in all_frequency_tasks \
+        if task.frequency > 0 \
+        and (date-task.date).days > 0 \
+        and ((date-task.date).days % task.frequency) == 0 \
+        and task.date < date \
+        and task.id not in exclusions]
     tasks = {}
     task_hours = []
     for todo in todos:
         if todo.done == False:
             task_hours.append(todo.hour)
             tasks[todo.hour] = todo.body
-    # if form.validate_on_submit():
-    #     print(form.start_time.data)        
-    # print(form.errors)
     return render_template(
         "index.html", 
         frequency_tasks=frequency_tasks,
@@ -91,18 +92,21 @@ def index(date_set):
 @bp.route('/new_task/', methods=['GET', 'POST'])
 @login_required
 def new_task():
+    """Creates a new todo task."""
     form = TaskForm()
     if form.validate_on_submit():
-        minutes = (form.start_time.data.hour * 60) + form.start_time.data.minute
-        height = ((form.end_time.data.hour * 60) + form.end_time.data.minute) - minutes
-        # print(form.date.data)
+        minutes = (form.start_time.data.hour * 60) \
+            + form.start_time.data.minute
+        height = ((form.end_time.data.hour * 60) \
+            + form.end_time.data.minute) - minutes
         if form.frequency.data == 0:
             frequency = None
         else:
             frequency = form.frequency.data
             if form.to_date.data:
                 to_date = datetime.strptime(
-                        datetime.strftime(form.to_date.data, "%Y-%m-%d, 00:00:00"), 
+                        datetime.strftime(form.to_date.data, 
+                        "%Y-%m-%d, 00:00:00"), 
                         "%Y-%m-%d, %H:%M:%S"
                         )
                 date = datetime.strptime(form.date.data, "%Y-%m-%d %H:%M:%S")
@@ -114,8 +118,10 @@ def new_task():
                             hour= form.start_time.data.hour,
                             done=False,
                             user_id=current_user.id, 
-                            start_time=(form.start_time.data.hour * 60) + form.start_time.data.minute,
-                            end_time=(form.end_time.data.hour * 60) + form.end_time.data.minute,
+                            start_time=(form.start_time.data.hour * 60) \
+                                + form.start_time.data.minute,
+                            end_time=(form.end_time.data.hour * 60) \
+                                + form.end_time.data.minute,
                             color=form.color.data,
                             frequency=0
                             )
@@ -125,22 +131,28 @@ def new_task():
                         if i == (to_date-date).days:
                             ident = task_to_be_added.id
                         task_to_be_added.exclude = ident
-                        print(ident)
                         db.session.commit()
                 else:
                     ident = 0
                 flash('Your tasks are now live!', 'success')
-                # print(minutes)
-                # print(form.errors)
-                return jsonify({'minutes' : minutes, 'height' : height, 'task' : form.task.data, 'id' : ident, 'color' : form.color.data, 'frequency' : form.frequency.data})
+                return jsonify({
+                    'minutes' : minutes, 
+                    'height' : height, 
+                    'task' : form.task.data, 
+                    'id' : ident, 
+                    'color' : form.color.data, 
+                    'frequency' : form.frequency.data
+                    })
         task_to_be_added = Post(
                 body=form.task.data, 
                 hour= form.start_time.data.hour,
                 done=False,
                 date=datetime.strptime(form.date.data, "%Y-%m-%d %H:%M:%S"), 
                 user_id=current_user.id, 
-                start_time=(form.start_time.data.hour * 60) + form.start_time.data.minute,
-                end_time=(form.end_time.data.hour * 60) + form.end_time.data.minute,
+                start_time=(form.start_time.data.hour * 60) \
+                    + form.start_time.data.minute,
+                end_time=(form.end_time.data.hour * 60) \
+                    + form.end_time.data.minute,
                 color=form.color.data,
                 frequency=frequency
                 )
@@ -149,9 +161,14 @@ def new_task():
         db.session.flush()
         ident = task_to_be_added.id
         flash('Your task is now live!', 'success')
-        print(minutes)
-    print(form.errors)
-    return jsonify({'minutes' : minutes, 'height' : height, 'task' : form.task.data, 'id' : ident, 'color' : form.color.data, 'frequency' : form.frequency.data})
+    return jsonify({
+        'minutes' : minutes, 
+        'height' : height, 
+        'task' : form.task.data, 
+        'id' : ident, 
+        'color' : form.color.data, 
+        'frequency' : form.frequency.data
+        })
 
 @bp.route('/edit_task/', methods=['GET', 'POST'])
 @login_required
@@ -159,40 +176,56 @@ def edit_task():
     form = TaskForm()
     if form.validate_on_submit():
         if form.single_event.data is True:
-            task_to_be_edited = current_user.posts.filter_by(id=int(form.ident.data)).first()
-            if task_to_be_edited.exclude and task_to_be_edited.exclude != int(form.ident.data):
-                print('freq task already exists and will be edited')
-                minutes = (form.start_time.data.hour * 60) + form.start_time.data.minute
-                height = ((form.end_time.data.hour * 60) + form.end_time.data.minute) - minutes
-                task_to_be_edited = current_user.posts.filter_by(id=int(form.ident.data)).first()
+            task_to_be_edited = current_user.posts.filter_by(
+                id=int(form.ident.data)
+                ).first()
+            if task_to_be_edited.exclude \
+                    and task_to_be_edited.exclude != int(form.ident.data):
+                minutes = (form.start_time.data.hour * 60) \
+                    + form.start_time.data.minute
+                height = ((form.end_time.data.hour * 60) \
+                    + form.end_time.data.minute) - minutes
+                task_to_be_edited = current_user.posts.filter_by(
+                    id=int(form.ident.data)
+                    ).first()
                 task_to_be_edited.body = form.task.data
                 task_to_be_edited.hour= form.start_time.data.hour
                 task_to_be_edited.frequency = 0
                 task_to_be_edited.done = form.done.data
                 task_to_be_edited.color = form.color.data
                 task_to_be_edited.user_id = current_user.id
-                task_to_be_edited.start_time = (form.start_time.data.hour * 60) + form.start_time.data.minute
-                task_to_be_edited.end_time = (form.end_time.data.hour * 60) + form.end_time.data.minute
+                task_to_be_edited.start_time = (
+                    form.start_time.data.hour * 60
+                    ) + form.start_time.data.minute
+                task_to_be_edited.end_time = (
+                    form.end_time.data.hour * 60
+                    ) + form.end_time.data.minute
                 if task_to_be_edited.done is False:
                     flash('Your single task has been updated!', 'success')
                 else:
                     flash('Your single task is complete!', 'success')
             else:
-                print('no freq teask exists so new task will be generated')
                 task_to_be_added = Post(
                     body=form.task.data, 
                     hour= form.start_time.data.hour,
                     done=form.done.data,
-                    date=datetime.strptime(form.date.data, "%Y-%m-%d %H:%M:%S"), 
+                    date=datetime.strptime(
+                        form.date.data, 
+                        "%Y-%m-%d %H:%M:%S"
+                        ), 
                     user_id=current_user.id, 
-                    start_time=(form.start_time.data.hour * 60) + form.start_time.data.minute,
-                    end_time=(form.end_time.data.hour * 60) + form.end_time.data.minute,
+                    start_time=(form.start_time.data.hour * 60) \
+                        + form.start_time.data.minute,
+                    end_time=(form.end_time.data.hour * 60) \
+                        + form.end_time.data.minute,
                     color=form.color.data,
                     frequency=0,
                     exclude=int(form.ident.data)
                     )
                 task_to_be_edited.exclude = task_to_be_edited.id            
-                if datetime.strptime(form.date.data, "%Y-%m-%d %H:%M:%S") == task_to_be_edited.date:
+                if datetime.strptime(
+                        form.date.data, "%Y-%m-%d %H:%M:%S"
+                        ) == task_to_be_edited.date:
                     task_to_be_edited.done = True        
                 db.session.add(task_to_be_added)
                 if task_to_be_added.done is False:
@@ -200,37 +233,50 @@ def edit_task():
                 else:
                     flash('Your single task is complete!', 'success')
         else:
-            task_to_be_edited = current_user.posts.filter_by(id=int(form.ident.data)).first()
-            minutes = (form.start_time.data.hour * 60) + form.start_time.data.minute
-            height = ((form.end_time.data.hour * 60) + form.end_time.data.minute) - minutes
+            task_to_be_edited = current_user.posts.filter_by(
+                id=int(form.ident.data)
+                ).first()
+            minutes = (form.start_time.data.hour * 60) \
+                + form.start_time.data.minute
+            height = ((form.end_time.data.hour * 60) \
+                + form.end_time.data.minute) - minutes
             if task_to_be_edited.exclude:
-                print('all related freq takss will be impacted')
-                parent_task = current_user.posts.filter_by(id=task_to_be_edited.exclude).first()
+                parent_task = current_user.posts.filter_by(
+                    id=task_to_be_edited.exclude
+                    ).first()
                 parent_task.frequency = form.frequency.data
-                tasks = [task for task in current_user.posts.all() if task.exclude == task_to_be_edited.exclude]
+                tasks = [task for task in current_user.posts.all() \
+                    if task.exclude == task_to_be_edited.exclude]
                 for task in tasks:
-                    print(f"I am printing {task}")
                     task.body = form.task.data
                     task.hour= form.start_time.data.hour
                     task.done = form.done.data
                     if form.done.data is True:
                         task.frequency = 0
-                    elif ((parent_task.date-task.date).days%int(form.frequency.data)) != 0:
+                    elif ((parent_task.date-task.date).days \
+                        % int(form.frequency.data)) != 0:
                         task.done = True
                     task.color = form.color.data
                     task.user_id = current_user.id
-                    task.start_time = (form.start_time.data.hour * 60) + form.start_time.data.minute
-                    task.end_time = (form.end_time.data.hour * 60) + form.end_time.data.minute
+                    task.start_time = (form.start_time.data.hour * 60) \
+                        + form.start_time.data.minute
+                    task.end_time = (form.end_time.data.hour * 60) \
+                        + form.end_time.data.minute
                 flash('Your tasks have been updated!', 'success')
             else:
-                print('this task and any freq tasks will be impacted')
                 task_to_be_edited.body = form.task.data
                 task_to_be_edited.hour = form.start_time.data.hour
                 task_to_be_edited.done = form.done.data
-                task_to_be_edited.date = datetime.strptime(form.date.data, "%Y-%m-%d %H:%M:%S")
+                task_to_be_edited.date = datetime.strptime(
+                    form.date.data, "%Y-%m-%d %H:%M:%S"
+                    )
                 task_to_be_edited.user_id = current_user.id
-                task_to_be_edited.start_time = (form.start_time.data.hour * 60) + form.start_time.data.minute
-                task_to_be_edited.end_time = (form.end_time.data.hour * 60) + form.end_time.data.minute
+                task_to_be_edited.start_time = (
+                    form.start_time.data.hour * 60
+                    ) + form.start_time.data.minute
+                task_to_be_edited.end_time = (
+                    form.end_time.data.hour * 60
+                    ) + form.end_time.data.minute
                 task_to_be_edited.color = form.color.data
                 if task_to_be_edited.done == True:
                     task_to_be_edited.frequency = 0
@@ -251,7 +297,6 @@ def update_task():
         task = Post.query.filter_by(id=int(data['id'])).first()
         height = ''.join([n for n in data['height'] if n.isnumeric()])
         top = ''.join([n for n in data['top'] if n.isnumeric()])
-        print (f"{top} and {height}")
         task.start_time = int(top)
         task.end_time = int(height) + int(top)
         db.session.commit()
@@ -299,10 +344,8 @@ def check():
     
     If tasks are due a notification is triggered. 
     """
-    print(current_user.subscribed)
-    print(str(request.args.get('id')))
+
     if current_user.subscribed and str(request.args.get('id')).isnumeric():
-        print('passed')
         ident = int(request.args.get('id'))
         task = current_user.posts.filter_by(id=ident).first()
         send_web_push(
@@ -310,7 +353,6 @@ def check():
             f"You need to {task.body}"
             )
     else: 
-        print('failed')
         ident = False
     return jsonify({'id': ident})
 
@@ -386,9 +428,12 @@ def check_depression():
     are sent to all users that the current user follows. 
     
     """
-    all_frequency_tasks = current_user.posts.filter(Post.frequency != None).all()
-    outstanding_frequency_tasks = [task for task in all_frequency_tasks if task.done is False]
-    # print(outstanding_frequency_tasks)
+    all_frequency_tasks = current_user.posts.filter(
+        Post.frequency != None
+        ).all()
+    outstanding_frequency_tasks = [
+        task for task in all_frequency_tasks if task.done is False
+        ]
     threshold = current_user.threshold
     date_set = datetime.utcnow().date()
     daily_percentage = 0
@@ -396,7 +441,6 @@ def check_depression():
     period_precentage = 0
     divide_days = 0
     for day in range(number_of_days):
-        # print(day)
         date_set = date_set - timedelta(days=1)
         daily_tasks = current_user.posts.filter_by(
             date=datetime.strptime(str(date_set), 
@@ -406,21 +450,24 @@ def check_depression():
         freq_daily_tasks = 0
         freq_done_tasks = 0
         for freq_task in outstanding_frequency_tasks:
-            # print(freq_task.done)
-            if freq_task.frequency != 0 and (datetime.strptime(str(date_set), "%Y-%m-%d")- freq_task.date).days > 0 and (datetime.strptime(str(date_set), "%Y-%m-%d")- freq_task.date).days % freq_task.frequency == 0:
+            if freq_task.frequency != 0 \
+                and (datetime.strptime(
+                    str(date_set
+                    ), "%Y-%m-%d") - freq_task.date).days > 0 \
+                and (datetime.strptime(
+                    str(date_set), "%Y-%m-%d"
+                    ) - freq_task.date).days % freq_task.frequency == 0:
                 freq_daily_tasks += 1
-                # print('a frequency task is here')
                 for tsk in daily_tasks:
                     if tsk.exclude == freq_task.id:
-                        # print('a task has been individually edited')
                         freq_daily_tasks -= 1    
         if daily_tasks.count() > 0:
             for task in daily_tasks:
-                # print('a task has not been done')
                 if task.done == True:
-                    # print('a task has been done')
                     done_tasks += 1
-            daily_percentage = (done_tasks/daily_tasks.count()+freq_daily_tasks)*100
+            daily_percentage = (
+                done_tasks/daily_tasks.count()+freq_daily_tasks
+                )*100
             divide_days += 1
             period_precentage += daily_percentage
         elif freq_daily_tasks > 0:
@@ -430,8 +477,6 @@ def check_depression():
     else:
         period_precentage = 100
     if period_precentage < threshold:
-        print(period_precentage)
-        print(divide_days)
         for followed in current_user.followed.all():
             send_email(
                 "Urgent", 
