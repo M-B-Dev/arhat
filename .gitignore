@@ -6,4 +6,4 @@
 .env
 /.vscode/*
 /__pycache__/*
-
+*.pre-commit-config.yaml
