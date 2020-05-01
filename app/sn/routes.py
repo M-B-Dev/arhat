@@ -100,9 +100,10 @@ def edit_profile():
 @login_required
 def contacts():
     """This renders a paginated page, with all users in the db."""
-    user = User.query.filter_by(username=current_user.username).first_or_404()
     form = SearchForm()
     page = request.args.get('page', 1, type=int)
+    next_url = None
+    prev_url = None
     if form.validate_on_submit():
         people_id = User.query.filter(
             User.id != current_user.id
@@ -116,31 +117,26 @@ def contacts():
         people = [person_id for person_id in people_id]
         [people.append(person_email) for person_email in people_email]
         people = list(dict.fromkeys(people))
-        return render_template(
-            'sn/contacts.html', 
-            user=user, 
-            people=people, 
-            form=form
-            )
     else:
         people = User.query.filter(
             User.id != current_user.id
             ).order_by(
                 User.username
                 )
-    people = people.paginate(
-        page, 
-        current_app.config['POSTS_PER_PAGE'], 
-        False
-        )
-    next_url = url_for('sn.contacts', page=people.next_num) \
-        if people.has_next else None
-    prev_url = url_for('sn.contacts', page=people.prev_num) \
-        if people.has_prev else None
+        people = people.paginate(
+            page, 
+            current_app.config['POSTS_PER_PAGE'], 
+            False
+            )
+        if people.has_next:
+            next_url = url_for('sn.contacts', page=people.next_num) 
+        if people.has_prev:
+            prev_url = url_for('sn.contacts', page=people.prev_num)
+        people = people.items
     return render_template(
         'sn/contacts.html', 
-        user=user, 
-        people=people.items, 
+        user=current_user, 
+        people=people, 
         form=form, 
         next_url=next_url, 
         prev_url=prev_url
