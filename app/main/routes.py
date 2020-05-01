@@ -65,29 +65,26 @@ def index(date_set):
     exclusions = [todo.exclude for todo in todos if todo.exclude]
     frequency_tasks = [task for task in all_frequency_tasks \
         if task.frequency > 0 \
-        and (date-task.date).days > 0 \
-        and ((date-task.date).days % task.frequency) == 0 \
+        and (date - task.date).days > 0 \
+        and ((date - task.date).days % task.frequency) == 0 \
         and task.date < date \
         and task.id not in exclusions]
-    tasks = {}
-    task_hours = []
-    for todo in todos:
-        if todo.done == False:
-            task_hours.append(todo.hour)
-            tasks[todo.hour] = todo.body
     return render_template(
         "index.html", 
         frequency_tasks=frequency_tasks,
         today=today,
         todos=todos,
-        date_set=date_set, 
-        tasks=tasks, 
-        task_hours=task_hours, 
+        date_set=date_set,
         title='Home Page', 
         form=form, 
-        user=current_user, 
         date_form=date_form
         )
+
+def convert_date_format(date):
+    return datetime.strptime(datetime.strftime(date, "%Y-%m-%d, 00:00:00"), "%Y-%m-%d, %H:%M:%S")
+
+def string_to_datetime(date):
+    return datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
 
 @bp.route('/new_task/', methods=['GET', 'POST'])
 @login_required
@@ -104,22 +101,17 @@ def new_task():
         else:
             frequency = form.frequency.data
             if form.to_date.data:
-                to_date = datetime.strptime(
-                        datetime.strftime(form.to_date.data, 
-                        "%Y-%m-%d, 00:00:00"), 
-                        "%Y-%m-%d, %H:%M:%S"
-                        )
-                date = datetime.strptime(form.date.data, "%Y-%m-%d %H:%M:%S")
+                to_date = convert_date_format(form.to_date.data)
+                date = string_to_datetime(form.date.data)
                 if to_date > date:
-                    for i in range((to_date-date).days, -1, -1):
+                    for i in range((to_date - date).days, -1, -1):
                         task_to_be_added = Post(
                             date = date + timedelta(days=i),
                             body=form.task.data, 
-                            hour= form.start_time.data.hour,
+                            hour=form.start_time.data.hour,
                             done=False,
                             user_id=current_user.id, 
-                            start_time=(form.start_time.data.hour * 60) \
-                                + form.start_time.data.minute,
+                            start_time=minutes,
                             end_time=(form.end_time.data.hour * 60) \
                                 + form.end_time.data.minute,
                             color=form.color.data,
