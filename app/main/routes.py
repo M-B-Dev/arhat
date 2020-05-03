@@ -294,18 +294,17 @@ def update_task():
         db.session.commit()
     return jsonify({'task' : task.body})
 
-def add_sent_date(date):
+def add_sent_date(date, user=current_user):
     check_depression()
-    current_user.sent_date = date
+    user.sent_date = date
     db.session.commit()
 
-def check_depression_on_index(date):
+def check_depression_on_index(date, user=current_user):
     today = datetime.strftime(datetime.utcnow().date(), "%Y-%m-%d %H:%M:%S")
-    return add_sent_date(date)
-    if current_user.sent_date:
-        if str(current_user.sent_date) != today:
+    if user.sent_date:
+        if str(user.sent_date) != today:
             add_sent_date(date)
-    elif current_user.threshold and current_user.days:
+    elif user.threshold and user.days:
         add_sent_date(today)
 
 def set_date(date_set):
@@ -414,27 +413,27 @@ def delete_or_update(user, date, Todo, form, date_form):
             create_task(Todo, date_form)
             return
 
-def check_depression():
+def check_depression(user=current_user, app=current_app):
     """Checks if the percentage of complete tasks is lower than 
     the user set threshold. If lower then then messages and emails
     are sent to all users that the current user follows. 
     
     """
-    all_frequency_tasks = current_user.posts.filter(
+    all_frequency_tasks = user.posts.filter(
         Post.frequency != None
         ).all()
     outstanding_frequency_tasks = [
         task for task in all_frequency_tasks if task.done is False
         ]
-    threshold = current_user.threshold
+    threshold = user.threshold
     date_set = datetime.utcnow().date()
     daily_percentage = 0
-    number_of_days = current_user.days
+    number_of_days = user.days
     period_precentage = 0
     divide_days = 0
     for day in range(number_of_days):
         date_set = date_set - timedelta(days=1)
-        daily_tasks = current_user.posts.filter_by(
+        daily_tasks = user.posts.filter_by(
             date=datetime.strptime(str(date_set), 
             "%Y-%m-%d")
             )
@@ -469,18 +468,18 @@ def check_depression():
     else:
         period_precentage = 100
     if period_precentage < threshold:
-        for followed in current_user.followed.all():
+        for followed in user.followed.all():
             send_email(
                 "Urgent", 
-                current_app.config['ADMINS'][0], 
+                app.config['ADMINS'][0], 
                 [followed.email], 
-                f"please contact {current_user.username}", 
+                f"please contact {user.username}", 
                 html_body=None
                 )
             msg = Message(
-                author=current_user, 
+                author=user, 
                 recipient=followed,
-                body=f"please contact {current_user.username}"
+                body=f"please contact {user.username}"
                 )
             db.session.add(msg)
             db.session.commit()

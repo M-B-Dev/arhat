@@ -1,5 +1,33 @@
-2020-04-29 20:51:32,498 ERROR: 
-            Exception on /new_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-04-29 21:47:42,565 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-04-29 21:52:29,282 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-04-29 22:13:02,264 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-04-30 14:00:55,254 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-04-30 14:34:56,131 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-04-30 14:44:09,023 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-04-30 15:09:13,769 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-04-30 15:09:16,305 ERROR: 
+            Exception on /index/01-05-2020 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -17,15 +45,19 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 104, in new_task
-    to_date = datetime.strptime(form.to_date.data, "%Y-%m-%d %H:%M:%S")
-TypeError: strptime() argument 1 must be str, not datetime.date
-2020-04-29 20:52:37,233 INFO: 
+  File "/home/lean/Arhat/app/main/routes.py", line 77, in index
+    tasks=tasks,
+NameError: name 'tasks' is not defined
+2020-04-30 15:09:32,314 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-29 20:52:52,666 ERROR: 
-            Exception on /new_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-04-30 15:11:57,383 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-04-30 15:11:58,981 ERROR: 
+            Exception on /index/01-05-2020 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -43,19 +75,43 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 104, in new_task
-    to_date = datetime.strptime(str(form.to_date.data), "%Y-%m-%d %H:%M:%S")
-  File "/usr/lib/python3.7/_strptime.py", line 577, in _strptime_datetime
-    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
-  File "/usr/lib/python3.7/_strptime.py", line 359, in _strptime
-    (data_string, format))
-ValueError: time data '2020-05-02' does not match format '%Y-%m-%d %H:%M:%S'
-2020-04-29 20:54:29,329 INFO: 
+  File "/home/lean/Arhat/app/main/routes.py", line 78, in index
+    task_hours=task_hours,
+NameError: name 'task_hours' is not defined
+2020-04-30 15:12:31,293 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-29 20:54:56,889 ERROR: 
-            Exception on /new_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-01 10:54:28,717 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-01 11:03:47,380 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-01 11:03:58,555 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-01 11:05:19,494 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-01 11:21:46,486 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-01 14:33:36,891 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-01 14:33:46,190 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-01 14:33:51,048 ERROR: 
+            Exception on /contacts [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -73,15 +129,15 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 110, in new_task
-    for i in reverse(range(to_date-date)):
-NameError: name 'reverse' is not defined
-2020-04-29 20:55:37,912 INFO: 
+  File "/home/lean/Arhat/app/sn/routes.py", line 141, in contacts
+    user=user,
+NameError: name 'user' is not defined
+2020-05-01 14:34:24,759 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-29 20:55:52,720 ERROR: 
-            Exception on /new_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-01 14:34:26,675 ERROR: 
+            Exception on /contacts [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -99,15 +155,19 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 110, in new_task
-    for i in range(to_date-date).reverse():
-TypeError: 'datetime.timedelta' object cannot be interpreted as an integer
-2020-04-29 20:56:29,694 INFO: 
+  File "/home/lean/Arhat/app/sn/routes.py", line 141, in contacts
+    user=user,
+NameError: name 'user' is not defined
+2020-05-01 14:34:49,015 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-29 20:56:42,818 ERROR: 
-            Exception on /new_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-01 14:37:19,055 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-01 14:37:24,496 ERROR: 
+            Exception on /contacts [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -125,60 +185,10 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 110, in new_task
-    for i in range(to_date-date.days).reverse():
-AttributeError: 'datetime.datetime' object has no attribute 'days'
-2020-04-29 20:57:18,094 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-29 20:57:39,190 ERROR: 
-            Exception on /new_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
-    return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 110, in new_task
-    for i in range((to_date-date).days).reverse():
-AttributeError: 'range' object has no attribute 'reverse'
-2020-04-29 21:00:11,464 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-29 21:02:00,731 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-29 21:04:47,812 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-29 21:34:53,279 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-29 21:39:26,076 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-29 21:42:54,103 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-29 21:45:20,605 INFO: 
+  File "/home/lean/Arhat/app/sn/routes.py", line 124, in contacts
+    people = people.paginate(
+AttributeError: 'list' object has no attribute 'paginate'
+2020-05-01 14:37:43,562 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
