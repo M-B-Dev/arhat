@@ -134,3 +134,7 @@ werkzeug.routing.BuildError: Could not build url for endpoint 'main.follow' with
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
+2020-05-05 20:59:19,606 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            

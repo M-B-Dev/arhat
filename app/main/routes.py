@@ -154,6 +154,7 @@ def new_task():
         ident = task_to_be_added.id
         flash('Your task is now live!', 'success')
     return jsonify({
+        'errors': form.errors,
         'minutes' : minutes, 
         'height' : height, 
         'task' : form.task.data, 
@@ -279,7 +280,7 @@ def edit_task():
                 else:
                     flash('Your task is complete!', 'success')
         db.session.commit()
-    return jsonify({'id' : form.ident.data})
+    return jsonify({'errors': form.errors, 'id' : form.ident.data})
     
 @bp.route('/update_task/', methods=['GET', 'POST'])
 @login_required
