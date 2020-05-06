@@ -1,37 +1,17 @@
+import os
+import secrets
 from datetime import datetime
 
+from flask import (current_app, flash, jsonify, redirect, render_template,
+                   request, session, url_for)
+from flask_login import current_user, login_required
 from PIL import Image
 
-import secrets
-
-import os
-
-from flask import(
-    render_template, 
-    flash, 
-    redirect, 
-    url_for, 
-    request, 
-    current_app, 
-    jsonify,  
-    session
-    )
-
-from flask_login import current_user, login_required
-
-from app.models import User, Message
-
-from app.sn import bp
-
-from app.email import send_email
-
-from app.sn.forms import(
-    UpdateAccountForm, 
-    MessageForm, 
-    SearchForm
-    )
-
 from app import db
+from app.email import send_email
+from app.models import Message, User
+from app.sn import bp
+from app.sn.forms import MessageForm, SearchForm, UpdateAccountForm
 
 
 def save_picture(form_picture):

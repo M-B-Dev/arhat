@@ -1,35 +1,16 @@
-from datetime import datetime, date, timedelta
-
 import json
+from datetime import date, datetime, timedelta
 
-from flask import(
-    render_template, 
-    flash, 
-    redirect, 
-    url_for, 
-    request, 
-    current_app, 
-    jsonify, 
-    Response, 
-    session
-    )
-
+from flask import (Response, current_app, flash, jsonify, redirect,
+                   render_template, request, session, url_for)
 from flask_login import current_user, login_required
-
 from pywebpush import webpush
 
-from app.models import User, Post, Message
-
-from app.main import bp
-
-from app.email import send_email
-
-from app.main.forms import(
-    TaskForm, 
-    DateForm
-    )
-
 from app import db
+from app.email import send_email
+from app.main import bp
+from app.main.forms import DateForm, TaskForm
+from app.models import Message, Post, User
 
 
 @bp.route('/index/<date_set>', methods=['GET', 'POST'])
