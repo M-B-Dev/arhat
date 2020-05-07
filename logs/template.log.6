@@ -1,5 +1,5 @@
-2020-04-26 21:56:12,390 ERROR: 
-            Exception on /index/30-04-2020 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-04-28 14:57:32,482 ERROR: 
+            Exception on /index/ph [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -17,105 +17,45 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 87, in index
-    date_form=date_form
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/templating.py", line 140, in render_template
-    ctx.app,
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/templating.py", line 120, in _render
-    rv = template.render(context)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/jinja2/environment.py", line 1090, in render
-    self.environment.handle_exception()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/jinja2/environment.py", line 832, in handle_exception
-    reraise(*rewrite_traceback_stack(source=source))
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/jinja2/_compat.py", line 28, in reraise
-    raise value.with_traceback(tb)
-  File "/home/lean/Arhat/app/templates/index.html", line 103, in top-level template code
-    {% for error in hr.post.errors %}
-  File "/home/lean/Arhat/app/templates/base.html", line 156, in top-level template code
-    {% block scripts %}
-  File "/home/lean/Arhat/app/templates/index.html", line 81, in block "scripts"
-    <script>new Rectangle({{todo.start_time}}, {{todo.end_time}}-{{todo.start_time}}, '{{todo.body}}', {{todo.id}}, '{{todo.color}}', '{{ todo.frequency }}')</script>
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/jinja2/environment.py", line 471, in getattr
-    return getattr(obj, attribute)
-jinja2.exceptions.UndefinedError: 'todo' is undefined
-2020-04-26 21:56:48,248 INFO: 
+  File "/home/lean/Arhat/app/main/routes.py", line 62, in index
+    check_depression_on_index(date)
+  File "/home/lean/Arhat/app/main/routes.py", line 238, in check_depression_on_index
+    add_sent_date(today)
+  File "/home/lean/Arhat/app/main/routes.py", line 228, in add_sent_date
+    check_depression()
+  File "/home/lean/Arhat/app/main/routes.py", line 371, in check_depression
+    print((date_set - freq_task.date).days)
+TypeError: unsupported operand type(s) for -: 'datetime.date' and 'datetime.datetime'
+2020-04-28 14:58:13,326 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-26 22:00:12,724 INFO: 
+2020-04-28 15:01:19,335 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-26 22:03:24,355 INFO: 
+2020-04-28 15:03:11,550 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-26 22:12:15,364 INFO: 
+2020-04-28 15:07:08,530 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-26 22:12:51,195 INFO: 
+2020-04-28 15:09:37,614 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-27 09:52:37,042 INFO: 
+2020-04-28 15:12:14,319 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-27 16:15:13,037 INFO: 
+2020-04-28 15:13:03,054 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-27 16:15:28,525 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-27 16:15:46,564 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-27 16:22:17,393 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-27 21:22:32,596 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-27 21:24:58,811 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-27 21:26:16,271 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-27 21:27:18,516 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-27 21:47:25,709 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-27 21:48:51,962 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-27 21:57:44,287 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-27 21:58:48,469 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-27 22:00:27,864 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-27 22:00:29,356 ERROR: 
-            Exception on /index/27-05-2020 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-04-28 15:14:07,319 ERROR: 
+            Exception on /index/ph [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -133,94 +73,124 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 67, in index
-    print((date-task.date).days)
-NameError: name 'task' is not defined
-2020-04-27 22:01:44,610 INFO: 
+  File "/home/lean/Arhat/app/main/routes.py", line 62, in index
+    check_depression_on_index(date)
+  File "/home/lean/Arhat/app/main/routes.py", line 234, in check_depression_on_index
+    add_sent_date(date)
+  File "/home/lean/Arhat/app/main/routes.py", line 228, in add_sent_date
+    check_depression()
+  File "/home/lean/Arhat/app/main/routes.py", line 373, in check_depression
+    if (datetime.strptime(str(date_set), "%Y-%m-%d")- freq_task.date).days > 0 and (datetime.strptime(str(date_set), "%Y-%m-%d")- freq_task.date).days % freq_task.frequency == 0:
+ZeroDivisionError: integer division or modulo by zero
+2020-04-28 15:14:31,042 ERROR: 
+            Exception on /index/ph [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
+            
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/home/lean/Arhat/app/main/routes.py", line 62, in index
+    check_depression_on_index(date)
+  File "/home/lean/Arhat/app/main/routes.py", line 234, in check_depression_on_index
+    add_sent_date(date)
+  File "/home/lean/Arhat/app/main/routes.py", line 228, in add_sent_date
+    check_depression()
+  File "/home/lean/Arhat/app/main/routes.py", line 373, in check_depression
+    if (datetime.strptime(str(date_set), "%Y-%m-%d")- freq_task.date).days > 0 and (datetime.strptime(str(date_set), "%Y-%m-%d")- freq_task.date).days % freq_task.frequency == 0:
+ZeroDivisionError: integer division or modulo by zero
+2020-04-28 15:15:59,503 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-27 22:02:02,614 INFO: 
+2020-04-28 15:17:30,420 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-27 22:03:45,383 INFO: 
+2020-04-28 15:19:21,252 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-27 22:04:22,061 INFO: 
+2020-04-28 15:19:59,442 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-27 22:06:42,076 INFO: 
+2020-04-28 15:40:03,101 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-27 22:15:13,964 INFO: 
+2020-04-28 21:16:11,226 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-27 22:20:41,524 INFO: 
+2020-04-28 21:17:12,873 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-27 22:29:23,676 INFO: 
+2020-04-28 21:18:14,906 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-27 22:32:34,176 INFO: 
+2020-04-28 21:18:37,930 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-27 23:36:57,561 INFO: 
+2020-04-28 21:22:33,809 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-27 23:42:58,362 INFO: 
+2020-04-28 21:23:26,803 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 01:05:13,179 INFO: 
+2020-04-28 21:24:21,352 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 01:08:16,141 INFO: 
+2020-04-28 21:26:36,128 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 01:11:49,598 INFO: 
+2020-04-28 21:27:01,053 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 01:21:01,805 INFO: 
+2020-04-28 21:27:22,273 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 01:24:11,875 INFO: 
+2020-04-28 21:28:14,182 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 01:24:26,928 INFO: 
+2020-04-28 21:31:13,020 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 01:31:16,788 INFO: 
+2020-04-28 21:37:14,930 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 01:32:08,280 INFO: 
+2020-04-28 21:40:19,426 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 01:33:11,558 INFO: 
+2020-04-29 20:34:25,294 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 09:32:28,289 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 13:31:16,749 INFO: 
+2020-04-29 20:50:38,938 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             

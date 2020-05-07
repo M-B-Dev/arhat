@@ -26,29 +26,26 @@ def index(date_set):
     if date_form.validate_on_submit():
         return redirect(url_for(
             'main.index', 
-            date_set=datetime.strftime(date_form.datepicker.data, '%d-%m-%Y')
+            date_set=datetime_to_string(date_form.datepicker.data)
             ))
     form = TaskForm()
     date_form = DateForm()
     date = set_date(date_set)
     today = False
-    if datetime.strptime(
-            datetime.strftime(datetime.utcnow(), "%Y-%m-%d, 00:00:00"), 
-            "%Y-%m-%d, %H:%M:%S"
-            ) == date:
+    if convert_date_format(datetime.utcnow()) == date:
         today = True
-    check_depression_on_index(date)
+    check_if_depression_sent(date)
     date_form.datepicker.data = date
     all_frequency_tasks = current_user.posts.filter(
         Post.frequency != None
         ).all()
     todos = current_user.posts.filter_by(date=date)
     exclusions = [todo.exclude for todo in todos if todo.exclude]
-    frequency_tasks = [task for task in all_frequency_tasks \
-        if task.frequency > 0 \
-        and (date - task.date).days > 0 \
-        and ((date - task.date).days % task.frequency) == 0 \
-        and task.date < date \
+    frequency_tasks = [task for task in all_frequency_tasks
+        if task.frequency > 0
+        and (date - task.date).days > 0
+        and ((date - task.date).days % task.frequency) == 0
+        and task.date < date
         and task.id not in exclusions]
     return render_template(
         "index.html", 
@@ -60,208 +57,177 @@ def index(date_set):
         form=form, 
         date_form=date_form
         )
-
+#
 def convert_date_format(date):
     return datetime.strptime(datetime.strftime(date, "%Y-%m-%d, 00:00:00"), "%Y-%m-%d, %H:%M:%S")
-
+#
 def string_to_datetime(date):
     return datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
+
+           
+def datetime_to_string(date):
+    return datetime.strftime(date, '%d-%m-%Y')
+
+def add_single_task(frequency, minutes, form, end, date, done=False):
+    return Post(
+        date=date,
+        body=form.task.data, 
+        hour=form.start_time.data.hour,
+        done=done,
+        user_id=current_user.id, 
+        start_time=minutes,
+        end_time=end,
+        color=form.color.data,
+        frequency=frequency
+        )
+
+def calc_mins_height_and_end(form):
+    minutes = (form.start_time.data.hour * 60) \
+        + form.start_time.data.minute
+    height = ((form.end_time.data.hour * 60) \
+        + form.end_time.data.minute) - minutes
+    end = (form.end_time.data.hour * 60) + form.end_time.data.minute
+    return minutes, height, end
+
+def commit_flush():
+    db.session.commit()
+    db.session.flush()
 
 @bp.route('/new_task/', methods=['GET', 'POST'])
 @login_required
 def new_task():
     """Creates a new todo task."""
     form = TaskForm()
-    if form.validate_on_submit():
-        minutes = (form.start_time.data.hour * 60) \
-            + form.start_time.data.minute
-        height = ((form.end_time.data.hour * 60) \
-            + form.end_time.data.minute) - minutes
+    if not form.validate_on_submit():
+        return redirect(url_for('main.index', date_set="ph"))
+    else:
+        minutes, height, end = calc_mins_height_and_end(form)
+        if minutes > end:
+            flash('The start time of your task must be earlier than the finish time', 'danger')
+            return redirect(url_for('main.index', date_set="ph"))
         if form.frequency.data == 0:
-            frequency = None
-        else:
-            frequency = form.frequency.data
-            if form.to_date.data:
-                to_date = convert_date_format(form.to_date.data)
-                date = string_to_datetime(form.date.data)
-                if to_date > date:
-                    for i in range((to_date - date).days, -1, -1):
-                        task_to_be_added = Post(
-                            date = date + timedelta(days=i),
-                            body=form.task.data, 
-                            hour=form.start_time.data.hour,
-                            done=False,
-                            user_id=current_user.id, 
-                            start_time=minutes,
-                            end_time=(form.end_time.data.hour * 60) \
-                                + form.end_time.data.minute,
-                            color=form.color.data,
-                            frequency=0
-                            )
-                        db.session.add(task_to_be_added)
-                        db.session.commit()
-                        db.session.flush()
-                        if i == (to_date-date).days:
-                            ident = task_to_be_added.id
-                        task_to_be_added.exclude = ident
-                        db.session.commit()
-                else:
-                    ident = 0
+            form.frequency.data = None
+        if form.frequency.data and form.to_date.data:
+            to_date = convert_date_format(form.to_date.data)
+            date = string_to_datetime(form.date.data)
+            if to_date > date:
+                for i in range((to_date - date).days, -1, -1):
+                    task_to_be_added = add_single_task(0, minutes, form, end, date+timedelta(days=i))
+                    db.session.add(task_to_be_added)
+                    commit_flush()
+                    if i == (to_date-date).days:
+                        ident = task_to_be_added.id
+                    task_to_be_added.exclude = ident
+                    db.session.commit()
                 flash('Your tasks are now live!', 'success')
-                return jsonify({
-                    'minutes' : minutes, 
-                    'height' : height, 
-                    'task' : form.task.data, 
-                    'id' : ident, 
-                    'color' : form.color.data, 
-                    'frequency' : form.frequency.data
-                    })
-        task_to_be_added = Post(
-                body=form.task.data, 
-                hour= form.start_time.data.hour,
-                done=False,
-                date=datetime.strptime(form.date.data, "%Y-%m-%d %H:%M:%S"), 
-                user_id=current_user.id, 
-                start_time=(form.start_time.data.hour * 60) \
-                    + form.start_time.data.minute,
-                end_time=(form.end_time.data.hour * 60) \
-                    + form.end_time.data.minute,
-                color=form.color.data,
-                frequency=frequency
-                )
-        db.session.add(task_to_be_added)
-        db.session.commit()
-        db.session.flush()
-        ident = task_to_be_added.id
-        flash('Your task is now live!', 'success')
-    return jsonify({
-        'errors': form.errors,
-        'minutes' : minutes, 
-        'height' : height, 
-        'task' : form.task.data, 
-        'id' : ident, 
-        'color' : form.color.data, 
-        'frequency' : form.frequency.data
-        })
+            else:
+                flash('The start date of your repeated task must be earlier than the finish date', 'danger')
+                return redirect(url_for('main.index', date_set="ph"))
+        if not form.to_date.data:
+            task_to_be_added = add_single_task(form.frequency.data, minutes, form, end, string_to_datetime(form.date.data))
+            db.session.add(task_to_be_added)
+            commit_flush()
+            ident = task_to_be_added.id
+            flash('Your task is now live!', 'success')
+        return jsonify({
+            'minutes' : minutes, 
+            'height' : height, 
+            'task' : form.task.data, 
+            'id' : ident, 
+            'color' : form.color.data, 
+            'frequency' : form.frequency.data
+            })        
+
+def task_to_be_edited_input(task_to_be_edited, minutes, end, form):
+    task_to_be_edited.body = form.task.data
+    task_to_be_edited.hour= form.start_time.data.hour
+    task_to_be_edited.done = form.done.data
+    task_to_be_edited.user_id = current_user.id
+    task_to_be_edited.start_time = minutes
+    task_to_be_edited.end_time = end
+    task_to_be_edited.color = form.color.data
+    return task_to_be_edited
+
+def edit_single_task(task_to_be_edited, form,  minutes, end):
+    if task_to_be_edited.exclude and task_to_be_edited.exclude != int(form.ident.data):
+        task_to_be_edited = task_to_be_edited_input(task_to_be_edited, minutes, end, form)
+        task_to_be_edited.frequency = 0
+        if task_to_be_edited.done is False:
+            flash('Your single task has been updated!', 'success')
+        else:
+            flash('Your single task is complete!', 'success')
+
+def edit_single_freq_task(minutes, form, end, task_to_be_edited):
+    task_to_be_added = add_single_task(0, minutes, form, end, string_to_datetime(form.date.data), done=form.done.data)
+    task_to_be_added.exclude = int(form.ident.data)
+    task_to_be_edited.exclude = task_to_be_edited.id            
+    if string_to_datetime(form.date.data) == task_to_be_edited.date:
+        task_to_be_edited.done = True        
+    db.session.add(task_to_be_added)
+    if task_to_be_added.done is False:
+        flash('Your single task has been updated!', 'success')
+    else:
+        flash('Your single task is complete!', 'success')
+
+def edit_all_freq_parent_and_child_tasks(task_to_be_edited, form, minutes, end):
+    parent_task = current_user.posts.filter_by(
+        id=task_to_be_edited.exclude
+        ).first()
+    parent_task.frequency = form.frequency.data
+    tasks = [task for task in current_user.posts.all() \
+        if task.exclude == task_to_be_edited.exclude]
+    for task in tasks:
+        task.body = form.task.data
+        task.hour= form.start_time.data.hour
+        task.done = form.done.data
+        if form.done.data is True:
+            task.frequency = 0
+        elif ((parent_task.date-task.date).days \
+            % int(form.frequency.data)) != 0:
+            task.done = True
+        task.color = form.color.data
+        task.user_id = current_user.id
+        task.start_time = minutes
+        task.end_time = end
+    flash('Your tasks have been updated!', 'success')   
+
+def edit_all_tasks(task_to_be_edited, minutes, end, form):
+    task_to_be_edited = task_to_be_edited_input(task_to_be_edited, minutes, end, form)
+    task_to_be_edited.date = string_to_datetime(form.date.data)
+    if task_to_be_edited.done == True:
+        task_to_be_edited.frequency = 0
+    else:
+        task_to_be_edited.frequency = form.frequency.data
+    if task_to_be_edited.done is False:
+        flash('Your task has been updated!', 'success')
+    else:
+        flash('Your task is complete!', 'success')
+
 
 @bp.route('/edit_task/', methods=['GET', 'POST'])
 @login_required
 def edit_task():
     form = TaskForm()
-    if form.validate_on_submit():
-        if form.single_event.data is True:
-            task_to_be_edited = current_user.posts.filter_by(
+    if not form.validate_on_submit():
+        return redirect(url_for('main.index', date_set="ph"))
+    else:
+        task_to_be_edited = current_user.posts.filter_by(
                 id=int(form.ident.data)
                 ).first()
+        minutes, _, end = calc_mins_height_and_end(form)
+        if form.single_event.data is True:
             if task_to_be_edited.exclude \
                     and task_to_be_edited.exclude != int(form.ident.data):
-                minutes = (form.start_time.data.hour * 60) \
-                    + form.start_time.data.minute
-                height = ((form.end_time.data.hour * 60) \
-                    + form.end_time.data.minute) - minutes
-                task_to_be_edited = current_user.posts.filter_by(
-                    id=int(form.ident.data)
-                    ).first()
-                task_to_be_edited.body = form.task.data
-                task_to_be_edited.hour= form.start_time.data.hour
-                task_to_be_edited.frequency = 0
-                task_to_be_edited.done = form.done.data
-                task_to_be_edited.color = form.color.data
-                task_to_be_edited.user_id = current_user.id
-                task_to_be_edited.start_time = (
-                    form.start_time.data.hour * 60
-                    ) + form.start_time.data.minute
-                task_to_be_edited.end_time = (
-                    form.end_time.data.hour * 60
-                    ) + form.end_time.data.minute
-                if task_to_be_edited.done is False:
-                    flash('Your single task has been updated!', 'success')
-                else:
-                    flash('Your single task is complete!', 'success')
+                edit_single_task(task_to_be_edited, form,  minutes, end)
             else:
-                task_to_be_added = Post(
-                    body=form.task.data, 
-                    hour= form.start_time.data.hour,
-                    done=form.done.data,
-                    date=datetime.strptime(
-                        form.date.data, 
-                        "%Y-%m-%d %H:%M:%S"
-                        ), 
-                    user_id=current_user.id, 
-                    start_time=(form.start_time.data.hour * 60) \
-                        + form.start_time.data.minute,
-                    end_time=(form.end_time.data.hour * 60) \
-                        + form.end_time.data.minute,
-                    color=form.color.data,
-                    frequency=0,
-                    exclude=int(form.ident.data)
-                    )
-                task_to_be_edited.exclude = task_to_be_edited.id            
-                if datetime.strptime(
-                        form.date.data, "%Y-%m-%d %H:%M:%S"
-                        ) == task_to_be_edited.date:
-                    task_to_be_edited.done = True        
-                db.session.add(task_to_be_added)
-                if task_to_be_added.done is False:
-                    flash('Your single task has been updated!', 'success')
-                else:
-                    flash('Your single task is complete!', 'success')
+                edit_single_freq_task(minutes, form, end, task_to_be_edited)
         else:
-            task_to_be_edited = current_user.posts.filter_by(
-                id=int(form.ident.data)
-                ).first()
-            minutes = (form.start_time.data.hour * 60) \
-                + form.start_time.data.minute
-            height = ((form.end_time.data.hour * 60) \
-                + form.end_time.data.minute) - minutes
             if task_to_be_edited.exclude:
-                parent_task = current_user.posts.filter_by(
-                    id=task_to_be_edited.exclude
-                    ).first()
-                parent_task.frequency = form.frequency.data
-                tasks = [task for task in current_user.posts.all() \
-                    if task.exclude == task_to_be_edited.exclude]
-                for task in tasks:
-                    task.body = form.task.data
-                    task.hour= form.start_time.data.hour
-                    task.done = form.done.data
-                    if form.done.data is True:
-                        task.frequency = 0
-                    elif ((parent_task.date-task.date).days \
-                        % int(form.frequency.data)) != 0:
-                        task.done = True
-                    task.color = form.color.data
-                    task.user_id = current_user.id
-                    task.start_time = (form.start_time.data.hour * 60) \
-                        + form.start_time.data.minute
-                    task.end_time = (form.end_time.data.hour * 60) \
-                        + form.end_time.data.minute
-                flash('Your tasks have been updated!', 'success')
+                edit_all_freq_parent_and_child_tasks(task_to_be_edited, form, minutes, end)
             else:
-                task_to_be_edited.body = form.task.data
-                task_to_be_edited.hour = form.start_time.data.hour
-                task_to_be_edited.done = form.done.data
-                task_to_be_edited.date = datetime.strptime(
-                    form.date.data, "%Y-%m-%d %H:%M:%S"
-                    )
-                task_to_be_edited.user_id = current_user.id
-                task_to_be_edited.start_time = (
-                    form.start_time.data.hour * 60
-                    ) + form.start_time.data.minute
-                task_to_be_edited.end_time = (
-                    form.end_time.data.hour * 60
-                    ) + form.end_time.data.minute
-                task_to_be_edited.color = form.color.data
-                if task_to_be_edited.done == True:
-                    task_to_be_edited.frequency = 0
-                else:
-                    task_to_be_edited.frequency = form.frequency.data
-                if task_to_be_edited.done is False:
-                    flash('Your task has been updated!', 'success')
-                else:
-                    flash('Your task is complete!', 'success')
+                edit_all_tasks(task_to_be_edited, minutes, end, form)
         db.session.commit()
-    return jsonify({'errors': form.errors, 'id' : form.ident.data})
+        return jsonify({'id' : form.ident.data})
     
 @bp.route('/update_task/', methods=['GET', 'POST'])
 @login_required
@@ -276,18 +242,18 @@ def update_task():
         db.session.commit()
     return jsonify({'task' : task.body})
 
-def add_sent_date(date, user=current_user):
+def add_sent_date_check_depression(date, user=current_user):
     check_depression()
     user.sent_date = date
     db.session.commit()
 
-def check_depression_on_index(date, user=current_user):
+def check_if_depression_sent(date, user=current_user):
     today = datetime.strftime(datetime.utcnow().date(), "%Y-%m-%d %H:%M:%S")
     if user.sent_date:
         if str(user.sent_date) != today:
-            add_sent_date(date)
+            add_sent_date_check_depression(date)
     elif user.threshold and user.days:
-        add_sent_date(today)
+        add_sent_date_check_depression(today)
 
 def set_date(date_set):
     if date_set == "ph":
@@ -304,11 +270,6 @@ def home():
     """This reroutes to index with the date_set argument."""
     return redirect(url_for('main.index', date_set='ph'))
 
-def get_todays_tasks():
-    return current_user.posts.filter_by(
-        date=datetime.strptime(str(datetime.utcnow().date()), 
-        "%Y-%m-%d")
-        )
 
 @bp.route('/check', methods=['GET', 'POST'])
 @login_required
@@ -329,24 +290,6 @@ def check():
         ident = False
     return jsonify({'id': ident})
 
-@bp.route('/check_without_push', methods=['GET', 'POST'])
-@login_required
-def check_without_push():
-    """This returns notifcation data of tasks due in JSON. 
-    
-    This differs from check_todo() in that no notifcation 
-    is triggered. 
-    """
-
-    tasks = get_todays_tasks()
-    for task in tasks:
-        if task.hour == datetime.utcnow().hour and not task.done:
-            return jsonify({
-                'todo': task.body,
-                'id': task.id
-                })
-    return jsonify({'todo': 'nothing'})
-
 @bp.route('/complete', methods=['GET', 'POST'])
 @login_required
 def complete():
@@ -358,42 +301,6 @@ def complete():
             task[0].done = True
             db.session.commit()
     return redirect(url_for('main.index', date_set="ph"))                        
-
-def create_task(task, date_form):
-    """Creates a task in the db"""
-    task_to_be_added = Post(
-                body=task.post.data, 
-                hour=task.hour.data, 
-                done=task.done.data,
-                date=date_form.datepicker.data, 
-                user_id=current_user.id
-                )
-    db.session.add(task_to_be_added)
-    db.session.commit()
-    flash('Your task is now live!', 'success')
-
-def delete_or_update(user, date, Todo, form, date_form):
-    """This deletes completed tasks or updates edited tasks."""
-    todos = user.posts.filter_by(date=date)
-    if Todo.done.data and todos.count() > 0:
-        for post in todos:
-            if post.hour == Todo.hour.data:
-                post.done = True
-                db.session.commit()                        
-                flash('You have completed this task', 'success')
-    elif Todo.validate_on_submit() and len(Todo.post.data) > 0:
-        for post in todos:
-            if post.hour == Todo.hour.data:
-                post.body = Todo.post.data
-                post.done = False
-                db.session.commit()
-                return
-        if todos.count() < 1:
-            create_task(Todo, date_form)
-            return
-        else:
-            create_task(Todo, date_form)
-            return
 
 def check_depression(user=current_user, app=current_app):
     """Checks if the percentage of complete tasks is lower than 
@@ -493,7 +400,7 @@ def subscription():
             )
     subscription_token = request.get_json("subscription_token")
     return Response(status=201, mimetype="application/json")
-
+#
 def send_web_push(subscription_information, message_body):
     """Triggers notifications by initializing JS Service Worker"""
     return webpush(

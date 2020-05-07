@@ -1,5 +1,33 @@
-2020-04-28 14:57:32,482 ERROR: 
-            Exception on /index/ph [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-04-29 21:47:42,565 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-04-29 21:52:29,282 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-04-29 22:13:02,264 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-04-30 14:00:55,254 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-04-30 14:34:56,131 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-04-30 14:44:09,023 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-04-30 15:09:13,769 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-04-30 15:09:16,305 ERROR: 
+            Exception on /index/01-05-2020 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -17,45 +45,19 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 62, in index
-    check_depression_on_index(date)
-  File "/home/lean/Arhat/app/main/routes.py", line 238, in check_depression_on_index
-    add_sent_date(today)
-  File "/home/lean/Arhat/app/main/routes.py", line 228, in add_sent_date
-    check_depression()
-  File "/home/lean/Arhat/app/main/routes.py", line 371, in check_depression
-    print((date_set - freq_task.date).days)
-TypeError: unsupported operand type(s) for -: 'datetime.date' and 'datetime.datetime'
-2020-04-28 14:58:13,326 INFO: 
+  File "/home/lean/Arhat/app/main/routes.py", line 77, in index
+    tasks=tasks,
+NameError: name 'tasks' is not defined
+2020-04-30 15:09:32,314 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 15:01:19,335 INFO: 
+2020-04-30 15:11:57,383 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 15:03:11,550 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 15:07:08,530 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 15:09:37,614 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 15:12:14,319 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 15:13:03,054 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 15:14:07,319 ERROR: 
-            Exception on /index/ph [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-04-30 15:11:58,981 ERROR: 
+            Exception on /index/01-05-2020 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -73,17 +75,43 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 62, in index
-    check_depression_on_index(date)
-  File "/home/lean/Arhat/app/main/routes.py", line 234, in check_depression_on_index
-    add_sent_date(date)
-  File "/home/lean/Arhat/app/main/routes.py", line 228, in add_sent_date
-    check_depression()
-  File "/home/lean/Arhat/app/main/routes.py", line 373, in check_depression
-    if (datetime.strptime(str(date_set), "%Y-%m-%d")- freq_task.date).days > 0 and (datetime.strptime(str(date_set), "%Y-%m-%d")- freq_task.date).days % freq_task.frequency == 0:
-ZeroDivisionError: integer division or modulo by zero
-2020-04-28 15:14:31,042 ERROR: 
-            Exception on /index/ph [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+  File "/home/lean/Arhat/app/main/routes.py", line 78, in index
+    task_hours=task_hours,
+NameError: name 'task_hours' is not defined
+2020-04-30 15:12:31,293 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-01 10:54:28,717 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-01 11:03:47,380 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-01 11:03:58,555 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-01 11:05:19,494 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-01 11:21:46,486 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-01 14:33:36,891 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-01 14:33:46,190 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-01 14:33:51,048 ERROR: 
+            Exception on /contacts [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -101,96 +129,66 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 62, in index
-    check_depression_on_index(date)
-  File "/home/lean/Arhat/app/main/routes.py", line 234, in check_depression_on_index
-    add_sent_date(date)
-  File "/home/lean/Arhat/app/main/routes.py", line 228, in add_sent_date
-    check_depression()
-  File "/home/lean/Arhat/app/main/routes.py", line 373, in check_depression
-    if (datetime.strptime(str(date_set), "%Y-%m-%d")- freq_task.date).days > 0 and (datetime.strptime(str(date_set), "%Y-%m-%d")- freq_task.date).days % freq_task.frequency == 0:
-ZeroDivisionError: integer division or modulo by zero
-2020-04-28 15:15:59,503 INFO: 
+  File "/home/lean/Arhat/app/sn/routes.py", line 141, in contacts
+    user=user,
+NameError: name 'user' is not defined
+2020-05-01 14:34:24,759 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 15:17:30,420 INFO: 
+2020-05-01 14:34:26,675 ERROR: 
+            Exception on /contacts [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
+            
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/home/lean/Arhat/app/sn/routes.py", line 141, in contacts
+    user=user,
+NameError: name 'user' is not defined
+2020-05-01 14:34:49,015 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 15:19:21,252 INFO: 
+2020-05-01 14:37:19,055 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 15:19:59,442 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
+2020-05-01 14:37:24,496 ERROR: 
+            Exception on /contacts [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
             
-2020-04-28 15:40:03,101 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:16:11,226 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:17:12,873 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:18:14,906 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:18:37,930 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:22:33,809 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:23:26,803 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:24:21,352 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:26:36,128 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:27:01,053 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:27:22,273 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:28:14,182 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:31:13,020 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:37:14,930 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:40:19,426 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-29 20:34:25,294 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-29 20:50:38,938 INFO: 
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/home/lean/Arhat/app/sn/routes.py", line 124, in contacts
+    people = people.paginate(
+AttributeError: 'list' object has no attribute 'paginate'
+2020-05-01 14:37:43,562 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             

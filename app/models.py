@@ -4,9 +4,15 @@ from time import time
 
 import jwt
 
+import os
+
+import secrets
+
+from PIL import Image 
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
 
 from flask import current_app
 
@@ -172,6 +178,27 @@ class User(UserMixin, db.Model):
         last_read_time = self.last_message_read_time or datetime(1900, 1, 1)
         return Message.query.filter_by(recipient=self).filter(
             Message.timestamp > last_read_time).count()
+
+    def save_picture(self, form_picture):
+        """This reformats an image into manageable a size and with dimensions.
+        
+        Also, this will delete any previous profile image from the db.
+        """
+        if current_user.image_file and current_user.image_file != "default.jpg":
+            os.remove(
+                current_app.root_path + "//static/profile_pics//" + current_user.image_file
+            )
+        random_hex = secrets.token_hex(8)
+        _, f_ext = os.path.splitext(form_picture.filename)
+        picture_fn = random_hex + f_ext
+        picture_path = os.path.join(
+            current_app.root_path, "static/profile_pics", picture_fn
+        )
+        output_size = (250, 250)
+        i = Image.open(form_picture)
+        i.thumbnail(output_size)
+        i.save(picture_path)
+        self.image_file = picture_fn
             
 @login.user_loader
 def load_user(id):

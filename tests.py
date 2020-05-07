@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, time
+from datetime import datetime, timedelta
 
 import json
 
@@ -8,15 +8,15 @@ from app.models import User, Post, Message
 
 from app.auth.forms import LoginForm, RegistrationForm
 
-from app.sn.forms import SearchForm, MessageForm, UpdateAccountForm
+from app.sn.forms import SearchForm, UpdateAccountForm
 
 from app.main.forms import DateForm, TaskForm
 
 from app.main.routes import(
     set_date, 
     convert_date_format,
-    check_depression_on_index,
-    check_depression
+    check_depression,
+    check_if_depression_sent
     )
 
 from app import create_app, db
@@ -218,20 +218,20 @@ class UserModelCase(unittest.TestCase):
         self.assertEqual(set_date("ph"), date)
         self.assertEqual(set_date("01-01-2001"), date_object)
     
-    def test_check_depression_on_index(self):
+    def test_check_if_depression_sent(self):
         """This tests that depression check is called correctly."""
         u1 = User(username='john', email='john@example.com')
         db.session.add(u1)
         db.session.commit()
 
         #checks that without a sent date depression_check will not be run
-        self.assertIsNone(check_depression_on_index(date, u1))
+        self.assertIsNone(check_if_depression_sent(date, u1))
 
         u1.sent_date = date
         db.session.commit()
 
         #checks that without threshold or days depression_check won't run
-        self.assertIsNone(check_depression_on_index(date, u1))
+        self.assertIsNone(check_if_depression_sent(date, u1))
     
     def test_login_page(self):
         """This tests login page renders correctly."""
