@@ -1,5 +1,5 @@
-2020-04-28 14:57:32,482 ERROR: 
-            Exception on /index/ph [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-04-29 20:51:32,498 ERROR: 
+            Exception on /new_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -17,45 +17,15 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 62, in index
-    check_depression_on_index(date)
-  File "/home/lean/Arhat/app/main/routes.py", line 238, in check_depression_on_index
-    add_sent_date(today)
-  File "/home/lean/Arhat/app/main/routes.py", line 228, in add_sent_date
-    check_depression()
-  File "/home/lean/Arhat/app/main/routes.py", line 371, in check_depression
-    print((date_set - freq_task.date).days)
-TypeError: unsupported operand type(s) for -: 'datetime.date' and 'datetime.datetime'
-2020-04-28 14:58:13,326 INFO: 
+  File "/home/lean/Arhat/app/main/routes.py", line 104, in new_task
+    to_date = datetime.strptime(form.to_date.data, "%Y-%m-%d %H:%M:%S")
+TypeError: strptime() argument 1 must be str, not datetime.date
+2020-04-29 20:52:37,233 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 15:01:19,335 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 15:03:11,550 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 15:07:08,530 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 15:09:37,614 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 15:12:14,319 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 15:13:03,054 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 15:14:07,319 ERROR: 
-            Exception on /index/ph [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-04-29 20:52:52,666 ERROR: 
+            Exception on /new_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -73,17 +43,19 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 62, in index
-    check_depression_on_index(date)
-  File "/home/lean/Arhat/app/main/routes.py", line 234, in check_depression_on_index
-    add_sent_date(date)
-  File "/home/lean/Arhat/app/main/routes.py", line 228, in add_sent_date
-    check_depression()
-  File "/home/lean/Arhat/app/main/routes.py", line 373, in check_depression
-    if (datetime.strptime(str(date_set), "%Y-%m-%d")- freq_task.date).days > 0 and (datetime.strptime(str(date_set), "%Y-%m-%d")- freq_task.date).days % freq_task.frequency == 0:
-ZeroDivisionError: integer division or modulo by zero
-2020-04-28 15:14:31,042 ERROR: 
-            Exception on /index/ph [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+  File "/home/lean/Arhat/app/main/routes.py", line 104, in new_task
+    to_date = datetime.strptime(str(form.to_date.data), "%Y-%m-%d %H:%M:%S")
+  File "/usr/lib/python3.7/_strptime.py", line 577, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+  File "/usr/lib/python3.7/_strptime.py", line 359, in _strptime
+    (data_string, format))
+ValueError: time data '2020-05-02' does not match format '%Y-%m-%d %H:%M:%S'
+2020-04-29 20:54:29,329 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-04-29 20:54:56,889 ERROR: 
+            Exception on /new_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -101,96 +73,112 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 62, in index
-    check_depression_on_index(date)
-  File "/home/lean/Arhat/app/main/routes.py", line 234, in check_depression_on_index
-    add_sent_date(date)
-  File "/home/lean/Arhat/app/main/routes.py", line 228, in add_sent_date
-    check_depression()
-  File "/home/lean/Arhat/app/main/routes.py", line 373, in check_depression
-    if (datetime.strptime(str(date_set), "%Y-%m-%d")- freq_task.date).days > 0 and (datetime.strptime(str(date_set), "%Y-%m-%d")- freq_task.date).days % freq_task.frequency == 0:
-ZeroDivisionError: integer division or modulo by zero
-2020-04-28 15:15:59,503 INFO: 
+  File "/home/lean/Arhat/app/main/routes.py", line 110, in new_task
+    for i in reverse(range(to_date-date)):
+NameError: name 'reverse' is not defined
+2020-04-29 20:55:37,912 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 15:17:30,420 INFO: 
+2020-04-29 20:55:52,720 ERROR: 
+            Exception on /new_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
+            
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/home/lean/Arhat/app/main/routes.py", line 110, in new_task
+    for i in range(to_date-date).reverse():
+TypeError: 'datetime.timedelta' object cannot be interpreted as an integer
+2020-04-29 20:56:29,694 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 15:19:21,252 INFO: 
+2020-04-29 20:56:42,818 ERROR: 
+            Exception on /new_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
+            
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/home/lean/Arhat/app/main/routes.py", line 110, in new_task
+    for i in range(to_date-date.days).reverse():
+AttributeError: 'datetime.datetime' object has no attribute 'days'
+2020-04-29 20:57:18,094 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 15:19:59,442 INFO: 
+2020-04-29 20:57:39,190 ERROR: 
+            Exception on /new_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
+            
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/home/lean/Arhat/app/main/routes.py", line 110, in new_task
+    for i in range((to_date-date).days).reverse():
+AttributeError: 'range' object has no attribute 'reverse'
+2020-04-29 21:00:11,464 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 15:40:03,101 INFO: 
+2020-04-29 21:02:00,731 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 21:16:11,226 INFO: 
+2020-04-29 21:04:47,812 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 21:17:12,873 INFO: 
+2020-04-29 21:34:53,279 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 21:18:14,906 INFO: 
+2020-04-29 21:39:26,076 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 21:18:37,930 INFO: 
+2020-04-29 21:42:54,103 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 21:22:33,809 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:23:26,803 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:24:21,352 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:26:36,128 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:27:01,053 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:27:22,273 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:28:14,182 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:31:13,020 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:37:14,930 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:40:19,426 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-29 20:34:25,294 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-29 20:50:38,938 INFO: 
+2020-04-29 21:45:20,605 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
