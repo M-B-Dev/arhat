@@ -199,6 +199,107 @@ class User(UserMixin, db.Model):
         i.thumbnail(output_size)
         i.save(picture_path)
         self.image_file = picture_fn
+
+
+    def check_freq_tasks_in_days(self):
+        for self.freq_task in self.outstanding_frequency_tasks:
+            if (
+                self.freq_task.frequency != 0
+                and (self.date_for_depress_check(self.date_set) - self.freq_task.date).days > 0
+                and (self.date_for_depress_check(self.date_set) - self.freq_task.date).days
+                % self.freq_task.frequency
+                == 0
+            ):
+                self.freq_daily_tasks += 1
+                self.check_for_edited_freqs()
+
+    def check_for_edited_freqs(self):
+        for self.tsk in self.daily_tasks:
+            if self.tsk.exclude == self.freq_task.id:
+                self.freq_daily_tasks -= 1
+
+    def check_tasks_in_days(self):
+        for self.day in range(self.days):
+            self.date_set = self.date_set - timedelta(days=1)
+            self.daily_tasks = self.posts.filter_by(date=self.date_for_depress_check(self.date_set))
+            self.done_tasks = 0
+            self.freq_daily_tasks = 0
+            self.freq_done_tasks = 0
+            self.check_freq_tasks_in_days()
+            self.check_tasks_over_0()
+    
+    def check_if_task_done(self):
+        for self.task in self.daily_tasks:
+            if self.task.done == True:
+                self.done_tasks += 1
+        
+    def check_tasks_over_0(self):
+        if self.daily_tasks.count() > 0:
+            self.check_if_task_done()
+            self.daily_percentage = (
+                self.done_tasks / self.daily_tasks.count() + self.freq_daily_tasks
+            ) * 100
+            self.divide_days += 1
+            self.period_precentage += daily_percentage
+        elif self.freq_daily_tasks > 0:
+            self.divide_days += 1
+    
+    def check_divide_days_over_0(self):
+        if divide_days > 0:
+            self.period_precentage /= self.divide_days
+        else:
+            self.period_precentage = 100
+
+
+    def check_depression(self):
+        """Checks if the percentage of complete tasks is lower than 
+        the user set threshold. If lower then then messages and emails
+        are sent to all users that the current user follows. 
+        
+        """
+        self.all_frequency_tasks = self.posts.filter(self.frequency != None).all()
+        self.outstanding_frequency_tasks = [
+            task for task in self.all_frequency_tasks if task.done is False
+        ]
+        self.date_set = datetime.utcnow().date()
+        self.daily_percentage = 0
+        self.period_precentage = 0
+        self.divide_days = 0
+        self.check_tasks_in_days()  
+        self.check_divide_days_over_0()
+        self.check_percentage_against_threshold()
+
+    def check_percentage_against_threshold(self):
+        if self.period_precentage < self.threshold:
+            for followed in self.followed.all():
+                send_email(
+                    "Urgent",
+                    current_app.config["ADMINS"][0],
+                    [followed.email],
+                    f"please contact {self.username}",
+                    html_body=None,
+                )
+                msg = Message(
+                    author=self, recipient=followed, body=f"please contact {self.username}"
+                )
+                db.session.add(msg)
+                db.session.commit()
+
+    def date_for_depress_check(self, date_set):
+        return datetime.strptime(str(date_set), "%Y-%m-%d")
+    
+    def add_sent_date_check_depression(self, date):
+        self.check_depression()
+        self.sent_date = date
+        db.session.commit()
+
+    def check_if_depression_sent(self, date):
+        today = datetime.strftime(datetime.utcnow().date(), "%Y-%m-%d %H:%M:%S")
+        if self.sent_date:
+            if str(self.sent_date) != today:
+               self.add_sent_date_check_depression(date)
+        elif self.threshold and self.days:
+            self.add_sent_date_check_depression(today)
             
 @login.user_loader
 def load_user(id):

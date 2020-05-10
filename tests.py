@@ -14,9 +14,7 @@ from app.main.forms import DateForm, TaskForm
 
 from app.main.routes import (
     set_date,
-    convert_date_format,
-    check_depression,
-    check_if_depression_sent,
+    convert_date_format
 )
 
 from app import create_app, db
@@ -229,7 +227,7 @@ class UserModelCase(unittest.TestCase):
         db.session.add(u1)
         db.session.commit()
 
-        self.assertIsNone(check_if_depression_sent(date, u1))
+        self.assertIsNone(u1.check_if_depression_sent(date))
 
     def test_check_if_depression_sent_date(self):
         """checks that without threshold or days depression_check won't run."""
@@ -238,7 +236,7 @@ class UserModelCase(unittest.TestCase):
         u1.sent_date = date
         db.session.commit()
 
-        self.assertIsNone(check_if_depression_sent(date, u1))
+        self.assertIsNone(u1.check_if_depression_sent(date))
 
     def test_login_page(self):
         """This tests login page renders correctly."""
