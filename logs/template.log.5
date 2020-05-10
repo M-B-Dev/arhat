@@ -1,33 +1,5 @@
-2020-04-29 21:47:42,565 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-29 21:52:29,282 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-29 22:13:02,264 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-30 14:00:55,254 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-30 14:34:56,131 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-30 14:44:09,023 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-30 15:09:13,769 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-30 15:09:16,305 ERROR: 
-            Exception on /index/01-05-2020 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-07 20:56:48,970 ERROR: 
+            Exception on /new_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -45,19 +17,25 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 77, in index
-    tasks=tasks,
-NameError: name 'tasks' is not defined
-2020-04-30 15:09:32,314 INFO: 
+  File "/home/lean/Arhat/app/main/routes.py", line 146, in new_task
+    ident = add_single_task(form, frequency, minutes, end)
+  File "/home/lean/Arhat/app/main/routes.py", line 78, in add_single_task
+    body=form.task.data,
+AttributeError: 'int' object has no attribute 'task'
+2020-05-07 20:58:00,718 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-30 15:11:57,383 INFO: 
+2020-05-07 21:09:48,488 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-30 15:11:58,981 ERROR: 
-            Exception on /index/01-05-2020 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-07 21:28:52,265 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-07 21:29:11,105 ERROR: 
+            Exception on /new_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -75,43 +53,33 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 78, in index
-    task_hours=task_hours,
-NameError: name 'task_hours' is not defined
-2020-04-30 15:12:31,293 INFO: 
+  File "/home/lean/Arhat/app/main/routes.py", line 104, in new_task
+    task_to_be_added = add_single_task(frequency, form, end, date + timedelta(days=i))
+  File "/home/lean/Arhat/app/main/routes.py", line 77, in add_single_task
+    start_time=minutes,
+NameError: name 'minutes' is not defined
+2020-05-07 21:33:54,254 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-05-01 10:54:28,717 INFO: 
+2020-05-07 21:46:33,444 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-05-01 11:03:47,380 INFO: 
+2020-05-07 21:56:23,603 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-05-01 11:03:58,555 INFO: 
+2020-05-07 22:43:40,195 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-05-01 11:05:19,494 INFO: 
+2020-05-08 12:57:46,743 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-05-01 11:21:46,486 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-05-01 14:33:36,891 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-05-01 14:33:46,190 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-05-01 14:33:51,048 ERROR: 
-            Exception on /contacts [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-08 12:58:26,315 ERROR: 
+            Exception on /update_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -129,15 +97,11 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/sn/routes.py", line 141, in contacts
-    user=user,
-NameError: name 'user' is not defined
-2020-05-01 14:34:24,759 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-05-01 14:34:26,675 ERROR: 
-            Exception on /contacts [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+  File "/home/lean/Arhat/app/main/routes.py", line 287, in update_task
+    task.end_time = int(height) + int(top)
+ValueError: invalid literal for int() with base 10: ''
+2020-05-08 12:58:37,085 ERROR: 
+            Exception on /update_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -155,19 +119,15 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/sn/routes.py", line 141, in contacts
-    user=user,
-NameError: name 'user' is not defined
-2020-05-01 14:34:49,015 INFO: 
+  File "/home/lean/Arhat/app/main/routes.py", line 287, in update_task
+    task.end_time = int(height) + int(top)
+ValueError: invalid literal for int() with base 10: ''
+2020-05-08 13:00:46,824 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-05-01 14:37:19,055 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-05-01 14:37:24,496 ERROR: 
-            Exception on /contacts [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-08 13:02:36,832 ERROR: 
+            Exception on /new_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -185,10 +145,30 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/sn/routes.py", line 124, in contacts
-    people = people.paginate(
-AttributeError: 'list' object has no attribute 'paginate'
-2020-05-01 14:37:43,562 INFO: 
+  File "/home/lean/Arhat/app/main/routes.py", line 169, in new_task
+    "color": form.color.data,
+UnboundLocalError: local variable 'ident' referenced before assignment
+2020-05-08 13:04:12,394 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-08 13:08:21,829 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-08 13:18:29,753 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-08 14:55:45,536 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-08 14:56:05,477 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-08 14:56:43,464 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             

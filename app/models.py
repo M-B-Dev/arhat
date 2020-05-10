@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from time import time
 
@@ -14,7 +14,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from flask_login import UserMixin, current_user
 
-from flask import current_app
+from flask import current_app, flash
 
 from app import db, login
 
@@ -229,11 +229,128 @@ class Post(db.Model):
     frequency = db.Column(db.Integer, nullable=True)
     color = db.Column(db.String(14), nullable=True, default="6c757d")
     exclude = db.Column(db.Integer, nullable=True)
+    to_date = db.Column(db.DateTime, nullable=True)
 
 
     def __repr__(self):
         """returns a representation of the Post object."""
         return '<Post {}>'.format(self.body)
+    
+    def calc_mins_height_and_end(self):
+        self.minutes = (
+            self.form.start_time.data.hour * 60
+        ) + self.form.start_time.data.minute
+        self.height = (
+            (self.form.end_time.data.hour * 60) + self.form.end_time.data.minute
+        ) - self.minutes
+        self.end = (self.form.end_time.data.hour * 60) + self.form.end_time.data.minute
+
+    def set_frequency(self):
+        if self.form.frequency.data == 0:
+            self.form.frequency.data = None
+
+    def add_multiple_tasks(self):
+        for self.i in range((self.to_date - self.date).days, -1, -1):
+            self.task_to_be_added = self.add_single_task(to_date=self.to_date)
+            db.session.add(self.task_to_be_added)
+            self.commit_flush()
+            if self.i == (self.to_date - self.date).days:
+                self.ident = self.task_to_be_added.id
+            self.task_to_be_added.exclude = self.ident
+            db.session.commit()
+
+    def add_single_task(self, date=None, frequency=None, to_date=None):
+        if date is None:
+            date = self.date + timedelta(days=self.i)
+        return Post(
+            date=date,
+            body=self.form.task.data,
+            hour=self.form.start_time.data.hour,
+            done=False,
+            user_id=current_user.id,
+            start_time=self.minutes,
+            end_time=self.end,
+            color=self.form.color.data,
+            frequency=frequency,
+            to_date=to_date
+        )
+
+    def commit_flush(self):
+        db.session.commit()
+        db.session.flush()
+
+    def string_to_datetime(self, date):
+        return datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
+
+    def edit_single_freq_task(self):
+        self.task_to_be_added = self.add_single_task(date=self.string_to_datetime(self.form.date.data))
+        self.task_to_be_added.exclude = int(self.form.ident.data)
+        self.task_to_be_edited.exclude = self.task_to_be_edited.id
+
+        if self.string_to_datetime(self.form.date.data) == self.task_to_be_edited.date:
+            self.task_to_be_edited.done = True
+        db.session.add(self.task_to_be_added)
+        if self.task_to_be_added.done is False:
+            flash("Your single task has been updated!", "success")
+        else:
+            flash("Your single task is complete!", "success")
+
+
+    def edit_single_task(self):
+        if self.task_to_be_edited.exclude and self.task_to_be_edited.exclude != int(self.form.ident.data):
+            self.task_to_be_edited_input()
+            self.task_to_be_edited.frequency = 0
+            if self.task_to_be_edited.done is False:
+                flash("Your single task has been updated!", "success")
+            else:
+                flash("Your single task is complete!", "success")
+
+    def task_to_be_edited_input(self):
+        self.task_to_be_edited.body = self.form.task.data
+        self.task_to_be_edited.hour = self.form.start_time.data.hour
+        self.task_to_be_edited.done = self.form.done.data
+        self.task_to_be_edited.user_id = current_user.id
+        self.task_to_be_edited.start_time = self.minutes
+        self.task_to_be_edited.end_time = self.end
+        self.task_to_be_edited.color = self.form.color.data
+
+    def edit_all_freq_parent_and_child_tasks(self):
+        self.parent_task = current_user.posts.filter_by(id=self.task_to_be_edited.exclude).first()
+        if not self.parent_task.to_date:
+            self.parent_task.frequency = self.form.frequency.data
+        self.tasks = [
+            task
+            for task in current_user.posts.all()
+            if task.exclude == self.task_to_be_edited.exclude
+        ]
+        for i, task in enumerate(self.tasks):
+            task.body = self.form.task.data
+            task.hour = self.form.start_time.data.hour
+            task.done = self.form.done.data
+            if self.form.done.data is True:
+                task.frequency = 0
+            elif self.form.frequency.data != None and self.form.frequency.data == 0:
+                if i != len(self.tasks)-1:
+                    task.done = True
+            elif self.form.frequency.data and ((self.parent_task.date - task.date).days % int(self.form.frequency.data)) != 0:
+                task.done = True
+            task.color = self.form.color.data
+            task.user_id = current_user.id
+            task.start_time = self.minutes
+            task.end_time = self.end
+        flash("Your tasks have been updated!", "success")
+
+    def edit_all_tasks(self):
+        self.task_to_be_edited_input()
+        self.task_to_be_edited.date = self.string_to_datetime(self.form.date.data)
+        if self.task_to_be_edited.done == True:
+            self.task_to_be_edited.frequency = 0
+        else:
+            self.task_to_be_edited.frequency = self.form.frequency.data
+        if self.task_to_be_edited.done is False:
+            flash("Your task has been updated!", "success")
+        else:
+            flash("Your task is complete!", "success")
 
 class Message(db.Model):
     """db schema for private messages sent by the users."""
@@ -246,3 +363,4 @@ class Message(db.Model):
     def __repr__(self):
         """returns a representation of the Message object."""
         return '<Message {}>'.format(self.body)
+    

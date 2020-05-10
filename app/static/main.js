@@ -167,114 +167,9 @@ channel.addEventListener('message', event => {
 
 });
 
-// var svgCanvas = document.querySelector("svg");
-// var svgNS = "http://www.w3.org/2000/svg";
-// var rectangles = [];
-
-// function Rectangle(x, y, w, h, svgCanvas, task, id) {
-//   this.x = x;
-//   this.y = y;
-//   this.w = w;
-//   this.h = h;
-//   this.stroke = 0;
-//   this.id = id;
-//   this.el = document.createElementNS(svgNS, "rect");
-//   this.text = document.createElementNS(svgNS, "text");
-//   this.text.textContent = task;
-//   this.el.setAttribute("data-index", rectangles.length);
-//   this.el.setAttribute("class", "edit-rectangle");
-//   this.text.setAttribute("class", "edit-text");
-//   rectangles.push(this);
-
-//   this.draw();
-//   svgCanvas.appendChild(this.el);
-//   svgCanvas.appendChild(this.text);
-// }
-
-// Rectangle.prototype.draw = function() {
-//   this.el.setAttribute("x", this.x);
-//   this.el.setAttribute("y", this.y);
-//   this.el.setAttribute("width", "100%");
-//   this.el.setAttribute("height", this.h);
-//   this.el.setAttribute("stroke-width", this.stroke);
-//   this.text.setAttribute("x", '50%');
-//   this.text.setAttribute("y", this.y + (this.h/2));
-//   this.text.setAttribute('text-anchor', "middle");
-//   this.text.setAttribute('alignment-baseline', "middle");
-//   this.el.setAttribute('id', this.id);
-  
-// };
-
-// interact(".edit-rectangle")
-//   // change how interact gets the
-//   // dimensions of '.edit-rectangle' elements
-//   .rectChecker(function(element) {
-//     // find the Rectangle object that the element belongs to
-// 	var rectangle = rectangles[element.getAttribute("data-index")];
-//     // return a suitable object for interact.js
-//     return {
-//     //   left: rectangle.x,
-//       top: rectangle.y,
-//     //   right: rectangle.x + rectangle.w,
-//       bottom: rectangle.y + rectangle.h
-//     };
-//   })
-//   .draggable({
-//     max: Infinity,
-//     inertia: true,
-//     listeners: {
-
-			
-//       move(event) {
-// 		var rectangle = rectangles[event.target.getAttribute("data-index")];
-//         // rectangle.x = event.rect.left;
-//         rectangle.y = event.rect.top;
-//         rectangle.draw();
-//       }
-//     },
-//     modifiers: [
-//       interact.modifiers.restrictRect({
-//         // // restrict to a parent element that matches this CSS selector
-//         // restriction: "svg",
-//         // // only restrict before ending the drag
-//         // endOnly: true
-//       })
-//     ]
-//   })
-//   .resizable({
-//     edges: { left: true, top: true, right: true, bottom: true },
-//     listeners: {
-//       move(event) {
-// 		var rectangle = rectangles[event.target.getAttribute("data-index")];
-
-
-		
-// 		// console.log(`this is ${event.rect.bottom} ${event.rect.top}`);
-// 		// console.log(`this is the id ${event.target.id}`)
-//         // rectangle.w = event.rect.width;
-//         rectangle.h = event.rect.height;
-//         // rectangle.x = event.rect.left;
-//         rectangle.y = event.rect.top;
-//         rectangle.draw();
-// 	  }
-	  
-//     },
-//     modifiers: [
-
-//       interact.modifiers.restrictEdges({ outer: "svg", endOnly: true }),
-//       interact.modifiers.restrictSize({ min: { width: 20, height: 20 } })
-// 	]
-	
-//   });
-
-// interact.maxInteractions(Infinity);
 
 
 var taskArea = document.getElementById('taskArea');
-// taskArea.onclick = function(event) {
-// 	console.log("clicked");
-// 	new Rectangle(0, event.clientY, 20, 80, svgCanvas)
-//   }
 
 function setTime(pos, elID){
 	var num = pos;
@@ -440,14 +335,14 @@ for (var i = 0; i < 1440; i++) {
 }
 leftCol.appendChild(toAdd);
 
-// Get the modal
+
 var taskModal = document.getElementById("myTaskModal");
 var editTaskModal = document.getElementById("myEditTaskModal");
-// Get the <span> element that closes the modal
+
 var spanTask = document.getElementsByClassName("task-close")[0];
 var spanEditTask = document.getElementsByClassName("task-close")[1];
 
-// When the user clicks on the button, open the modal
+
 taskArea.onclick = function(event) {
 	document.addEventListener("click",handler,true);
 	taskModal.style.display = "block";
@@ -466,7 +361,7 @@ taskArea.onclick = function(event) {
 	
   	}
 
-// When the user clicks on <span> (x), close the modal
+
 spanTask.onclick = function() {
 	taskModal.style.display = "none";
 }
@@ -484,16 +379,16 @@ $(document).ready(function() {
 		$.ajax({
 			type: "POST",
 			url: '/new_task/',
-			data: $('#tasks').serialize(), // serializes the form's elements.
+			data: $('#tasks').serialize(),
 			success: function (data) {
 				new Rectangle(data.minutes, data.height, data.task, data.id, data.color, data.frequency);
 				location.reload()
-				// new Rectangle(0, data.minutes, 20, data.height, svgCanvas, data.task, data.id)
+
 			}
 		});
-		e.preventDefault(); // block the traditional submission of the form.
+		e.preventDefault(); 
 	}); 
-	// Inject our CSRF token into our AJAX request.
+
 	$.ajaxSetup({
 		beforeSend: function(xhr, settings) {
 			if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
@@ -562,19 +457,12 @@ $( function() {
 		start: function(event, ui){
 			noClick = true;
 		},
-		// ghost: true,
-		// animate: true,
+
       containment: "parent",
      
 	  handles: 'n, s',
 	  stop: function(event, ui) {
-		// var resized = $(this);
-		// console.log(resized)
-		// resized.queue(function() {
-		// 	resizeComplete(resized);
-		// 	$( this ).dequeue();
-		//   });
-		// console.log(ui)
+
 		console.log(taskEndTimeIDs)
 		console.log(taskEndTimes)
 		var old_end = ui.originalPosition.top+ui.originalSize.height+2;
@@ -603,17 +491,7 @@ $( function() {
 	});
 },
 grid: [ 50, 10 ]
-		// stop: function(event, ui) {
-		// 	var resized = $(this);
-		// 	resized.queue(function() {
-		// 	 (function() {
-		// 		 console.log(ui.element.attributes);
-		// 		ui.element.attributes.style.width = '100%';
-		// 		 alert("resized")
-		// 	 })()
-		// 	  $( this ).dequeue();
-		// 	});
-		// },
+
 
 	});
   });
@@ -624,18 +502,18 @@ grid: [ 50, 10 ]
 		$.ajax({
 			type: "POST",
 			url: '/edit_task/',
-			data: $('#editTasks').serialize(), // serializes the form's elements.
+			data: $('#editTasks').serialize(),
 			success: function (data) {
 				window.location.href = `index/ph?r=#${data.id}`
 				
 				window.location.reload(true)
 				console.log(`index/ph?r=#${data.id}`)
-				// new Rectangle(0, data.minutes, 20, data.height, svgCanvas, data.task, data.id)
+
 			}
 		});
-		e.preventDefault(); // block the traditional submission of the form.
+		e.preventDefault();
 	}); 
-	// Inject our CSRF token into our AJAX request.
+
 	$.ajaxSetup({
 		beforeSend: function(xhr, settings) {
 			if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
@@ -657,10 +535,6 @@ function hexToRgbA(hex){
     }
     throw new Error('Bad Hex');
 }
-
-// function resizeComplete(element) {
-// 	element.context.style.width = '100%';
-//  }
 
 
 

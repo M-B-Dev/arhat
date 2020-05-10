@@ -90,7 +90,7 @@ class NewTask:
 
     def add_multiple_tasks(self):
         for self.i in range((self.to_date - self.date).days, -1, -1):
-            self.task_to_be_added = self.add_single_task()
+            self.task_to_be_added = self.add_single_task(to_date=self.to_date)
             db.session.add(self.task_to_be_added)
             commit_flush()
             if self.i == (self.to_date - self.date).days:
@@ -98,7 +98,7 @@ class NewTask:
             self.task_to_be_added.exclude = self.ident
             db.session.commit()
 
-    def add_single_task(self, date=None, frequency=0):
+    def add_single_task(self, date=None, frequency=None, to_date=None):
         if date is None:
             date = self.date + timedelta(days=self.i)
         return Post(
@@ -111,6 +111,7 @@ class NewTask:
             end_time=self.end,
             color=self.form.color.data,
             frequency=frequency,
+            to_date=to_date
         )
 
 
@@ -118,7 +119,8 @@ class NewTask:
 @login_required
 def new_task():
     """Creates a new todo task."""
-    new_task = NewTask()
+    new_task = Post()
+    new_task.form = TaskForm()
     if not new_task.form.validate_on_submit():
         return redirect(url_for("main.index", date_set="ph"))
     else:
@@ -140,7 +142,7 @@ def new_task():
                 frequency=new_task.form.frequency.data,
             )
             db.session.add(task_to_be_added)
-            commit_flush()
+            new_task.commit_flush()
             new_task.ident = task_to_be_added.id
             flash("Your task is now live!", "success")
         else:
@@ -157,33 +159,122 @@ def new_task():
         )
 
 
+class EditTask:
+    def __init__(self):
+        self.form = TaskForm()
+        self.task_to_be_edited = current_user.posts.filter_by(id=int(self.form.ident.data)).first()
+        self.minutes = (self.form.start_time.data.hour * 60) + self.form.start_time.data.minute
+        self.end = (self.form.end_time.data.hour * 60) + self.form.end_time.data.minute
+    
+    
+    def edit_single_freq_task(self):
+        self.task_to_be_added = self.add_single_task(date=string_to_datetime(self.form.date.data))
+        self.task_to_be_added.exclude = int(self.form.ident.data)
+        self.task_to_be_edited.exclude = self.task_to_be_edited.id
+
+        if string_to_datetime(self.form.date.data) == self.task_to_be_edited.date:
+            self.task_to_be_edited.done = True
+        db.session.add(self.task_to_be_added)
+        if self.task_to_be_added.done is False:
+            flash("Your single task has been updated!", "success")
+        else:
+            flash("Your single task is complete!", "success")
+
+
+    def edit_single_task(self):
+        if self.task_to_be_edited.exclude and self.task_to_be_edited.exclude != int(self.form.ident.data):
+            self.task_to_be_edited_input()
+            self.task_to_be_edited.frequency = 0
+            if self.task_to_be_edited.done is False:
+                flash("Your single task has been updated!", "success")
+            else:
+                flash("Your single task is complete!", "success")
+
+    def task_to_be_edited_input(self):
+        self.task_to_be_edited.body = self.form.task.data
+        self.task_to_be_edited.hour = self.form.start_time.data.hour
+        self.task_to_be_edited.done = self.form.done.data
+        self.task_to_be_edited.user_id = current_user.id
+        self.task_to_be_edited.start_time = self.minutes
+        self.task_to_be_edited.end_time = self.end
+        self.task_to_be_edited.color = self.form.color.data
+
+    def edit_all_freq_parent_and_child_tasks(self):
+        self.parent_task = current_user.posts.filter_by(id=self.task_to_be_edited.exclude).first()
+        if not self.parent_task.to_date:
+            self.parent_task.frequency = self.form.frequency.data
+        self.tasks = [
+            task
+            for task in current_user.posts.all()
+            if task.exclude == self.task_to_be_edited.exclude
+        ]
+        for i, task in enumerate(self.tasks):
+            task.body = self.form.task.data
+            task.hour = self.form.start_time.data.hour
+            task.done = self.form.done.data
+            if self.form.done.data is True:
+                task.frequency = 0
+            elif self.form.frequency.data != None and self.form.frequency.data == 0:
+                if i != len(self.tasks)-1:
+                    task.done = True
+            elif self.form.frequency.data and ((self.parent_task.date - task.date).days % int(self.form.frequency.data)) != 0:
+                task.done = True
+            task.color = self.form.color.data
+            task.user_id = current_user.id
+            task.start_time = self.minutes
+            task.end_time = self.end
+        flash("Your tasks have been updated!", "success")
+
+    def edit_all_tasks(self):
+        self.task_to_be_edited_input()
+        self.task_to_be_edited.date = string_to_datetime(self.form.date.data)
+        if self.task_to_be_edited.done == True:
+            self.task_to_be_edited.frequency = 0
+        else:
+            self.task_to_be_edited.frequency = self.form.frequency.data
+        if self.task_to_be_edited.done is False:
+            flash("Your task has been updated!", "success")
+        else:
+            flash("Your task is complete!", "success")
+
+    def add_single_task(self, date=None):
+        return Post(
+            date=date,
+            body=self.form.task.data,
+            hour=self.form.start_time.data.hour,
+            done=False,
+            user_id=current_user.id,
+            start_time=self.minutes,
+            end_time=self.end,
+            color=self.form.color.data,
+            frequency=0,
+            )
+
+
 @bp.route("/edit_task/", methods=["GET", "POST"])
 @login_required
 def edit_task():
-    form = TaskForm()
-    if not form.validate_on_submit():
+    edit_task = Post()
+    edit_task.form = TaskForm()
+    edit_task.task_to_be_edited = current_user.posts.filter_by(id=int(edit_task.form.ident.data)).first()
+    if not edit_task.form.validate_on_submit():
         return redirect(url_for("main.index", date_set="ph"))
     else:
-        task_to_be_edited = current_user.posts.filter_by(
-            id=int(form.ident.data)
-        ).first()
-        minutes, _, end = calc_mins_height_and_end(form)
-        if form.single_event.data is True:
-            if task_to_be_edited.exclude and task_to_be_edited.exclude != int(
-                form.ident.data
+        edit_task.calc_mins_height_and_end()
+        if edit_task.form.single_event.data is True:
+            if edit_task.task_to_be_edited.exclude and edit_task.task_to_be_edited.exclude != int(
+                edit_task.form.ident.data
             ):
-                edit_single_task(task_to_be_edited, form, minutes, end)
+                edit_task.edit_single_task()
             else:
-                edit_single_freq_task(minutes, form, end, task_to_be_edited)
+                edit_task.edit_single_freq_task()
         else:
-            if task_to_be_edited.exclude:
-                edit_all_freq_parent_and_child_tasks(
-                    task_to_be_edited, form, minutes, end
-                )
+            if edit_task.task_to_be_edited.exclude:
+                edit_task.edit_all_freq_parent_and_child_tasks()
             else:
-                edit_all_tasks(task_to_be_edited, minutes, end, form)
+                edit_task.edit_all_tasks()
         db.session.commit()
-        return jsonify({"id": form.ident.data})
+        return jsonify({"id": edit_task.form.ident.data})
 
 
 @bp.route("/update_task/", methods=["GET", "POST"])
@@ -254,6 +345,7 @@ def check_depression(user=current_user, app=current_app):
     number_of_days = user.days
     period_precentage = 0
     divide_days = 0
+    
     for day in range(number_of_days):
         date_set = date_set - timedelta(days=1)
         daily_tasks = user.posts.filter_by(date=date_for_despress_check(date_set))
@@ -383,78 +475,9 @@ def send_web_push(subscription_information, message_body):
     )
 
 
-def task_to_be_edited_input(task_to_be_edited, minutes, end, form):
-    task_to_be_edited.body = form.task.data
-    task_to_be_edited.hour = form.start_time.data.hour
-    task_to_be_edited.done = form.done.data
-    task_to_be_edited.user_id = current_user.id
-    task_to_be_edited.start_time = minutes
-    task_to_be_edited.end_time = end
-    task_to_be_edited.color = form.color.data
-    return task_to_be_edited
 
 
-def edit_single_task(task_to_be_edited, form, minutes, end):
-    if task_to_be_edited.exclude and task_to_be_edited.exclude != int(form.ident.data):
-        task_to_be_edited = task_to_be_edited_input(
-            task_to_be_edited, minutes, end, form
-        )
-        task_to_be_edited.frequency = 0
-        if task_to_be_edited.done is False:
-            flash("Your single task has been updated!", "success")
-        else:
-            flash("Your single task is complete!", "success")
 
-
-def edit_single_freq_task(minutes, form, end, task_to_be_edited):
-    task_to_be_added = add_single_task(
-        0, minutes, form, end, string_to_datetime(form.date.data), done=form.done.data
-    )
-    task_to_be_added.exclude = int(form.ident.data)
-    task_to_be_edited.exclude = task_to_be_edited.id
-    if string_to_datetime(form.date.data) == task_to_be_edited.date:
-        task_to_be_edited.done = True
-    db.session.add(task_to_be_added)
-    if task_to_be_added.done is False:
-        flash("Your single task has been updated!", "success")
-    else:
-        flash("Your single task is complete!", "success")
-
-
-def edit_all_freq_parent_and_child_tasks(task_to_be_edited, form, minutes, end):
-    parent_task = current_user.posts.filter_by(id=task_to_be_edited.exclude).first()
-    parent_task.frequency = form.frequency.data
-    tasks = [
-        task
-        for task in current_user.posts.all()
-        if task.exclude == task_to_be_edited.exclude
-    ]
-    for task in tasks:
-        task.body = form.task.data
-        task.hour = form.start_time.data.hour
-        task.done = form.done.data
-        if form.done.data is True:
-            task.frequency = 0
-        elif ((parent_task.date - task.date).days % int(form.frequency.data)) != 0:
-            task.done = True
-        task.color = form.color.data
-        task.user_id = current_user.id
-        task.start_time = minutes
-        task.end_time = end
-    flash("Your tasks have been updated!", "success")
-
-
-def edit_all_tasks(task_to_be_edited, minutes, end, form):
-    task_to_be_edited = task_to_be_edited_input(task_to_be_edited, minutes, end, form)
-    task_to_be_edited.date = string_to_datetime(form.date.data)
-    if task_to_be_edited.done == True:
-        task_to_be_edited.frequency = 0
-    else:
-        task_to_be_edited.frequency = form.frequency.data
-    if task_to_be_edited.done is False:
-        flash("Your task has been updated!", "success")
-    else:
-        flash("Your task is complete!", "success")
 
 
 def convert_date_format(date):
@@ -473,27 +496,6 @@ def datetime_to_string(date):
 
 def date_for_despress_check(date_set):
     return datetime.strptime(str(date_set), "%Y-%m-%d")
-
-
-def add_single_task(frequency, minutes, form, end, date, done=False):
-    return Post(
-        date=date,
-        body=form.task.data,
-        hour=form.start_time.data.hour,
-        done=done,
-        user_id=current_user.id,
-        start_time=minutes,
-        end_time=end,
-        color=form.color.data,
-        frequency=frequency,
-    )
-
-
-def calc_mins_height_and_end(form):
-    minutes = (form.start_time.data.hour * 60) + form.start_time.data.minute
-    height = ((form.end_time.data.hour * 60) + form.end_time.data.minute) - minutes
-    end = (form.end_time.data.hour * 60) + form.end_time.data.minute
-    return minutes, height, end
 
 
 def commit_flush():

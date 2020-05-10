@@ -1,5 +1,5 @@
-2020-04-28 14:57:32,482 ERROR: 
-            Exception on /index/ph [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-03 14:17:18,090 ERROR: 
+            Exception on /follow_request/test99 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -17,45 +17,33 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 62, in index
-    check_depression_on_index(date)
-  File "/home/lean/Arhat/app/main/routes.py", line 238, in check_depression_on_index
-    add_sent_date(today)
-  File "/home/lean/Arhat/app/main/routes.py", line 228, in add_sent_date
-    check_depression()
-  File "/home/lean/Arhat/app/main/routes.py", line 371, in check_depression
-    print((date_set - freq_task.date).days)
-TypeError: unsupported operand type(s) for -: 'datetime.date' and 'datetime.datetime'
-2020-04-28 14:58:13,326 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 15:01:19,335 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 15:03:11,550 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 15:07:08,530 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 15:09:37,614 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 15:12:14,319 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 15:13:03,054 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 15:14:07,319 ERROR: 
-            Exception on /index/ph [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+  File "/home/lean/Arhat/app/sn/routes.py", line 198, in follow_request
+    token=token
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/templating.py", line 140, in render_template
+    ctx.app,
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/templating.py", line 120, in _render
+    rv = template.render(context)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/jinja2/environment.py", line 1090, in render
+    self.environment.handle_exception()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/jinja2/environment.py", line 832, in handle_exception
+    reraise(*rewrite_traceback_stack(source=source))
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/jinja2/_compat.py", line 28, in reraise
+    raise value.with_traceback(tb)
+  File "/home/lean/Arhat/app/templates/email/follow_request.html", line 4, in top-level template code
+    <a href="{{ url_for('main.follow', username=user.username, follow_requester=follow_requester.username, token=token, _external=True) }}">
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/helpers.py", line 370, in url_for
+    return appctx.app.handle_url_build_error(error, endpoint, values)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2216, in handle_url_build_error
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/helpers.py", line 358, in url_for
+    endpoint, values, method=method, force_external=external
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/werkzeug/routing.py", line 2179, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.BuildError: Could not build url for endpoint 'main.follow' with values ['follow_requester', 'token', 'username']. Did you mean 'sn.follow' instead?
+2020-05-03 14:17:38,807 ERROR: 
+            Exception on /follow_request/test99 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -73,17 +61,33 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 62, in index
-    check_depression_on_index(date)
-  File "/home/lean/Arhat/app/main/routes.py", line 234, in check_depression_on_index
-    add_sent_date(date)
-  File "/home/lean/Arhat/app/main/routes.py", line 228, in add_sent_date
-    check_depression()
-  File "/home/lean/Arhat/app/main/routes.py", line 373, in check_depression
-    if (datetime.strptime(str(date_set), "%Y-%m-%d")- freq_task.date).days > 0 and (datetime.strptime(str(date_set), "%Y-%m-%d")- freq_task.date).days % freq_task.frequency == 0:
-ZeroDivisionError: integer division or modulo by zero
-2020-04-28 15:14:31,042 ERROR: 
-            Exception on /index/ph [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+  File "/home/lean/Arhat/app/sn/routes.py", line 198, in follow_request
+    token=token
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/templating.py", line 140, in render_template
+    ctx.app,
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/templating.py", line 120, in _render
+    rv = template.render(context)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/jinja2/environment.py", line 1090, in render
+    self.environment.handle_exception()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/jinja2/environment.py", line 832, in handle_exception
+    reraise(*rewrite_traceback_stack(source=source))
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/jinja2/_compat.py", line 28, in reraise
+    raise value.with_traceback(tb)
+  File "/home/lean/Arhat/app/templates/email/follow_request.html", line 4, in top-level template code
+    <a href="{{ url_for('main.follow', username=user.username, follow_requester=follow_requester.username, token=token, _external=True) }}">
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/helpers.py", line 370, in url_for
+    return appctx.app.handle_url_build_error(error, endpoint, values)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2216, in handle_url_build_error
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/helpers.py", line 358, in url_for
+    endpoint, values, method=method, force_external=external
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/werkzeug/routing.py", line 2179, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.BuildError: Could not build url for endpoint 'main.follow' with values ['follow_requester', 'token', 'username']. Did you mean 'sn.follow' instead?
+2020-05-03 14:21:13,986 ERROR: 
+            Exception on /follow_request/test10 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -101,96 +105,40 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 62, in index
-    check_depression_on_index(date)
-  File "/home/lean/Arhat/app/main/routes.py", line 234, in check_depression_on_index
-    add_sent_date(date)
-  File "/home/lean/Arhat/app/main/routes.py", line 228, in add_sent_date
-    check_depression()
-  File "/home/lean/Arhat/app/main/routes.py", line 373, in check_depression
-    if (datetime.strptime(str(date_set), "%Y-%m-%d")- freq_task.date).days > 0 and (datetime.strptime(str(date_set), "%Y-%m-%d")- freq_task.date).days % freq_task.frequency == 0:
-ZeroDivisionError: integer division or modulo by zero
-2020-04-28 15:15:59,503 INFO: 
+  File "/home/lean/Arhat/app/sn/routes.py", line 198, in follow_request
+    token=token
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/templating.py", line 140, in render_template
+    ctx.app,
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/templating.py", line 120, in _render
+    rv = template.render(context)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/jinja2/environment.py", line 1090, in render
+    self.environment.handle_exception()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/jinja2/environment.py", line 832, in handle_exception
+    reraise(*rewrite_traceback_stack(source=source))
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/jinja2/_compat.py", line 28, in reraise
+    raise value.with_traceback(tb)
+  File "/home/lean/Arhat/app/templates/email/follow_request.html", line 4, in top-level template code
+    <a href="{{ url_for('sn.follow', username=user.username, follow_requester=follow_requester.username, token=token, _external=True) }}">
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/helpers.py", line 370, in url_for
+    return appctx.app.handle_url_build_error(error, endpoint, values)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2216, in handle_url_build_error
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/helpers.py", line 358, in url_for
+    endpoint, values, method=method, force_external=external
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/werkzeug/routing.py", line 2179, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.BuildError: Could not build url for endpoint 'main.follow' with values ['follow_requester', 'token', 'username']. Did you mean 'sn.follow' instead?
+2020-05-03 14:21:24,696 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 15:17:30,420 INFO: 
+2020-05-05 20:59:19,606 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-04-28 15:19:21,252 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 15:19:59,442 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 15:40:03,101 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:16:11,226 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:17:12,873 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:18:14,906 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:18:37,930 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:22:33,809 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:23:26,803 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:24:21,352 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:26:36,128 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:27:01,053 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:27:22,273 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:28:14,182 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:31:13,020 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:37:14,930 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-28 21:40:19,426 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-29 20:34:25,294 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-04-29 20:50:38,938 INFO: 
+2020-05-06 22:12:20,218 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
