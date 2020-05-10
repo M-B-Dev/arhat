@@ -1,5 +1,5 @@
 import json
-from datetime import date, datetime, timedelta
+from datetime import datetime
 
 from flask import (
     Response,
@@ -9,17 +9,15 @@ from flask import (
     redirect,
     render_template,
     request,
-    session,
     url_for,
 )
 from flask_login import current_user, login_required
 from pywebpush import webpush
 
 from app import db
-from app.email import send_email
 from app.main import bp
 from app.main.forms import DateForm, TaskForm
-from app.models import Message, Post, User
+from app.models import Post, User
 
 
 @bp.route("/", methods=["GET", "POST"])
@@ -27,21 +25,23 @@ def home():
     """This reroutes to index with the date_set argument."""
     return redirect(url_for("main.index", date_set="ph"))
 
+
 @bp.route("/index/<date_set>", methods=["GET", "POST"])
 @login_required
 def index(date_set):
-    """Render the index page.
+    """
+    Render the index page.
 
-    date_set: argument that is used to retreive tasks for 
+    date_set: argument that is used to retreive tasks for
     a specific date or, if set to 'ph', will default to today's date.
-
     """
     date_form = DateForm()
 
     if date_form.validate_on_submit():
         return redirect(
             url_for(
-                "main.index", date_set=datetime_to_string(date_form.datepicker.data)
+                "main.index", 
+                date_set=datetime_to_string(date_form.datepicker.data)
             )
         )
     form = TaskForm()
@@ -74,6 +74,7 @@ def index(date_set):
         form=form,
         date_form=date_form,
     )
+
 
 @bp.route("/new_task/", methods=["GET", "POST"])
 @login_required
@@ -122,16 +123,26 @@ def new_task():
 @bp.route("/edit_task/", methods=["GET", "POST"])
 @login_required
 def edit_task():
+    """
+    Edits a to-do task from modal input.
+
+    Can be a single task or multiple, related tasks.
+    """
+
     edit_task = Post()
     edit_task.form = TaskForm()
-    edit_task.task_to_be_edited = current_user.posts.filter_by(id=int(edit_task.form.ident.data)).first()
+    edit_task.task_to_be_edited = current_user.posts.filter_by(
+        id=int(edit_task.form.ident.data)
+    ).first()
     if not edit_task.form.validate_on_submit():
         return redirect(url_for("main.index", date_set="ph"))
     else:
         edit_task.calc_mins_height_and_end()
         if edit_task.form.single_event.data is True:
-            if edit_task.task_to_be_edited.exclude and edit_task.task_to_be_edited.exclude != int(
-                edit_task.form.ident.data
+            if (
+                edit_task.task_to_be_edited.exclude
+                and edit_task.task_to_be_edited.exclude
+                != int(edit_task.form.ident.data)
             ):
                 edit_task.edit_single_task()
             else:
@@ -148,6 +159,7 @@ def edit_task():
 @bp.route("/update_task/", methods=["GET", "POST"])
 @login_required
 def update_task():
+    """Updates a to-do task from dragging or resizing."""
     if request.method == "POST":
         data = request.get_json()
         task = Post.query.filter_by(id=int(data["id"])).first()
@@ -159,13 +171,13 @@ def update_task():
     return jsonify({"task": task.body})
 
 
-
 @bp.route("/check", methods=["GET", "POST"])
 @login_required
 def check():
-    """Checks if any tasks are due. 
+    """
+    Checks if any tasks are due.
     
-    If tasks are due a notification is triggered. 
+    If tasks are due a notification is triggered.
     """
 
     if current_user.subscribed and str(request.args.get("id")).isnumeric():
@@ -194,6 +206,7 @@ def complete():
             db.session.commit()
     return redirect(url_for("main.index", date_set="ph"))
 
+
 @bp.route("/subscribe/", methods=["GET", "POST"])
 def subscribe():
     """Gets and stores a user notification subscription in the db."""
@@ -205,9 +218,8 @@ def subscribe():
 
 @bp.route("/subscription/", methods=["GET", "POST"])
 def subscription():
-    """POST creates a subscription.
-
-    GET returns vapid public key which clients uses 
+    """
+    returns vapid public key which clients uses
     to send around push notification.
     """
 
@@ -217,7 +229,6 @@ def subscription():
             headers={"Access-Control-Allow-Origin": "*"},
             content_type="application/json",
         )
-    subscription_token = request.get_json("subscription_token")
     return Response(status=201, mimetype="application/json")
 
 
@@ -242,18 +253,24 @@ def flask_subscribe():
 
 
 def set_date(date_set):
+    """
+    Sets date on rendering of index depending on value passed in on POST.
+    
+    ph: placeholder - will render today's date.
+    """
     if date_set == "ph":
         return convert_date_format(datetime.utcnow())
     else:
         return datetime.strptime(date_set, "%d-%m-%Y")
 
+
 def convert_date_format(date):
+    """Converts a datetime object to the full date format as string."""
     return datetime.strptime(
         datetime.strftime(date, "%Y-%m-%d, 00:00:00"), "%Y-%m-%d, %H:%M:%S"
     )
 
+
 def datetime_to_string(date):
+    """Converts datetime to string, short version."""
     return datetime.strftime(date, "%d-%m-%Y")
-
-
-

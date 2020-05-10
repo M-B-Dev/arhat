@@ -1,13 +1,6 @@
 from datetime import datetime
 
-from flask import (
-    current_app,
-    flash,
-    redirect,
-    render_template,
-    request,
-    url_for,
-)
+from flask import current_app, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 
 from app import db
@@ -24,7 +17,7 @@ def edit_profile():
     form = UpdateAccountForm()
     if form.validate_on_submit():
         if form.picture.data:
-           current_user.save_picture(form.picture.data)
+            current_user.save_picture(form.picture.data)
         current_user.threshold = form.threshold.data
         current_user.days = form.days.data
         current_user.username = form.username.data
@@ -107,7 +100,8 @@ def followers():
 @bp.route("/follow_request/<username>", methods=["GET", "POST"])
 @login_required
 def follow_request(username):
-    """Sends a token to the user which the current user has requested to follow. 
+    """
+    Sends a token to the user which the current user has requested to follow. 
     
     Emails the token and messgaes the user.
     """

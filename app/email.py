@@ -6,6 +6,7 @@ from flask import current_app
 
 from app import mail
 
+
 def send_async_email(app, msg):
     """Sends email outside of current_app context."""
     with app.app_context():
@@ -18,6 +19,5 @@ def send_email(subject, sender, recipients, text_body, html_body):
     msg.body = text_body
     msg.html = html_body
     Thread(
-        target=send_async_email, 
-        args=(current_app._get_current_object(), msg)
-        ).start()
+        target=send_async_email, args=(current_app._get_current_object(), msg)
+    ).start()
