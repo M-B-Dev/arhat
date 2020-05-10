@@ -24,9 +24,6 @@ function urlB64ToUint8Array(base64String) {
 }
 
 self.addEventListener('push', function(event) {
-  console.log('[Service Worker] Push Received.');
-  console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
-
   const title = 'Task due';
   const options = {
     requireInteraction: true,
@@ -44,21 +41,17 @@ self.addEventListener('push', function(event) {
 
 self.addEventListener('notificationclick', function(event) {
   const channel = new BroadcastChannel('sw-messages');
-  console.log('[Service Worker] Notification click Received.');
   switch (event.action) {
     case 'yes':
-      console.log('yes');
       channel.postMessage({title: 'Hello from SW'});
       break;
     case 'no':
-      console.log('no')
       break;
   }
   event.notification.close();
 })
 
 self.addEventListener('pushsubscriptionchange', function(event) {
-  console.log('[Service Worker]: \'pushsubscriptionchange\' event fired.');
   const applicationServerPublicKey = localStorage.getItem('applicationServerPublicKey');
   const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
   event.waitUntil(
@@ -67,8 +60,6 @@ self.addEventListener('pushsubscriptionchange', function(event) {
       applicationServerKey: applicationServerKey
     })
     .then(function(newSubscription) {
-      // TODO: Send to application server
-      console.log('[Service Worker] New subscription: ', newSubscription);
     })
   );
 })

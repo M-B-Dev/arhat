@@ -140,17 +140,7 @@
         <script src="{{ url_for('static', filename='jscolor.js') }}"></script>
         <script src="{{ url_for('static', filename='modal.js') }}"></script>
         
-        <script>
-            $(function() {
-                $( ".dtpick" ).datepicker(
-                    {
-                        Format: "dd-mm-yy",
-                        dateFormat: "dd-mm-yy"
-                      }
-                );
-            });
-            </script>
-        <!-- <script>sendNotifications()</script> -->
+
         
             {% block scripts %}
             {% endblock %}

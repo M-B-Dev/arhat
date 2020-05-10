@@ -134,3 +134,39 @@ TypeError: __init__() got an unexpected keyword argument 'date'
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
+2020-05-10 20:55:15,340 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-10 21:24:01,643 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-10 21:26:07,253 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-10 21:27:13,133 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-10 21:28:12,882 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-10 21:30:23,502 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-10 21:32:20,268 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-10 21:55:46,396 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-10 21:57:21,913 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
