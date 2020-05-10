@@ -304,15 +304,15 @@ function Rectangle(ypos, height, task, id, color, frequency) {
 var leftCol = document.getElementById("colLeft");
 var toAdd = document.createDocumentFragment();
 for (var i = 0; i < 1440; i++) {
-	if (i == 0 || i % 60 == 0){
+	if (i == 0 || i % 60 == 0) {
 
 		var newHour = document.createElement("P");
 		if (i == 0) {
 			newHour.innerHTML = i + ":00";
 		}
 		else if (i % 60 == 0) {
-			newHour.innerHTML = (i / 60) + ":00";	
-		} 
+			newHour.innerHTML = (i / 60) + ":00";
+		}
 		newHour.setAttribute('class', "timeHour");
 		newHour.style.position = "absolute";
 		newHour.setAttribute('id', `a${i}`);
@@ -355,7 +355,7 @@ spanEditTask.onclick = function () {
 	editTaskModal.style.display = "none";
 }
 
-function insertCert(){
+function insertCert() {
 	$.ajaxSetup({
 		beforeSend: function (xhr, settings) {
 			if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
@@ -520,3 +520,8 @@ $(function () {
 		}
 	);
 });
+
+function set_message_count(n) {
+	$('#message_count').text(n);
+	$('#message_count').css('visibility', n ? 'visible' : 'hidden');
+}

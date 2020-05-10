@@ -1,7 +1,8 @@
 <p>Dear {{ user.username }},</p>
 <p>
     To connect with {{ follow_requester.username }}
-    <a href="{{ url_for('sn.follow', username=user.username, follow_requester=follow_requester.username, token=token, _external=True) }}">
+    <a
+        href="{{ url_for('sn.follow', username=user.username, follow_requester=follow_requester.username, token=token, _external=True) }}">
         click here
     </a>.
 </p>

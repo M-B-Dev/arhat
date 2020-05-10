@@ -94,31 +94,6 @@
               </div>
             </div>
           </main>
-        <span style=" visibility: hidden;">
-        <p>
-			<button disabled class="js-push-btn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-				Enable Push Messaging
-			</button>
-        </p>
-        <section class="subscription-details js-subscription-details is-invisible">
-			<p>Once you've subscribed your user, you'd send their subscription to your
-				server to store in a database so that when you want to send a message
-				you can lookup the subscription and send a message to it.</p>
-			<pre><code class="js-subscription-json"></code></pre>
-
-			<hr>
-			<p>You can test push notification below.</p>
-			<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="push_message()">Test Push Notification</button>
-		</section>
-    </span>
-
-        <script>
-            // ...
-            function set_message_count(n) {
-                $('#message_count').text(n);
-                $('#message_count').css('visibility', n ? 'visible' : 'hidden');
-            }
-        </script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
         <script src=https://cdn.jsdelivr.net/npm/interactjs@latest></script>
         <script src="{{ url_for('static', filename='jquery-3.3.1.min.js') }}"></script>
@@ -126,9 +101,7 @@
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
         <script src="{{ url_for('static',filename='main.js') }}"></script>
         <script src="{{ url_for('static', filename='sw.js') }}"></script>
-
         <script src="https://code.getmdl.io/1.2.1/material.min.js"></script>
-       
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
