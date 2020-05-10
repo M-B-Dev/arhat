@@ -6,8 +6,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
-
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
         {% if title %}
@@ -141,17 +140,7 @@
         <script src="{{ url_for('static', filename='jscolor.js') }}"></script>
         <script src="{{ url_for('static', filename='modal.js') }}"></script>
         
-        <script>
-            $(function() {
-                $( ".dtpick" ).datepicker(
-                    {
-                        Format: "dd-mm-yy",
-                        dateFormat: "dd-mm-yy"
-                      }
-                );
-            });
-            </script>
-        <!-- <script>sendNotifications()</script> -->
+
         
             {% block scripts %}
             {% endblock %}

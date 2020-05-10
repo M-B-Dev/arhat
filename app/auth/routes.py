@@ -62,7 +62,7 @@ def register():
             you are now a registered user!""", 
             'success'
             )
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.index', date_set='ph'))
     return render_template('auth/register.html', title='Register', form=form)
 
 @bp.route('/reset_password_request', methods=['GET', 'POST'])
