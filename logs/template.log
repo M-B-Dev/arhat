@@ -1,20 +1,44 @@
-2020-05-11 11:57:31,945 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            94]
+2020-05-11 21:41:49,494 ERROR: 
+            Exception on /api/users/1/followed [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
             
-2020-05-11 13:51:19,397 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            94]
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1953, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1968, in finalize_request
+    response = self.make_response(rv)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2098, in make_response
+    "The view function did not return a valid response. The"
+TypeError: The view function did not return a valid response. The function either returned None or ended without a return statement.
+2020-05-11 21:42:22,454 ERROR: 
+            Exception on /api/users/1/followed [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
             
-2020-05-11 14:54:09,460 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            98]
-            
-2020-05-11 14:54:47,928 INFO: 
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1953, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1968, in finalize_request
+    response = self.make_response(rv)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2098, in make_response
+    "The view function did not return a valid response. The"
+TypeError: The view function did not return a valid response. The function either returned None or ended without a return statement.
+2020-05-11 21:42:32,400 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-05-11 14:56:01,550 INFO: 
+2020-05-11 22:00:00,628 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-11 22:00:08,946 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-11 22:03:15,339 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
