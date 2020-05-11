@@ -56,6 +56,9 @@ def create_app(config_class=Config):
     from app.sub import bp as sub_bp
     app.register_blueprint(sub_bp)
 
+    from app.api import bp as api_bp
+    app.register_blueprint(api_bp, url_prefix='/api')
+
     if not app.debug and not app.testing:
         if app.config['MAIL_SERVER']:
             auth = None
