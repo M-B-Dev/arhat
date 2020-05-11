@@ -36,7 +36,6 @@ def index(date_set):
     a specific date or, if set to 'ph', will default to today's date.
     """
     date_form = DateForm()
-
     if date_form.validate_on_submit():
         return redirect(
             url_for(
@@ -45,7 +44,6 @@ def index(date_set):
             )
         )
     form = TaskForm()
-    date_form = DateForm()
     date = set_date(date_set)
     today = False
     if convert_date_format(datetime.utcnow()) == date:
@@ -205,51 +203,6 @@ def complete():
             task[0].done = True
             db.session.commit()
     return redirect(url_for("main.index", date_set="ph"))
-
-
-@bp.route("/subscribe/", methods=["GET", "POST"])
-def subscribe():
-    """Gets and stores a user notification subscription in the db."""
-    subscription = request.json.get("sub_token")
-    User.query.all()[0].subscription = json.dumps(subscription)
-    db.session.commit()
-    return redirect(url_for("sn.edit_profile"))
-
-
-@bp.route("/subscription/", methods=["GET", "POST"])
-def subscription():
-    """
-    returns vapid public key which clients uses
-    to send around push notification.
-    """
-
-    if request.method == "GET":
-        return Response(
-            response=json.dumps({"public_key": current_app.config["VAPID_PUBLIC_KEY"]}),
-            headers={"Access-Control-Allow-Origin": "*"},
-            content_type="application/json",
-        )
-    return Response(status=201, mimetype="application/json")
-
-
-@bp.route("/unsubscribe", methods=["GET", "POST"])
-def unsubscribe():
-    """turns off user notifications."""
-    current_user.subscribed = False
-    current_user.subscription = None
-    db.session.commit()
-    return redirect(url_for("main.index", date_set="ph"))
-
-
-@bp.route("/sub", methods=["GET", "POST"])
-def flask_subscribe():
-    """Sets user notifications to off in the database."""
-    if not current_user.subscribed:
-        current_user.subscribed = True
-    else:
-        current_user.subscribed = False
-    db.session.commit()
-    return redirect(url_for("sn.edit_profile"))
 
 
 def set_date(date_set):
