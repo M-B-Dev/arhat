@@ -10,6 +10,7 @@ from PIL import Image
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from app import db, login
+from app.email import send_email
 
 followers = db.Table(
     "followers",
@@ -275,7 +276,7 @@ class User(UserMixin, db.Model):
                 self.done_tasks / self.daily_tasks.count() + self.freq_daily_tasks
             ) * 100
             self.divide_days += 1
-            self.period_precentage += daily_percentage
+            self.period_precentage += self.daily_percentage
         elif self.freq_daily_tasks > 0:
             self.divide_days += 1
 
@@ -286,7 +287,7 @@ class User(UserMixin, db.Model):
         were set during the depression check date range.
 
         """
-        if divide_days > 0:
+        if self.divide_days > 0:
             self.period_precentage /= self.divide_days
         else:
             self.period_precentage = 100
@@ -298,7 +299,7 @@ class User(UserMixin, db.Model):
         are sent to all users that the current user follows. 
         
         """
-        self.all_frequency_tasks = self.posts.filter(self.frequency != None).all()
+        self.all_frequency_tasks = self.posts.filter(Post.frequency != None).all()
         self.outstanding_frequency_tasks = [
             task for task in self.all_frequency_tasks if task.done is False
         ]

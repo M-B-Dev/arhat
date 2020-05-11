@@ -69,6 +69,7 @@ function subscribeUser() {
 				dataType: 'json',
 				data: JSON.stringify({ 'sub_token': subscription }),
 				success: function (data) {
+					
 				},
 				error: function (jqXhr, textStatus, errorThrown) {
 				}
@@ -79,7 +80,7 @@ function subscribeUser() {
 			location.reload();
 			updateBtn();
 		})
-
+		
 		.catch(function (err) {
 			updateBtn();
 		});

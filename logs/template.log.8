@@ -1,5 +1,5 @@
-2020-05-01 14:37:49,864 ERROR: 
-            Exception on /contacts [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-06 22:12:44,053 ERROR: 
+            Exception on /edit_profile [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -17,15 +17,13 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/sn/routes.py", line 130, in contacts
-    if people.has_next else None
-AttributeError: 'list' object has no attribute 'has_next'
-2020-05-01 14:40:32,647 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-05-01 14:40:40,892 ERROR: 
-            Exception on /contacts [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+  File "/home/lean/Arhat/app/sn/routes.py", line 54, in edit_profile
+    current_user.save_picture(form.picture.data)
+  File "/home/lean/Arhat/app/models.py", line 189, in save_picture
+    random_hex = secrets.token_hex(8)
+NameError: name 'secrets' is not defined
+2020-05-06 22:13:20,077 ERROR: 
+            Exception on /edit_profile [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -43,15 +41,33 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/sn/routes.py", line 138, in contacts
-    people=people.items,
-AttributeError: 'list' object has no attribute 'items'
-2020-05-01 14:41:09,488 INFO: 
+  File "/home/lean/Arhat/app/sn/routes.py", line 54, in edit_profile
+    current_user.save_picture(form.picture.data)
+  File "/home/lean/Arhat/app/models.py", line 187, in save_picture
+    if current_user.image_file and current_user.image_file != "default.jpg":
+FileNotFoundError: [Errno 2] No such file or directory: '/home/lean/Arhat/app//static/profile_pics//51351719df4fc086.jpg'
+2020-05-06 22:14:28,715 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-05-01 14:41:11,255 ERROR: 
-            Exception on /contacts [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-06 22:16:16,137 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-06 22:38:31,571 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-06 23:00:18,141 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-06 23:07:37,816 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-06 23:10:04,227 ERROR: 
+            Exception on /new_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -69,15 +85,15 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/sn/routes.py", line 132, in contacts
-    if people.has_next:
-AttributeError: 'list' object has no attribute 'has_next'
-2020-05-01 14:41:27,578 INFO: 
+  File "/home/lean/Arhat/app/main/routes.py", line 135, in new_task
+    'id' : ident,
+UnboundLocalError: local variable 'ident' referenced before assignment
+2020-05-06 23:10:49,271 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-05-01 14:41:29,292 ERROR: 
-            Exception on /contacts [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-06 23:11:13,741 ERROR: 
+            Exception on /update_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -95,39 +111,53 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/sn/routes.py", line 139, in contacts
-    people=people.items,
-AttributeError: 'list' object has no attribute 'items'
-2020-05-01 14:41:46,632 INFO: 
+  File "/home/lean/Arhat/app/main/routes.py", line 281, in update_task
+    task.end_time = int(height) + int(top)
+ValueError: invalid literal for int() with base 10: ''
+2020-05-06 23:11:33,178 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-05-01 14:54:09,390 INFO: 
+2020-05-07 20:34:14,399 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-05-02 10:57:49,987 INFO: 
+2020-05-07 20:36:18,717 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-05-02 11:37:25,849 INFO: 
+2020-05-07 20:36:22,436 ERROR: 
+            Exception on /subscription/ [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
+            
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1953, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1968, in finalize_request
+    response = self.make_response(rv)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2098, in make_response
+    "The view function did not return a valid response. The"
+TypeError: The view function did not return a valid response. The function either returned None or ended without a return statement.
+2020-05-07 20:38:02,040 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-05-02 13:58:19,744 INFO: 
+2020-05-07 20:38:20,846 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-05-02 14:08:44,511 INFO: 
+2020-05-07 20:54:13,549 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-05-03 13:48:55,669 INFO: 
+2020-05-07 20:55:01,561 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-05-03 14:02:22,457 ERROR: 
-            Exception on /auth/register [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-07 20:55:10,341 ERROR: 
+            Exception on /new_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -143,16 +173,14 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/app/auth/routes.py", line 65, in register
-    return redirect(url_for('main.index'))
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/helpers.py", line 370, in url_for
-    return appctx.app.handle_url_build_error(error, endpoint, values)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2216, in handle_url_build_error
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/helpers.py", line 358, in url_for
-    endpoint, values, method=method, force_external=external
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/werkzeug/routing.py", line 2179, in build
-    raise BuildError(endpoint, values, method, self)
-werkzeug.routing.BuildError: Could not build url for endpoint 'main.index'. Did you forget to specify values ['date_set']?
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/home/lean/Arhat/app/main/routes.py", line 145, in new_task
+    ident = add_single_task(form, frequency, minutes, end)
+  File "/home/lean/Arhat/app/main/routes.py", line 78, in add_single_task
+    body=form.task.data,
+AttributeError: 'int' object has no attribute 'task'
+2020-05-07 20:56:45,966 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            

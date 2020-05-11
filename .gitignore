@@ -7,3 +7,6 @@
 /.vscode/*
 /__pycache__/*
 *.pre-commit-config.yaml
+private_key.txt
+public_key.txt
+vapid_private.pem
