@@ -492,6 +492,15 @@ class Post(db.Model):
         }
         return data
 
+    def from_dict(self, data):
+        if 'date' in data:
+            data['date'] = datetime.strptime(data['date'], "%d-%m-%Y")
+            data['user_id'] = int(data['user_id'])
+            data['hour'] = 1
+        for field in ['body', 'done', 'start_time', 'end_time', 'color', 'user_id', 'date', 'hour']:
+            if field in data:
+                setattr(self, field, data[field])
+
     def __repr__(self):
         """returns a representation of the Post object."""
         return "<Post {}>".format(self.body)
