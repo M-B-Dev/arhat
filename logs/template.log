@@ -1,44 +1,80 @@
-2020-05-11 21:41:49,494 ERROR: 
-            Exception on /api/users/1/followed [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-13 21:12:11,432 ERROR: 
+            Exception on /api/users/tasks/491 [PUT] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1953, in full_dispatch_request
-    return self.finalize_request(rv)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1968, in finalize_request
-    response = self.make_response(rv)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2098, in make_response
-    "The view function did not return a valid response. The"
-TypeError: The view function did not return a valid response. The function either returned None or ended without a return statement.
-2020-05-11 21:42:22,454 ERROR: 
-            Exception on /api/users/1/followed [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
+    return f(*args, **kwargs)
+  File "/home/lean/Arhat/app/api/users.py", line 86, in update_task
+    if check_start_and_end(data) is True:
+  File "/home/lean/Arhat/app/api/users.py", line 110, in check_start_and_end
+    elif 'start_time' in data and int(data['start_time']) > task.end_time:
+NameError: name 'task' is not defined
+2020-05-13 21:14:09,472 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-13 21:23:48,013 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-13 21:31:13,285 ERROR: 
+            Exception on /api/users/tasks/2/13-05-2020 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1953, in full_dispatch_request
-    return self.finalize_request(rv)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1968, in finalize_request
-    response = self.make_response(rv)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2098, in make_response
-    "The view function did not return a valid response. The"
-TypeError: The view function did not return a valid response. The function either returned None or ended without a return statement.
-2020-05-11 21:42:32,400 INFO: 
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/app/api/users.py", line 100, in create_task
+    data['user_id'] = id
+  File "/home/lean/Arhat/app/models.py", line 498, in from_dict
+    data['user_id'] = int(data['user_id'])
+KeyError: 'user_id'
+2020-05-13 21:32:08,879 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-05-11 22:00:00,628 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
+2020-05-13 21:32:11,732 ERROR: 
+            Exception on /api/users/tasks/2/13-05-2020 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
             
-2020-05-11 22:00:08,946 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-11 22:03:15,339 INFO: 
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+TypeError: create_task() got an unexpected keyword argument 'ident'
+2020-05-13 21:32:42,731 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             

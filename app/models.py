@@ -29,24 +29,29 @@ penders = db.Table(
 class PaginatedAPIMixin(object):
     @staticmethod
     def to_collection_dict(query, page, per_page, endpoint, **kwargs):
-        resources = query.paginate(page, per_page, False)
-        data = {
-            'items': [item.to_dict() for item in resources.items],
-            '_meta': {
-                'page': page,
-                'per_page': per_page,
-                'total_pages': resources.pages,
-                'total_items': resources.total
-            },
-            '_links': {
-                'self': url_for(endpoint, page=page, per_page=per_page,
-                                **kwargs),
-                'next': url_for(endpoint, page=page + 1, per_page=per_page,
-                                **kwargs) if resources.has_next else None,
-                'prev': url_for(endpoint, page=page - 1, per_page=per_page,
-                                **kwargs) if resources.has_prev else None
+        if page is not None:
+            resources = query.paginate(page, per_page, False)
+            data = {
+                    'items': [item.to_dict() for item in resources.items],
+                    '_meta': {
+                        'page': page,
+                        'per_page': per_page,
+                        'total_pages': resources.pages,
+                        'total_items': resources.total
+                    },
+                    '_links': {
+                        'self': url_for(endpoint, page=page, per_page=per_page,
+                                        **kwargs),
+                        'next': url_for(endpoint, page=page + 1, per_page=per_page,
+                                        **kwargs) if resources.has_next else None,
+                        'prev': url_for(endpoint, page=page - 1, per_page=per_page,
+                                        **kwargs) if resources.has_prev else None
+                    }
+                }      
+        else:
+            data = {
+                'items': [item.to_dict() for item in query]
             }
-        }
         return data
 
 
@@ -427,6 +432,22 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
             return None
         return user
 
+    def get_daily_tasks(self, date):
+        all_frequency_tasks = self.posts.filter(Post.frequency != None).all()
+        todos = self.posts.filter_by(date=datetime.strptime(date, "%d-%m-%Y"))
+        exclusions = [todo.exclude for todo in todos if todo.exclude]
+        all_tasks = [
+            task
+            for task in all_frequency_tasks
+            if task.frequency > 0
+            and (date - task.date).days > 0
+            and ((date - task.date).days % task.frequency) == 0
+            and task.date < date
+            and task.id not in exclusions
+            and task not in todos
+        ]
+        [all_tasks.append(task) for task in todos if task.done is False]
+        return all_tasks
 
 
 @login.user_loader
@@ -460,6 +481,25 @@ class Post(db.Model):
     color = db.Column(db.String(14), nullable=True, default="6c757d")
     exclude = db.Column(db.Integer, nullable=True)
     to_date = db.Column(db.DateTime, nullable=True)
+
+    def to_dict(self):
+        data = {
+            'id': self.id,
+            'body': self.body,
+            'start_time': self.start_time,
+            'end_time': self.end_time,
+            'color': self.color
+        }
+        return data
+
+    def from_dict(self, data):
+        if 'date' in data:
+            data['date'] = datetime.strptime(data['date'], "%d-%m-%Y")
+            data['user_id'] = int(data['user_id'])
+            data['hour'] = 1
+        for field in ['body', 'done', 'start_time', 'end_time', 'color', 'user_id', 'date', 'hour']:
+            if field in data:
+                setattr(self, field, data[field])
 
     def __repr__(self):
         """returns a representation of the Post object."""

@@ -1,72 +1,4 @@
-2020-05-06 22:12:44,053 ERROR: 
-            Exception on /edit_profile [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
-    return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/sn/routes.py", line 54, in edit_profile
-    current_user.save_picture(form.picture.data)
-  File "/home/lean/Arhat/app/models.py", line 189, in save_picture
-    random_hex = secrets.token_hex(8)
-NameError: name 'secrets' is not defined
-2020-05-06 22:13:20,077 ERROR: 
-            Exception on /edit_profile [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
-    return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/sn/routes.py", line 54, in edit_profile
-    current_user.save_picture(form.picture.data)
-  File "/home/lean/Arhat/app/models.py", line 187, in save_picture
-    if current_user.image_file and current_user.image_file != "default.jpg":
-FileNotFoundError: [Errno 2] No such file or directory: '/home/lean/Arhat/app//static/profile_pics//51351719df4fc086.jpg'
-2020-05-06 22:14:28,715 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-05-06 22:16:16,137 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-05-06 22:38:31,571 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-05-06 23:00:18,141 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-05-06 23:07:37,816 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-05-06 23:10:04,227 ERROR: 
+2020-05-07 20:56:48,970 ERROR: 
             Exception on /new_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
@@ -85,14 +17,68 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 135, in new_task
-    'id' : ident,
-UnboundLocalError: local variable 'ident' referenced before assignment
-2020-05-06 23:10:49,271 INFO: 
+  File "/home/lean/Arhat/app/main/routes.py", line 146, in new_task
+    ident = add_single_task(form, frequency, minutes, end)
+  File "/home/lean/Arhat/app/main/routes.py", line 78, in add_single_task
+    body=form.task.data,
+AttributeError: 'int' object has no attribute 'task'
+2020-05-07 20:58:00,718 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-05-06 23:11:13,741 ERROR: 
+2020-05-07 21:09:48,488 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-07 21:28:52,265 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-07 21:29:11,105 ERROR: 
+            Exception on /new_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
+            
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/home/lean/Arhat/app/main/routes.py", line 104, in new_task
+    task_to_be_added = add_single_task(frequency, form, end, date + timedelta(days=i))
+  File "/home/lean/Arhat/app/main/routes.py", line 77, in add_single_task
+    start_time=minutes,
+NameError: name 'minutes' is not defined
+2020-05-07 21:33:54,254 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-07 21:46:33,444 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-07 21:56:23,603 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-07 22:43:40,195 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-08 12:57:46,743 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-08 12:58:26,315 ERROR: 
             Exception on /update_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
@@ -111,52 +97,36 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 281, in update_task
+  File "/home/lean/Arhat/app/main/routes.py", line 287, in update_task
     task.end_time = int(height) + int(top)
 ValueError: invalid literal for int() with base 10: ''
-2020-05-06 23:11:33,178 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-05-07 20:34:14,399 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-05-07 20:36:18,717 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-05-07 20:36:22,436 ERROR: 
-            Exception on /subscription/ [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-08 12:58:37,085 ERROR: 
+            Exception on /update_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1953, in full_dispatch_request
-    return self.finalize_request(rv)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1968, in finalize_request
-    response = self.make_response(rv)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2098, in make_response
-    "The view function did not return a valid response. The"
-TypeError: The view function did not return a valid response. The function either returned None or ended without a return statement.
-2020-05-07 20:38:02,040 INFO: 
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/home/lean/Arhat/app/main/routes.py", line 287, in update_task
+    task.end_time = int(height) + int(top)
+ValueError: invalid literal for int() with base 10: ''
+2020-05-08 13:00:46,824 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-05-07 20:38:20,846 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-05-07 20:54:13,549 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-05-07 20:55:01,561 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-05-07 20:55:10,341 ERROR: 
+2020-05-08 13:02:36,832 ERROR: 
             Exception on /new_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
@@ -175,12 +145,30 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 145, in new_task
-    ident = add_single_task(form, frequency, minutes, end)
-  File "/home/lean/Arhat/app/main/routes.py", line 78, in add_single_task
-    body=form.task.data,
-AttributeError: 'int' object has no attribute 'task'
-2020-05-07 20:56:45,966 INFO: 
+  File "/home/lean/Arhat/app/main/routes.py", line 169, in new_task
+    "color": form.color.data,
+UnboundLocalError: local variable 'ident' referenced before assignment
+2020-05-08 13:04:12,394 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-08 13:08:21,829 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-08 13:18:29,753 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-08 14:55:45,536 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-08 14:56:05,477 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-08 14:56:43,464 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             

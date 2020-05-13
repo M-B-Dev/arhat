@@ -1,29 +1,57 @@
-2020-05-11 11:57:31,945 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            94]
+2020-05-11 21:41:49,494 ERROR: 
+            Exception on /api/users/1/followed [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
             
-2020-05-11 13:51:19,397 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            94]
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1953, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1968, in finalize_request
+    response = self.make_response(rv)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2098, in make_response
+    "The view function did not return a valid response. The"
+TypeError: The view function did not return a valid response. The function either returned None or ended without a return statement.
+2020-05-11 21:42:22,454 ERROR: 
+            Exception on /api/users/1/followed [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
             
-2020-05-11 14:54:09,460 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            98]
-            
-2020-05-11 14:54:47,928 INFO: 
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1953, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1968, in finalize_request
+    response = self.make_response(rv)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2098, in make_response
+    "The view function did not return a valid response. The"
+TypeError: The view function did not return a valid response. The function either returned None or ended without a return statement.
+2020-05-11 21:42:32,400 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-05-11 14:56:01,550 INFO: 
+2020-05-11 22:00:00,628 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-05-11 21:20:38,978 INFO: 
+2020-05-11 22:00:08,946 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-05-11 21:20:41,617 ERROR: 
-            Exception on /api/users/1 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-11 22:03:15,339 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-13 18:11:28,013 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-13 19:08:17,538 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-13 19:08:21,139 ERROR: 
+            Exception on /api/users/tasks/2/13-05-2020 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -39,17 +67,29 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/app/api/users.py", line 7, in get_user
-    return jsonify(User.query.get_or_404(id).to_dict())
-  File "/home/lean/Arhat/app/models.py", line 392, in to_dict
-    'self': url_for('api.get_user', id=self.id),
-NameError: name 'url_for' is not defined
-2020-05-11 21:21:28,567 INFO: 
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
+    return f(*args, **kwargs)
+  File "/home/lean/Arhat/app/api/users.py", line 78, in tasks
+    data = User.to_collection_dict(user.daily_tasks(date), None, None, None)
+AttributeError: 'User' object has no attribute 'daily_tasks'
+2020-05-13 19:08:56,177 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-05-11 21:21:31,489 ERROR: 
-            Exception on /api/users/1 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-13 19:10:11,788 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-13 19:17:17,549 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-13 20:55:49,063 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-13 20:58:25,096 ERROR: 
+            Exception on /api/users/tasks/491 [PUT] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -65,100 +105,68 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/app/api/users.py", line 7, in get_user
-    return jsonify(User.query.get_or_404(id).to_dict())
-  File "/home/lean/Arhat/app/models.py", line 395, in to_dict
-    'avatar': self.avatar(128)
-AttributeError: 'User' object has no attribute 'avatar'
-2020-05-11 21:22:02,844 INFO: 
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
+    return f(*args, **kwargs)
+  File "/home/lean/Arhat/app/api/users.py", line 84, in update_task
+    task = Post.query.get_or_404(id)
+NameError: name 'Post' is not defined
+2020-05-13 20:58:38,287 ERROR: 
+            Exception on /api/users/tasks/491 [PUT] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
+            
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
+    return f(*args, **kwargs)
+  File "/home/lean/Arhat/app/api/users.py", line 84, in update_task
+    task = Post.query.get_or_404(id)
+NameError: name 'Post' is not defined
+2020-05-13 20:59:19,226 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-05-11 21:27:52,671 INFO: 
+2020-05-13 21:03:47,139 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-05-11 21:29:17,341 ERROR: 
-            Exception on /api/users/1/followers [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-13 21:04:01,926 ERROR: 
+            Exception on /api/users/tasks/491 [PUT] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1953, in full_dispatch_request
-    return self.finalize_request(rv)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1968, in finalize_request
-    response = self.make_response(rv)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2098, in make_response
-    "The view function did not return a valid response. The"
-TypeError: The view function did not return a valid response. The function either returned None or ended without a return statement.
-2020-05-11 21:29:58,086 ERROR: 
-            Exception on /api/users/1/followed [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
+    return f(*args, **kwargs)
+  File "/home/lean/Arhat/app/api/users.py", line 88, in update_task
+    elif 'start_time' in data and data['start_time'] > task.end_time:
+TypeError: '>' not supported between instances of 'str' and 'int'
+2020-05-13 21:05:24,645 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
             
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1953, in full_dispatch_request
-    return self.finalize_request(rv)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1968, in finalize_request
-    response = self.make_response(rv)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2098, in make_response
-    "The view function did not return a valid response. The"
-TypeError: The view function did not return a valid response. The function either returned None or ended without a return statement.
-2020-05-11 21:30:06,729 ERROR: 
-            Exception on /api/users/1/followed [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
+2020-05-13 21:12:07,407 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
             
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1953, in full_dispatch_request
-    return self.finalize_request(rv)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1968, in finalize_request
-    response = self.make_response(rv)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2098, in make_response
-    "The view function did not return a valid response. The"
-TypeError: The view function did not return a valid response. The function either returned None or ended without a return statement.
-2020-05-11 21:38:11,966 ERROR: 
-            Exception on /api/users/1/followed [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1953, in full_dispatch_request
-    return self.finalize_request(rv)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1968, in finalize_request
-    response = self.make_response(rv)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2098, in make_response
-    "The view function did not return a valid response. The"
-TypeError: The view function did not return a valid response. The function either returned None or ended without a return statement.
-2020-05-11 21:38:48,688 ERROR: 
-            Exception on /api/users/1/followed [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1953, in full_dispatch_request
-    return self.finalize_request(rv)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1968, in finalize_request
-    response = self.make_response(rv)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2098, in make_response
-    "The view function did not return a valid response. The"
-TypeError: The view function did not return a valid response. The function either returned None or ended without a return statement.
-2020-05-11 21:40:26,883 ERROR: 
-            Exception on /api/users/1/followed [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1953, in full_dispatch_request
-    return self.finalize_request(rv)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1968, in finalize_request
-    response = self.make_response(rv)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2098, in make_response
-    "The view function did not return a valid response. The"
-TypeError: The view function did not return a valid response. The function either returned None or ended without a return statement.
