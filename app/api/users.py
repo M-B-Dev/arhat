@@ -70,3 +70,12 @@ def update_user(id):
     user.from_dict(data, new_user=False)
     db.session.commit()
     return jsonify(user.to_dict())
+
+@bp.route('/users/tasks/<int:id>/<date>', methods=['GET'])
+@token_auth.login_required
+def tasks(id, date):
+    user = User.query.get_or_404(id)
+    for task in user.get_daily_tasks(date):
+        print(task)
+    data = User.to_collection_dict(user.get_daily_tasks(date), None, None, None)
+    return jsonify(data)

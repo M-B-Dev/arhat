@@ -42,3 +42,45 @@ TypeError: The view function did not return a valid response. The function eithe
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
+2020-05-13 18:11:28,013 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-13 19:08:17,538 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-13 19:08:21,139 ERROR: 
+            Exception on /api/users/tasks/2/13-05-2020 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
+            
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
+    return f(*args, **kwargs)
+  File "/home/lean/Arhat/app/api/users.py", line 78, in tasks
+    data = User.to_collection_dict(user.daily_tasks(date), None, None, None)
+AttributeError: 'User' object has no attribute 'daily_tasks'
+2020-05-13 19:08:56,177 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-13 19:10:11,788 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-13 19:17:17,549 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
