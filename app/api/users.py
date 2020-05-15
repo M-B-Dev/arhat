@@ -103,9 +103,9 @@ def create_task(ident, date):
         return bad_request('You must include a start and an end time.')
     db.session.add(task)
     db.session.commit()
-    response = jsonify(task.to_dict())
-    response.status_code = 201
-    return response
+    user = User.query.get_or_404(ident)
+    data = User.to_collection_dict(user.get_daily_tasks(date), None, None, None)
+    return data
 
 def check_start_and_end(data, task=None):
     if 'start_time' in data and 'end_time' in data and int(data['start_time']) > int(data['end_time']):
