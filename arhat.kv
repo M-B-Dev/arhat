@@ -8,6 +8,9 @@ WindowManager:
         name: 'second'
         manager: window_manager
         label_text: main.data
+        task_text: main.tasks
+        token: main.token
+        ident: main.ident
 
 
 <MainWindow>
@@ -43,14 +46,49 @@ WindowManager:
 
 <SecondWindow>
     name: "second"
+    task_description: task_description
+    start_time: start_time
+    end_time: end_time
+
 
     GridLayout:
         cols: 1
-        
+        size: root.width, root.height
+
+
         Label:
-            text: root.label_text
+            text: "Welcome back " + root.label_text
+            text: "Enter a new task below"
+        GridLayout:
+            cols: 2
+
+            Label:
+                text: "Task: "
+            TextInput:
+                id: task_description
+                multiline: False
+            
+            Label:
+                text: "Start time: "
+            TextInput:
+                id: start_time
+                multiline: False
+
+            Label:
+                text: "End Time: "
+            TextInput:
+                id: end_time
+                multiline: False
+        
+
         Button:
-            text: "Go Back"
+            text: "Submit"
+            on_release:
+                root.pressed()
+
+        Button:
+            text: "Logout"
             on_release:
                 app.root.current = 'main'
                 root.manager.transition.direction = "right"
+                
