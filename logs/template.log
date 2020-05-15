@@ -78,3 +78,15 @@ TypeError: create_task() got an unexpected keyword argument 'ident'
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
+2020-05-14 16:19:34,998 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-14 16:43:11,740 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-14 23:46:34,357 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
