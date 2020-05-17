@@ -7,12 +7,18 @@ from kivy.properties import ObjectProperty, StringProperty
 import requests 
 from requests.auth import HTTPBasicAuth
 import json
-from kivymd.uix.list import OneLineIconListItem
+from kivymd.theming import ThemableBehavior
+from kivymd.uix.list import OneLineIconListItem, MDList
+
+class ContentNavigationDrawer(BoxLayout):
+    window_manager = ObjectProperty()
+    nav_drawer = ObjectProperty()
 
 class Login(Screen):
     username = ObjectProperty(None)
     password = ObjectProperty(None)
     token = ObjectProperty(None)
+    hide = ObjectProperty(None)
 
     def login_user(self):
         if self.username.text and self.password.text:
@@ -36,11 +42,57 @@ class Register(Screen):
 class Tasks(Screen):
     pass
 
-class WindowManager(ScreenManager):
-    pass
+class LoginButton(OneLineIconListItem):
+    hide = ObjectProperty(None)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        if not self.hide:
+            self.text = "Login"
+            self.icon = "account-circle"
 
-class ItemDrawer(OneLineIconListItem):
-    icon = StringProperty()
+
+class RegisterButton(OneLineIconListItem):
+    hide = ObjectProperty(None)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.text = "Register"
+        self.icon = "account-plus"
+
+class EditProfileButton(OneLineIconListItem):
+    hide = ObjectProperty(None)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.text = "Edit Profile"
+        self.icon = "account-circle-outline"
+
+class ContactsButton(OneLineIconListItem):
+    hide = ObjectProperty(None)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.text = "Contacts"
+        self.icon = "account-multiple"
+
+class TasksButton(OneLineIconListItem):
+    hide = ObjectProperty(None)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.text = "Tasks"
+        self.icon = "calendar-multiple-check"
+
+class MessagesButton(OneLineIconListItem):
+    hide = ObjectProperty(None)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.text = "Messages"
+        self.icon = "message-text-outline"
+
+class LogoutButton(OneLineIconListItem):
+    hide = ObjectProperty(None)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.text = "Logout"
+        self.icon = "logout"
+
 
 class MainApp(MDApp):
     def __init__(self, **kwargs):
@@ -50,8 +102,6 @@ class MainApp(MDApp):
 
     def build(self):
         return Builder.load_file("arhat.kv")
-
-
 
 if __name__ == "__main__":
     MainApp().run()

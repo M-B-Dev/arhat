@@ -136,3 +136,11 @@ ValueError: invalid literal for int() with base 10: ''
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
+2020-05-17 10:28:48,804 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-17 21:44:52,823 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            

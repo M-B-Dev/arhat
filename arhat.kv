@@ -1,160 +1,231 @@
-NavigationLayout:
-    WindowManager:
-        id: window_manager
-        Login:
-            id: Login
-            name: 'Login'
-            username: username
-            password: password
+<ContentNavigationDrawer>:
+    orientation: "vertical"
+    padding: "8dp"
+    spacing: "8dp"
 
-            BoxLayout:
-                orientation: "vertical"
+    AnchorLayout:
+        anchor_x: "left"
+        size_hint_y: None
+        height: avatar.height
 
-                MDToolbar:
-                    id: toolbar
-                    title: app.title
-                    md_bg_color: app.theme_cls.primary_color
-                    background_palette: "Primary"
-                    elevation: 10
-                    left_action_items: [['menu', lambda x: nav_drawer.toggle_nav_drawer()]]
+        Image:
+            id: avatar
+            size_hint: None, None
+            size: "56dp", "56dp"
+            source: "app/static/images/logo.png"
 
-                BoxLayout:
-                    orientation: "vertical"
-                    size_hint_y: None
-                    height: self.minimum_height
-                    padding: dp(48)
-                    spacing: 10
+    MDLabel:
+        text: "Arhat"
+        font_style: "Button"
+        size_hint_y: None
+        height: self.texture_size[1]
 
-                    MDTextField:
-                        id: username
-                        hint_text: "Username"
-                        required: True
-                        mode: "rectangle"
-                        pos_hint: {"center_x": 0.5, "center_y": 0.7}
+    ScrollView:
 
-                    MDTextField:
-                        id: password
-                        hint_text: "Password"
-                        required: True
-                        mode: "rectangle"
-                        password: True
-                        pos_hint: {"center_x": 0.5, "center_y": 0.4}
-
-                    MDRaisedButton:
-                        text: "Login"
-                        pos_hint: {"center_x": 0.5, "center_y": 0.1}
-                        on_release: 
-                            window_manager.current = 'Tasks' if Login.login_user() else 'Login'
-
-                Widget:
-
-        Tasks:
-            id: Tasks
-            name: 'Tasks'
-
-            BoxLayout:
-                orientation: "vertical"
-
-                MDToolbar:
-                    id: toolbar
-                    title: app.title
-                    md_bg_color: app.theme_cls.primary_color
-                    background_palette: "Primary"
-                    elevation: 10
-                    left_action_items: [['menu', lambda x: nav_drawer.toggle_nav_drawer()]]
-
-                BoxLayout:
-                    orientation: "vertical"
-                    size_hint_y: None
-                    height: self.minimum_height
-                    padding: dp(48)
-                    spacing: 10
-
-                    MDRaisedButton:
-                        text: "Logout"
-                        pos_hint: {"center_x": 0.5, "center_y": 0.4}
-                        on_release: 
-                            window_manager.current = 'Login'
-                            window_manager.transition.direction = "right"     
-                Widget:
+        MDList:
             
-        Register:
-            id: Register
-            name: 'Register'
-            rusername: rusername
-            email: email
-            password1: password1
-            password2: password2
+            LoginButton:
+                id: LoginButton
+                on_release:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = "Login"
+                IconLeftWidget:
+                    id: icon
+                    icon: LoginButton.icon
 
-            BoxLayout:
-                orientation: "vertical"
+            RegisterButton:
+                id: RegisterButton
+                on_release:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = "Register"
+                IconLeftWidget:
+                    id: icon
+                    icon: RegisterButton.icon
 
-                MDToolbar:
-                    id: toolbar
-                    title: app.title
-                    md_bg_color: app.theme_cls.primary_color
-                    background_palette: "Primary"
-                    elevation: 10
-                    left_action_items: [['menu', lambda x: nav_drawer.toggle_nav_drawer()]]
+            EditProfileButton:
+                id: EditProfileButton
+                on_release:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = "Register"
+                IconLeftWidget:
+                    id: icon
+                    icon: EditProfileButton.icon
 
-                BoxLayout:
-                    orientation: "vertical"
-                    size_hint_y: None
-                    height: self.minimum_height
-                    padding: dp(48)
-                    spacing: 10
+            ContactsButton:
+                id: ContactsButton
+                on_release:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = "Register"
+                IconLeftWidget:
+                    id: icon
+                    icon: ContactsButton.icon
+            
+            TasksButton:
+                id: TasksButton
+                on_release:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = "Tasks"
+                IconLeftWidget:
+                    id: icon
+                    icon: TasksButton.icon
 
-                    MDTextField:
-                        id: rusername
-                        hint_text: "Username"
-                        required: True
-                        mode: "rectangle"
-                        pos_hint: {"center_x": 0.5, "center_y": 0.9}
+            MessagesButton:
+                id: MessagesButton
+                on_release:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = "Register"
+                IconLeftWidget:
+                    id: icon
+                    icon: MessagesButton.icon
 
-                    MDTextField:
-                        id: email
-                        hint_text: "Email"
-                        required: True
-                        mode: "rectangle"
-                        pos_hint: {"center_x": 0.5, "center_y": 0.85}
+            LogoutButton:
+                pos_hint: {'y': 0}
+                id: LogoutButton
+                on_release:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = "Login"
+                IconLeftWidget:
+                    id: icon
+                    icon: LogoutButton.icon
+            
 
-                    MDTextField:
-                        id: password1
-                        hint_text: "Enter your password"
-                        required: True
-                        mode: "rectangle"
-                        password: True
-                        pos_hint: {"center_x": 0.5, "center_y": 0.7}
-
-                    MDTextField:
-                        id: password2
-                        hint_text: "Re-enter your password"
-                        required: True
-                        mode: "rectangle"
-                        password: True
-                        pos_hint: {"center_x": 0.5, "center_y": 0.55}
-
-                    MDRaisedButton:
-                        text: "Register"
-                        pos_hint: {"center_x": 0.5, "center_y": 0.4}
-                        on_release: 
-                            window_manager.current = 'Login'
-                            window_manager.transition.direction = "right"
-                Widget:
-
-    MDNavigationDrawer:
-        id: nav_drawer
-        ItemDrawer:
-            theme_text_color: "Custom"
-            on_release: self.parent.set_color_item(self) 
-        IconLeftWidget:
-            id: icon
-
-            theme_text_color: "Custom"
-         
+Screen:
+    BoxLayout:
+        orientation: "vertical"
+        pos_hint: {"center_x": .5, "center_y": .5}
 
 
+        MDToolbar:
+            id: toolbar
+            title: app.title
+            md_bg_color: app.theme_cls.primary_color
+            background_palette: "Primary"
+            elevation: 10
+            left_action_items: [['menu', lambda x: nav_drawer.set_state('open')]]
+
+        NavigationLayout:
+            x: toolbar.height
+
+            ScreenManager:
+                id: screen_manager
+                
+                Login:
+                    id: Login
+                    name: 'Login'
+                    username: username
+                    password: password
+
+                    BoxLayout:
+                        orientation: "vertical"
 
 
-<Login>:
-    
+                        BoxLayout:
+                            orientation: "vertical"
+                            size_hint_y: None
+                            height: self.minimum_height
+                            padding: dp(48)
+                            spacing: 10
+                            MDTextField:
+                                id: username
+                                hint_text: "Username"
+                                required: True
+                                mode: "rectangle"
+                                pos_hint: {"center_x": 0.5, "center_y": 0.8}
+
+                            MDTextField:
+                                id: password
+                                hint_text: "Password"
+                                required: True
+                                mode: "rectangle"
+                                password: True
+                                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+
+                            MDRaisedButton:
+                                text: "Login"
+                                pos_hint: {"center_x": 0.5, "center_y": 0}
+                                on_release: 
+                                    screen_manager.current = 'Tasks' if Login.login_user() else 'Login'
+                        Widget:
+
+
+
+                Tasks:
+                    id: Tasks
+                    name: 'Tasks'
+                    BoxLayout:
+                        orientation: "vertical"
+                        BoxLayout:
+                            orientation: "vertical"
+                            size_hint_y: None
+                            height: self.minimum_height
+                            padding: dp(48)
+                            spacing: 10
+
+                            MDRaisedButton:
+                                text: "Logout"
+                                pos_hint: {"center_x": 0.5, "center_y": 0.4}
+                                on_release: 
+                                    screen_manager.current = 'Login'
+                                    screen_manager.transition.direction = "right"     
+                
+                Register:
+                    id: Register
+                    name: 'Register'
+                    rusername: rusername
+                    email: email
+                    password1: password1
+                    password2: password2
+
+                    BoxLayout:
+                        orientation: "vertical"
+
+                        BoxLayout:
+                            orientation: "vertical"
+                            size_hint_y: None
+                            height: self.minimum_height
+                            padding: dp(48)
+                            spacing: 10
+                            MDTextField:
+                                id: rusername
+                                hint_text: "Username"
+                                required: True
+                                mode: "rectangle"
+                                pos_hint: {"center_x": 0.5, "center_y": 0.9}
+
+                            MDTextField:
+                                id: email
+                                hint_text: "Email"
+                                required: True
+                                mode: "rectangle"
+                                pos_hint: {"center_x": 0.5, "center_y": 0.85}
+
+                            MDTextField:
+                                id: password1
+                                hint_text: "Enter your password"
+                                required: True
+                                mode: "rectangle"
+                                password: True
+                                pos_hint: {"center_x": 0.5, "center_y": 0.7}
+
+                            MDTextField:
+                                id: password2
+                                hint_text: "Re-enter your password"
+                                required: True
+                                mode: "rectangle"
+                                password: True
+                                pos_hint: {"center_x": 0.5, "center_y": 0.55}
+
+                            MDRaisedButton:
+                                text: "Register"
+                                pos_hint: {"center_x": 0.5, "center_y": 0.4}
+                                on_release: 
+                                    screen_manager.current = 'Login'
+                                    screen_manager.transition.direction = "right"
+                        Widget:
+
+            MDNavigationDrawer:
+                id: nav_drawer
+
+                ContentNavigationDrawer:
+                    screen_manager: screen_manager
+                    nav_drawer: nav_drawer
