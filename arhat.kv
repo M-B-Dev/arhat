@@ -1,94 +1,160 @@
-WindowManager:
-    id: window_manager
-    MainWindow:
-        id: main
-        name: 'main'
-        manager: window_manager
-    SecondWindow:
-        name: 'second'
-        manager: window_manager
-        label_text: main.data
-        task_text: main.tasks
-        token: main.token
-        ident: main.ident
+NavigationLayout:
+    WindowManager:
+        id: window_manager
+        Login:
+            id: Login
+            name: 'Login'
+            username: username
+            password: password
+
+            BoxLayout:
+                orientation: "vertical"
+
+                MDToolbar:
+                    id: toolbar
+                    title: app.title
+                    md_bg_color: app.theme_cls.primary_color
+                    background_palette: "Primary"
+                    elevation: 10
+                    left_action_items: [['menu', lambda x: nav_drawer.toggle_nav_drawer()]]
+
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: dp(48)
+                    spacing: 10
+
+                    MDTextField:
+                        id: username
+                        hint_text: "Username"
+                        required: True
+                        mode: "rectangle"
+                        pos_hint: {"center_x": 0.5, "center_y": 0.7}
+
+                    MDTextField:
+                        id: password
+                        hint_text: "Password"
+                        required: True
+                        mode: "rectangle"
+                        password: True
+                        pos_hint: {"center_x": 0.5, "center_y": 0.4}
+
+                    MDRaisedButton:
+                        text: "Login"
+                        pos_hint: {"center_x": 0.5, "center_y": 0.1}
+                        on_release: 
+                            window_manager.current = 'Tasks' if Login.login_user() else 'Login'
+
+                Widget:
+
+        Tasks:
+            id: Tasks
+            name: 'Tasks'
+
+            BoxLayout:
+                orientation: "vertical"
+
+                MDToolbar:
+                    id: toolbar
+                    title: app.title
+                    md_bg_color: app.theme_cls.primary_color
+                    background_palette: "Primary"
+                    elevation: 10
+                    left_action_items: [['menu', lambda x: nav_drawer.toggle_nav_drawer()]]
+
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: dp(48)
+                    spacing: 10
+
+                    MDRaisedButton:
+                        text: "Logout"
+                        pos_hint: {"center_x": 0.5, "center_y": 0.4}
+                        on_release: 
+                            window_manager.current = 'Login'
+                            window_manager.transition.direction = "right"     
+                Widget:
+            
+        Register:
+            id: Register
+            name: 'Register'
+            rusername: rusername
+            email: email
+            password1: password1
+            password2: password2
+
+            BoxLayout:
+                orientation: "vertical"
+
+                MDToolbar:
+                    id: toolbar
+                    title: app.title
+                    md_bg_color: app.theme_cls.primary_color
+                    background_palette: "Primary"
+                    elevation: 10
+                    left_action_items: [['menu', lambda x: nav_drawer.toggle_nav_drawer()]]
+
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: dp(48)
+                    spacing: 10
+
+                    MDTextField:
+                        id: rusername
+                        hint_text: "Username"
+                        required: True
+                        mode: "rectangle"
+                        pos_hint: {"center_x": 0.5, "center_y": 0.9}
+
+                    MDTextField:
+                        id: email
+                        hint_text: "Email"
+                        required: True
+                        mode: "rectangle"
+                        pos_hint: {"center_x": 0.5, "center_y": 0.85}
+
+                    MDTextField:
+                        id: password1
+                        hint_text: "Enter your password"
+                        required: True
+                        mode: "rectangle"
+                        password: True
+                        pos_hint: {"center_x": 0.5, "center_y": 0.7}
+
+                    MDTextField:
+                        id: password2
+                        hint_text: "Re-enter your password"
+                        required: True
+                        mode: "rectangle"
+                        password: True
+                        pos_hint: {"center_x": 0.5, "center_y": 0.55}
+
+                    MDRaisedButton:
+                        text: "Register"
+                        pos_hint: {"center_x": 0.5, "center_y": 0.4}
+                        on_release: 
+                            window_manager.current = 'Login'
+                            window_manager.transition.direction = "right"
+                Widget:
+
+    MDNavigationDrawer:
+        id: nav_drawer
+        ItemDrawer:
+            theme_text_color: "Custom"
+            on_release: self.parent.set_color_item(self) 
+        IconLeftWidget:
+            id: icon
+
+            theme_text_color: "Custom"
+         
 
 
-<MainWindow>
-    name: "main"
-    username: username
-    password: password
+
+
+<Login>:
     
-    GridLayout:
-        cols: 1
-        size: root.width, root.height
-
-        GridLayout:
-            cols: 2
-
-            Label:
-                text: "Username: "
-            TextInput:
-                id: username
-                multiline: False
-            
-            Label:
-                text: "Password: "
-            TextInput:
-                id: password
-                multiline: False
-                password: True
-            
-        Button:
-            text: "Submit"
-            on_release:
-                app.root.current = "second" if root.pressed() else "main"
-                root.manager.transition.direction = "left"
-
-<SecondWindow>
-    name: "second"
-    task_description: task_description
-    start_time: start_time
-    end_time: end_time
-
-
-    GridLayout:
-        cols: 1
-        size: root.width, root.height
-
-
-        Label:
-            text: "Welcome back " + root.label_text
-            text: "Enter a new task below"
-        GridLayout:
-            cols: 2
-
-            Label:
-                text: "Task: "
-            TextInput:
-                id: task_description
-                multiline: False
-            
-            Label:
-                text: "Start time: "
-            TextInput:
-                id: start_time
-                multiline: False
-
-            Label:
-                text: "End Time: "
-            TextInput:
-                id: end_time
-                multiline: False
-        
-
-        Button:
-            text: "Submit"
-            on_release:
-                root.pressed()
-
-        Button:
-            text: "Logout"
-            on_release:
-                app.root.current = 'main'
-                root.manager.transition.direction = "right"
-                

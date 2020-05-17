@@ -1,5 +1,5 @@
 import kivy
-from kivy.app import App
+from kivymd.app import MDApp
 from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
@@ -12,10 +12,10 @@ from kivy.properties import ObjectProperty, StringProperty
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.lang import Builder
 from datetime import datetime
+from kivymd.uix.picker import MDDatePicker, MDTimePicker
 
 
-
-class MainWindow(Screen):
+class Login(Screen):
     username = ObjectProperty(None)
     password = ObjectProperty(None)
     data = StringProperty('')
@@ -36,8 +36,8 @@ class MainWindow(Screen):
                 response = requests.get(f'http://localhost:5000/api/users/{ident}', headers=hed)
                 user_tasks = requests.get(f'http://localhost:5000/api/users/tasks/{ident}/{date}', headers=hed)
                 self.data = json.loads(response.content)['username']
-                self.tasks = str(json.loads(user_tasks.content)['items'][0]['body'])
-                self.manager.current = "second"
+                # self.tasks = str(json.loads(user_tasks.content)['items'][0]['body'])
+                self.manager.current = "tasks"
             else:
                 return None
             self.username.text = ''
@@ -46,7 +46,7 @@ class MainWindow(Screen):
         else:
             return None
 
-class SecondWindow(Screen):
+class NewTask(Screen):
     token = StringProperty('')
     label_text = StringProperty('')
     task_text = StringProperty('')
@@ -54,30 +54,65 @@ class SecondWindow(Screen):
     end_time = ObjectProperty(None)
     task_description = ObjectProperty(None)
     ident = ObjectProperty(None)
+    end_date = ObjectProperty(None)
+    frequency = ObjectProperty(None)
 
     def pressed(self):
-        print(self.token)
-        hed = {'Authorization': 'Bearer ' + self.token}
-        date = datetime.strftime(datetime.today(), "%d-%m-%Y")
-        data = {
-            "body": self.task_description.text,
-            "start_time": self.start_time.text,
-            "end_time": self.end_time.text
-        }
-        response = requests.post(f'http://localhost:5000/api/users/tasks/{self.ident}/{date}', json=data, headers=hed)
-        self.start_time.text = ''
-        self.end_time.text = ''
-        self.task_description.text = ''
+        print(self.start_time.text)
+        print(self.end_time.text)
+        print(self.end_date.text)
+        print(self.frequency.text)
+        # hed = {'Authorization': 'Bearer ' + self.token}
+        # date = datetime.strftime(datetime.today(), "%d-%m-%Y")
+        # data = {
+        #     "body": self.task_description.text,
+        #     "start_time": self.start_time.text,
+        #     "end_time": self.end_time.text
+        # }
+        # response = requests.post(f'http://localhost:5000/api/users/tasks/{self.ident}/{date}', json=data, headers=hed)
+        # self.start_time.text = ''
+        # self.end_time.text = ''
+        # self.task_description.text = ''
 
+
+    def get_date(self, date):
+        '''
+        :type date: <class 'datetime.date'>
+        '''
+
+
+    def show_date_picker(self):
+        date_dialog = MDDatePicker(callback=self.get_date)
+        date_dialog.open()
+
+    def show_time_picker(self):
+        '''Open time picker dialog.'''
+
+        time_dialog = MDTimePicker()
+        time_dialog.open()
+
+
+class EditTask(Screen):
+    pass
+
+class NewTask(Screen):
+    pass
+
+class Tasks(Screen):
+    pass
+
+class EditProfile(Screen):
+    pass
 
 class WindowManager(ScreenManager):
     pass
 
-kv = Builder.load_file("arhat.kv")
 
-class Arhat(App):
+
+class Arhat(MDApp):
 
     def build(self):
+        kv = Builder.load_file("arhat.kv")
         return kv
 
 if __name__ == "__main__":
