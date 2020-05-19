@@ -69,6 +69,15 @@
                     id: icon
                     icon: TasksButton.icon
 
+            NewTaskButton:
+                id: NewTaskButton
+                on_release:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = "New Task"
+                IconLeftWidget:
+                    id: icon
+                    icon: NewTaskButton.icon
+
             MessagesButton:
                 id: MessagesButton
                 on_release:
@@ -114,7 +123,7 @@ Screen:
                     name: 'Login'
                     username: username
                     password: password
-
+                    manager: screen_manager
                     BoxLayout:
                         orientation: "vertical"
 
@@ -125,6 +134,7 @@ Screen:
                             height: self.minimum_height
                             padding: dp(48)
                             spacing: 10
+
                             MDTextField:
                                 id: username
                                 hint_text: "Username"
@@ -145,6 +155,7 @@ Screen:
                                 pos_hint: {"center_x": 0.5, "center_y": 0}
                                 on_release: 
                                     screen_manager.current = 'Tasks' if Login.login_user() else 'Login'
+                                    Tasks.load_tasks(None)
                         Widget:
 
 
@@ -152,6 +163,10 @@ Screen:
                 Tasks:
                     id: Tasks
                     name: 'Tasks'
+                    manager: screen_manager
+                    token: Login.token
+                    user_id: Login.user_id
+
                     BoxLayout:
                         orientation: "vertical"
                         BoxLayout:
@@ -161,13 +176,108 @@ Screen:
                             padding: dp(48)
                             spacing: 10
 
+
                             MDRaisedButton:
-                                text: "Logout"
+                                text: "New Task"
                                 pos_hint: {"center_x": 0.5, "center_y": 0.4}
                                 on_release: 
-                                    screen_manager.current = 'Login'
-                                    screen_manager.transition.direction = "right"     
+                                    screen_manager.current = 'New Task'
+                                    screen_manager.transition.direction = "right"
+
+                        Widget:     
                 
+                NewTask:
+                    id: NewTask
+                    name: 'New Task'
+                    manager: screen_manager
+                    token: Login.token
+                    user_id: Login.user_id
+                    task_description: task_description
+                    start_time: start_time
+                    end_time: end_time
+                    frequency: frequency
+                    start_date: start_date
+                    end_date: end_date
+
+                    BoxLayout:
+                        orientation: "vertical"
+
+                        BoxLayout:
+                            orientation: "vertical"
+                            size_hint_y: None
+                            height: self.minimum_height
+                            padding: dp(48)
+                            spacing: 10
+                            MDLabel:
+                                text: "Create a new task: "
+                                theme_text_color: "Primary"
+                                halign: "left"
+                            MDRaisedButton:
+                                text: "Enter the task date"
+                                required: True
+                                halign: "left"
+                                on_release: NewTask.show_date_picker("start")
+                            
+                            MDLabel:
+                                id: start_date
+                                theme_text_color: "Primary"
+                                halign: "left"
+
+
+
+                            MDRaisedButton:
+                                text: "When does the task start?"
+                                required: True
+                                halign: "left"
+                                on_release: NewTask.show_start_time_picker()
+
+                            MDLabel:
+                                id: start_time
+                                theme_text_color: "Primary"
+                                halign: "left"
+
+                            MDRaisedButton:
+                                text: "When does the task end?"
+                                required: True
+                                halign: "left"
+                                on_release: NewTask.show_end_time_picker()
+
+                            MDLabel:
+                                id: end_time
+                                theme_text_color: "Primary"
+                                halign: "left"
+                                
+
+
+                            MDRaisedButton:
+                                text: "If you would like this task to stop repeating on a certain date, enter it here"
+                                required: True
+                                halign: "left"
+                                on_release: NewTask.show_date_picker("end")
+                            
+                            MDLabel:
+                                id: end_date
+                                theme_text_color: "Primary"
+                                halign: "left"
+                            MDTextField:
+                                id: task_description
+                                hint_text: "Describe your task"
+                                required: True
+                                mode: "rectangle"
+                                pos_hint: {"center_x": 0.5, "center_y": 1}
+                            MDTextField:
+                                id: frequency
+                                hint_text: "If you would like this task to repeat, how often?"
+                                mode: "rectangle"
+                                pos_hint: {"center_x": 0.5, "center_y": 1}
+                            MDRaisedButton:
+                                text: "Create your task"
+                                pos_hint: {"center_x": 0.5, "center_y": 0.4}
+                                on_release:
+                                    NewTask.create_new_task() 
+
+                        Widget:     
+
                 Register:
                     id: Register
                     name: 'Register'

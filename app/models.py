@@ -433,8 +433,9 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
         return user
 
     def get_daily_tasks(self, date):
+        date = datetime.strptime(date, "%d-%m-%Y")
         all_frequency_tasks = self.posts.filter(Post.frequency != None).all()
-        todos = self.posts.filter_by(date=datetime.strptime(date, "%d-%m-%Y"))
+        todos = self.posts.filter_by(date=date)
         exclusions = [todo.exclude for todo in todos if todo.exclude]
         all_tasks = [
             task
@@ -497,7 +498,9 @@ class Post(db.Model):
             data['date'] = datetime.strptime(data['date'], "%d-%m-%Y")
             data['user_id'] = int(data['user_id'])
             data['hour'] = 1
-        for field in ['body', 'done', 'start_time', 'end_time', 'color', 'user_id', 'date', 'hour']:
+            if data['frequency']:
+                data['frequency'] = int(data['frequency'])
+        for field in ['body', 'done', 'start_time', 'end_time', 'user_id', 'date', 'hour', 'frequency', 'to_date']:
             if field in data:
                 setattr(self, field, data[field])
 
