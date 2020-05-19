@@ -62,17 +62,17 @@ class NewTask(Screen):
         print(self.end_time.text)
         print(self.end_date.text)
         print(self.frequency.text)
-        # hed = {'Authorization': 'Bearer ' + self.token}
-        # date = datetime.strftime(datetime.today(), "%d-%m-%Y")
-        # data = {
-        #     "body": self.task_description.text,
-        #     "start_time": self.start_time.text,
-        #     "end_time": self.end_time.text
-        # }
-        # response = requests.post(f'http://localhost:5000/api/users/tasks/{self.ident}/{date}', json=data, headers=hed)
-        # self.start_time.text = ''
-        # self.end_time.text = ''
-        # self.task_description.text = ''
+        hed = {'Authorization': 'Bearer ' + self.token}
+        date = datetime.strftime(datetime.today(), "%d-%m-%Y")
+        data = {
+            "body": self.task_description.text,
+            "start_time": self.start_time.text,
+            "end_time": self.end_time.text
+        }
+        response = requests.post(f'http://localhost:5000/api/users/tasks/{self.ident}/{date}', json=data, headers=hed)
+        self.start_time.text = ''
+        self.end_time.text = ''
+        self.task_description.text = ''
 
 
     def get_date(self, date):
@@ -89,7 +89,9 @@ class NewTask(Screen):
         '''Open time picker dialog.'''
 
         time_dialog = MDTimePicker()
+        time_dialog.bind(time=self.get_time_picker_date)
         time_dialog.open()
+    
 
 
 class EditTask(Screen):

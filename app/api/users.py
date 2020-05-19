@@ -4,6 +4,7 @@ from app.models import User, Post
 from app import db
 from app.api.auth import token_auth
 from app.api.errors import bad_request
+from datetime import datetime
 
 @bp.route('/users/<int:id>', methods=['GET'])
 @token_auth.login_required

@@ -1,4 +1,4 @@
-2020-05-09 16:33:07,656 ERROR: 
+2020-05-09 16:34:44,422 ERROR: 
             Exception on /edit_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
@@ -72,13 +72,13 @@ Traceback (most recent call last):
     cursor.execute(statement, parameters)
 sqlalchemy.exc.InterfaceError: (sqlite3.InterfaceError) Error binding parameter 9 - probably unsupported type.
 [SQL: INSERT INTO post (body, timestamp, hour, done, depression_score, date, user_id, start_time, end_time, frequency, color, exclude) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
-[parameters: ('test', '2020-05-09 16:33:07.656268', 2, 0, 0, '2020-05-10 00:00:00.000000', 2, 120, 180, <app.main.routes.EditTask object at 0x7fdd2819c9d0>, '25FFC5', 437)]
+[parameters: ('test', '2020-05-09 16:34:44.420594', 2, 0, 0, '2020-05-10 00:00:00.000000', 2, 120, 180, <app.main.routes.EditTask object at 0x7f4d863a2050>, '28FF2F', 437)]
 (Background on this error at: http://sqlalche.me/e/rvf5)
-2020-05-09 16:34:09,824 INFO: 
+2020-05-09 16:36:44,248 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-05-09 16:34:19,403 ERROR: 
+2020-05-09 16:36:48,058 ERROR: 
             Exception on /edit_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
@@ -99,10 +99,42 @@ Traceback (most recent call last):
     return func(*args, **kwargs)
   File "/home/lean/Arhat/app/main/routes.py", line 262, in edit_task
     edit_task.edit_single_freq_task()
-  File "/home/lean/Arhat/app/main/routes.py", line 176, in edit_single_freq_task
-    db.session.add(self.task_to_be_added())
-TypeError: 'Post' object is not callable
-2020-05-09 16:34:36,805 INFO: 
+  File "/home/lean/Arhat/app/main/routes.py", line 170, in edit_single_freq_task
+    self.task_to_be_added = self.add_single_task(self, done=self.form.done.data)
+TypeError: add_single_task() got an unexpected keyword argument 'done'
+2020-05-09 16:37:05,855 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-09 16:37:12,832 ERROR: 
+            Exception on /edit_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
+            
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/home/lean/Arhat/app/main/routes.py", line 262, in edit_task
+    edit_task.edit_single_freq_task()
+  File "/home/lean/Arhat/app/main/routes.py", line 170, in edit_single_freq_task
+    self.task_to_be_added = self.add_single_task(self)
+TypeError: add_single_task() takes 1 positional argument but 2 were given
+2020-05-09 16:37:31,496 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-09 16:40:35,879 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
