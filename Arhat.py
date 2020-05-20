@@ -12,6 +12,12 @@ from kivymd.uix.list import OneLineIconListItem, MDList
 from kivymd.uix.picker import MDDatePicker, MDTimePicker
 from datetime import datetime
 from kivymd.uix.label import MDLabel
+from kivy.graphics import Rectangle, Color
+from webcolors import hex_to_rgb
+from kivy.uix.label import Label
+from kivy.uix.button import Button
+from kivy.uix.behaviors import ButtonBehavior  
+from kivy.uix.image import Image  
 
 class ContentNavigationDrawer(BoxLayout):
     window_manager = ObjectProperty()
@@ -47,21 +53,46 @@ class Register(Screen):
 class MyLabel(MDLabel):
     pass
 
+class ImageButton(ButtonBehavior, Image):
+    pass
+
 class Tasks(Screen):
     tasks = ObjectProperty(None)
     token = ObjectProperty(None)
     user_id = ObjectProperty(None)
 
-    def load_tasks(self, date):
-        if not date:
-            date = datetime.strftime(datetime.today(), "%d-%m-%Y")
+    def load_tasks(self, date=datetime.strftime(datetime.today(), "%d-%m-%Y")):
         hed = {'Authorization': 'Bearer ' + self.token}
         user_tasks = requests.get(f'http://localhost:5000/api/users/tasks/{self.user_id}/{date}', headers=hed)
         self.tasks = json.loads(user_tasks.content)['items']
+
         for task in self.tasks:
-            self.add_widget(MyLabel(text=task['body'], halign="center", valign="top"))
+            color = hex_to_rgb("#" + task['color'])
+            self.add_widget(ImageButton(pos=((self.parent.width/2)-250, self.parent.height - (int(task['end_time']))/3), size=(500,(int(task['end_time'])-int(task['start_time']))/3), color=(color[0]/255, color[1]/255, color[2]/255, .5), source=None, on_press=lambda *args: self.show_edit_task(task)))
+            with self.canvas:
+                lbl_staticText = Label(font_size=12, color=(0,0,0,1)) 
+                lbl_staticText.text = f"{task['body']}: Start time: {self.set_time(task['start_time'])} Finish time: {self.set_time(task['end_time'])}"
+                lbl_staticText.texture_update()
+                textSize = lbl_staticText.texture_size
+                Color(0, 0, 0, 0, mode="rgba")
+                self.rect = Rectangle(pos=((self.parent.width/2)-250, self.parent.height - (int(task['end_time']))/3), size=(500,(int(task['end_time'])-int(task['start_time']))/3))
+                lbl_staticText.pos = ((self.parent.width/2)-300, self.parent.height - (int(task['end_time']))/3)
+                lbl_staticText.size = self.rect.size
 
     
+    def show_edit_task(self, task):
+        print(task['id'])
+
+    def set_time(self, time):
+        if time > 599:
+            hour = str(time/60)[0:2]
+        else:
+            hour = f"0{str(time/60)[0:1]}"
+        minutes = time - (int(hour)*60)
+        if minutes > 9:
+            return f"{hour}:{minutes}"
+        else:
+            return f"{hour}:0{minutes}"
 
 class NewTask(Screen):
     token = ObjectProperty(None)
