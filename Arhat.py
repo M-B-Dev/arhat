@@ -18,6 +18,11 @@ from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.behaviors import ButtonBehavior  
 from kivy.uix.image import Image  
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.button import MDFlatButton, MDRoundFlatButton
+from kivymd.uix.textfield import MDTextField
+from kivy.uix.scrollview import ScrollView
+from kivy.uix.checkbox import CheckBox
 
 class ContentNavigationDrawer(BoxLayout):
     window_manager = ObjectProperty()
@@ -53,8 +58,162 @@ class Register(Screen):
 class MyLabel(MDLabel):
     pass
 
+class Scrollable(ScrollView):
+    def __init__(self, task, **kwargs):
+        super(Scrollable, self).__init__(**kwargs)
+        self.widg = Content(task=task)
+        self.add_widget(self.widg)
+        self.height = 300
+
+
+class Content(BoxLayout):
+    def __init__(self, task, **kwargs):
+        super(Content, self).__init__(**kwargs)
+        self.done_data = False
+        self.body = MDTextField(text=task['body'], size_hint_y=None)
+        self.start_time_minutes = self.set_time(task['start_time'])
+        self.end_time_minutes = self.set_time(task['end_time'])
+        self.start_time = MDRoundFlatButton(text=f"Start Time: {self.start_time_minutes}", size_hint_y=None)
+        self.start_time.bind(on_press=self.show_start_time_picker)
+        self.end_time = MDRoundFlatButton(text=f"End Time: {self.end_time_minutes}", size_hint_y=None)
+        self.end_time.bind(on_press=self.show_end_time_picker)
+        self.frequency = MDTextField(text=str(task['frequency']), size_hint_y=None)
+        if str(task['to_date']) == "None":
+            self.to_date = MDRoundFlatButton()
+            self.date_to = None
+        else:
+            self.to_date = MDRoundFlatButton(text=str(task['to_date']))
+            self.date_to = task['to_date']
+        self.to_date.bind(on_press=self.show_date_picker)
+        self.done = CheckBox()
+        self.done.bind(active=self.on_checkbox_active)
+        self.add_widget(self.start_time)
+        self.add_widget(self.end_time)
+        self.add_widget(self.body)
+        self.add_widget(self.frequency)
+        self.add_widget(self.to_date)
+        self.add_widget(self.done)
+        self.size_hint_y = None
+        self.height = 400
+
+    def get_to_date(self, date):
+        '''
+        :type date: <class 'datetime.date'>
+        '''
+        self.date_to = datetime.strftime(date, "%d-%m-%Y")
+        self.to_date.text = f"Date to: {self.date_to}"
+
+    def show_date_picker(self, instance):
+        date_dialog = MDDatePicker(callback=self.get_to_date)
+        date_dialog.open()
+
+    def on_checkbox_active(self, checkbox, value):
+        if value:
+            self.done_data = True
+
+
+    def show_start_time_picker(self, instance):
+        time_dialog = MDTimePicker()
+        time_dialog.bind(time=self.get_start_time)
+        time_dialog.open()
+
+    def get_start_time(self, instance, time):
+        self.start_time_minutes = time
+        self.start_time.text = f"Start Time: {str(self.start_time_minutes)}"
+
+    def show_end_time_picker(self, instance):
+        time_dialog = MDTimePicker()
+        time_dialog.bind(time=self.get_end_time)
+        time_dialog.open()
+
+    def get_end_time(self, instance, time):
+        self.end_time_minutes = time
+        self.end_time.text = f"End Time: {str(self.end_time_minutes)}"
+
+    def set_time(self, time):
+        if time > 599:
+            hour = str(time/60)[0:2]
+        else:
+            hour = f"0{str(time/60)[0:1]}"
+        minutes = time - (int(hour)*60)
+        if minutes > 9:
+            return f"{hour}:{minutes}"
+        else:
+            return f"{hour}:0{minutes}"
+
 class ImageButton(ButtonBehavior, Image):
-    pass
+    def __init__(self, task, inst, **kwargs):
+        super(ImageButton, self).__init__(**kwargs)
+        self.text='test'
+        self.size_hint_y = None
+        self.size_hint_x = None
+        self.task = task
+        self.inst = inst
+        self.on_press = lambda *args: self.show_edit_task()
+        with self.canvas.before:
+            self.lbl_staticText = Label(font_size=12, color=(0,0,0,1)) 
+            self.lbl_staticText.text = f"{task['body']}: Start time: {self.set_time(task['start_time'])} Finish time: {self.set_time(task['end_time'])}"
+            self.lbl_staticText.texture_update()
+            self.lbl_staticText.pos = self.pos
+            self.lbl_staticText.size = self.size
+
+    def show_edit_task(self):
+        task_screen = Tasks(token=self.inst.token, user_id=self.inst.user_id)
+        self.edit_task = MDDialog(
+                auto_dismiss=False,
+                title="Edit task:",
+                type="custom",
+                content_cls=Scrollable(task=self.task),
+                buttons=[
+                    MDFlatButton(
+                        text="CANCEL",
+                        on_press=self.close_dialog
+                    ),
+                    MDFlatButton(
+                        text="OK",
+                        on_press=self.update_task
+                    ),
+                ],
+            )
+        self.edit_task.create_items()
+        self.edit_task.open()
+
+    def close_dialog(self, q):
+        self.edit_task.dismiss()
+
+    def update_task(self, q):
+        if self.edit_task:
+            print(self.task['id'])
+            body = self.edit_task.content_cls.widg.body.text
+            start_minutes = (int(str(self.edit_task.content_cls.widg.start_time_minutes)[0:2])*60) + int(str(self.edit_task.content_cls.widg.start_time_minutes)[-2])
+            end_minutes = (int(str(self.edit_task.content_cls.widg.end_time_minutes)[0:2])*60) + int(str(self.edit_task.content_cls.widg.end_time_minutes)[-2])
+            frequency = int(self.edit_task.content_cls.widg.frequency.text)
+            date_to = self.edit_task.content_cls.widg.date_to
+            done = self.edit_task.content_cls.widg.done_data
+            print(done)
+            data = {
+                'body': body, 
+                'done': done, 
+                'start_time': start_minutes, 
+                'end_time': end_minutes, 
+                'frequency': frequency, 
+                'to_date': date_to
+            }
+            hed = {'Authorization': 'Bearer ' + self.inst.token}
+            response = requests.put(f'http://localhost:5000/api/users/tasks/{self.task["id"]}', json=data, headers=hed)
+            self.edit_task.dismiss()
+
+
+    def set_time(self, time):
+        if time > 599:
+            hour = str(time/60)[0:2]
+        else:
+            hour = f"0{str(time/60)[0:1]}"
+        minutes = time - (int(hour)*60)
+        if minutes > 9:
+            return f"{hour}:{minutes}"
+        else:
+            return f"{hour}:0{minutes}"
 
 class Tasks(Screen):
     tasks = ObjectProperty(None)
@@ -68,16 +227,18 @@ class Tasks(Screen):
 
         for task in self.tasks:
             color = hex_to_rgb("#" + task['color'])
-            self.add_widget(ImageButton(pos=((self.parent.width/2)-250, self.parent.height - (int(task['end_time']))/3), size=(500,(int(task['end_time'])-int(task['start_time']))/3), color=(color[0]/255, color[1]/255, color[2]/255, .5), source=None, on_press=lambda *args: self.show_edit_task(task)))
-            with self.canvas:
-                lbl_staticText = Label(font_size=12, color=(0,0,0,1)) 
-                lbl_staticText.text = f"{task['body']}: Start time: {self.set_time(task['start_time'])} Finish time: {self.set_time(task['end_time'])}"
-                lbl_staticText.texture_update()
-                textSize = lbl_staticText.texture_size
-                Color(0, 0, 0, 0, mode="rgba")
-                self.rect = Rectangle(pos=((self.parent.width/2)-250, self.parent.height - (int(task['end_time']))/3), size=(500,(int(task['end_time'])-int(task['start_time']))/3))
-                lbl_staticText.pos = ((self.parent.width/2)-300, self.parent.height - (int(task['end_time']))/3)
-                lbl_staticText.size = self.rect.size
+            self.button = ImageButton(
+                inst=self,
+                task=task, 
+                pos=(
+                    (self.parent.width/2)-250, 
+                    self.parent.height - (int(task['end_time']))/3
+                    ), 
+                size=(500,(int(task['end_time'])-int(task['start_time']))/3), 
+                color=(color[0]/255, color[1]/255, color[2]/255, .5), 
+                source=None
+                )
+            self.add_widget(self.button)
 
     
     def show_edit_task(self, task):

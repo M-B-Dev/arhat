@@ -489,7 +489,10 @@ class Post(db.Model):
             'body': self.body,
             'start_time': self.start_time,
             'end_time': self.end_time,
-            'color': self.color
+            'color': self.color,
+            'frequency': self.frequency,
+            'to_date': self.to_date,
+            'done': self.done
         }
         return data
 
@@ -498,8 +501,15 @@ class Post(db.Model):
             data['date'] = datetime.strptime(data['date'], "%d-%m-%Y")
             data['user_id'] = int(data['user_id'])
             data['hour'] = 1
-            if data['frequency']:
-                data['frequency'] = int(data['frequency'])
+        if data['frequency']:
+            data['frequency'] = int(data['frequency'])
+        if 'done' in data:
+                print(data['done'])
+        if 'done' in data and data['done'] == 'True':
+            data['done'] = True
+            data['frequency'] = None
+        elif 'done' in data and data['done'] == 'False':
+            data['done'] = False
         for field in ['body', 'done', 'start_time', 'end_time', 'user_id', 'date', 'hour', 'frequency', 'to_date']:
             if field in data:
                 setattr(self, field, data[field])
