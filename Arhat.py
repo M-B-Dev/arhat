@@ -23,6 +23,11 @@ from kivymd.uix.button import MDFlatButton, MDRoundFlatButton
 from kivymd.uix.textfield import MDTextField
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.checkbox import CheckBox
+from kivy.uix.colorpicker import ColorPicker
+from kivymd.uix.picker import MDThemePicker
+
+class ScreenManagement(ScreenManager):
+    pass
 
 class ContentNavigationDrawer(BoxLayout):
     window_manager = ObjectProperty()
@@ -69,20 +74,30 @@ class Scrollable(ScrollView):
 class Content(BoxLayout):
     def __init__(self, task, **kwargs):
         super(Content, self).__init__(**kwargs)
+        self.selected_color = None
         self.done_data = False
         self.body = MDTextField(text=task['body'], size_hint_y=None)
         self.start_time_minutes = self.set_time(task['start_time'])
         self.end_time_minutes = self.set_time(task['end_time'])
-        self.start_time = MDRoundFlatButton(text=f"Start Time: {self.start_time_minutes}", size_hint_y=None)
+        self.start_time = Button(text=f"Start Time: {self.start_time_minutes}")
         self.start_time.bind(on_press=self.show_start_time_picker)
-        self.end_time = MDRoundFlatButton(text=f"End Time: {self.end_time_minutes}", size_hint_y=None)
+        self.end_time = Button(text=f"End Time: {self.end_time_minutes}")
         self.end_time.bind(on_press=self.show_end_time_picker)
-        self.frequency = MDTextField(text=str(task['frequency']), size_hint_y=None)
+        self.color = hex_to_rgb("#" + task['color'])
+        self.color_pick = Button(text="Change color", background_color=(self.color[0]/255, self.color[1]/255, self.color[2]/255, .5))
+        self.color_pick.bind(on_press=self.show_theme_picker)
+        # self.color_pick = ColorPicker(hex_color=f"#{task['color']}")
+        # self.color_pick.bind(color=self.on_color)
+        if not task['frequency']:
+            frequency = 0
+        else:
+            frequency = task['frequency']
+        self.frequency = MDTextField(text=str(frequency), size_hint_y=None)
         if str(task['to_date']) == "None":
-            self.to_date = MDRoundFlatButton()
+            self.to_date = Button(text="Enter to date")
             self.date_to = None
         else:
-            self.to_date = MDRoundFlatButton(text=str(task['to_date']))
+            self.to_date = Button(text=f"To date: str(task['to_date'])")
             self.date_to = task['to_date']
         self.to_date.bind(on_press=self.show_date_picker)
         self.done = CheckBox()
@@ -93,8 +108,19 @@ class Content(BoxLayout):
         self.add_widget(self.frequency)
         self.add_widget(self.to_date)
         self.add_widget(self.done)
+        self.add_widget(self.color_pick)
         self.size_hint_y = None
         self.height = 400
+
+    def color_picker(self, color):
+        print(color)
+
+    def show_theme_picker(self, instance):
+        theme_dialog = MDThemePicker()
+        theme_dialog.open()
+
+    def on_color(self, instance, value):
+        self.color = str(instance.hex_color)
 
     def get_to_date(self, date):
         '''
@@ -158,7 +184,6 @@ class ImageButton(ButtonBehavior, Image):
             self.lbl_staticText.size = self.size
 
     def show_edit_task(self):
-        task_screen = Tasks(token=self.inst.token, user_id=self.inst.user_id)
         self.edit_task = MDDialog(
                 auto_dismiss=False,
                 title="Edit task:",
@@ -178,19 +203,17 @@ class ImageButton(ButtonBehavior, Image):
         self.edit_task.create_items()
         self.edit_task.open()
 
-    def close_dialog(self, q):
+    def close_dialog(self, instance):
         self.edit_task.dismiss()
 
-    def update_task(self, q):
+    def update_task(self, instance):
         if self.edit_task:
-            print(self.task['id'])
             body = self.edit_task.content_cls.widg.body.text
             start_minutes = (int(str(self.edit_task.content_cls.widg.start_time_minutes)[0:2])*60) + int(str(self.edit_task.content_cls.widg.start_time_minutes)[-2])
             end_minutes = (int(str(self.edit_task.content_cls.widg.end_time_minutes)[0:2])*60) + int(str(self.edit_task.content_cls.widg.end_time_minutes)[-2])
-            frequency = int(self.edit_task.content_cls.widg.frequency.text)
+            frequency = self.edit_task.content_cls.widg.frequency.text
             date_to = self.edit_task.content_cls.widg.date_to
             done = self.edit_task.content_cls.widg.done_data
-            print(done)
             data = {
                 'body': body, 
                 'done': done, 
@@ -201,6 +224,11 @@ class ImageButton(ButtonBehavior, Image):
             }
             hed = {'Authorization': 'Bearer ' + self.inst.token}
             response = requests.put(f'http://localhost:5000/api/users/tasks/{self.task["id"]}', json=data, headers=hed)
+            original_widgets = [child for child in self.parent.children if "ImageButton" in str(type(child))]
+            self.parent.load_tasks()
+            for child in original_widgets:
+                if self.parent:
+                    self.parent.remove_widget(child)
             self.edit_task.dismiss()
 
 
@@ -220,7 +248,16 @@ class Tasks(Screen):
     token = ObjectProperty(None)
     user_id = ObjectProperty(None)
 
-    def load_tasks(self, date=datetime.strftime(datetime.today(), "%d-%m-%Y")):
+    def color_picker(self, color):
+        print(color)
+        
+    def load_tasks(self, date=datetime.strftime(datetime.today(), "%d-%m-%Y"), height=None, width=None, manager=None):
+        if not width:
+            width = self.parent.width
+        if not height:
+            height = self.parent.height
+        if manager:
+            self.manager = manager
         hed = {'Authorization': 'Bearer ' + self.token}
         user_tasks = requests.get(f'http://localhost:5000/api/users/tasks/{self.user_id}/{date}', headers=hed)
         self.tasks = json.loads(user_tasks.content)['items']
@@ -231,14 +268,15 @@ class Tasks(Screen):
                 inst=self,
                 task=task, 
                 pos=(
-                    (self.parent.width/2)-250, 
-                    self.parent.height - (int(task['end_time']))/3
+                    (width/2)-250, 
+                    height - (int(task['end_time']))/3
                     ), 
                 size=(500,(int(task['end_time'])-int(task['start_time']))/3), 
                 color=(color[0]/255, color[1]/255, color[2]/255, .5), 
                 source=None
                 )
             self.add_widget(self.button)
+        self.manager.current = "Tasks"
 
     
     def show_edit_task(self, task):
