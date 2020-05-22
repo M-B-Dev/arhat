@@ -125,7 +125,7 @@ Screen:
         NavigationLayout:
             x: toolbar.height
 
-            ScreenManager:
+            ScreenManagement:
                 id: screen_manager
                 
                 Login:
@@ -165,7 +165,7 @@ Screen:
                                 pos_hint: {"center_x": 0.5, "center_y": 0}
                                 on_release: 
                                     screen_manager.current = 'Tasks' if Login.login_user() else 'Login'
-                                    Tasks.load_tasks()
+                                    if screen_manager.current == 'Tasks': Tasks.load_tasks()
                         Widget:
 
 

@@ -1,84 +1,4 @@
-2020-05-09 16:34:44,422 ERROR: 
-            Exception on /edit_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1248, in _execute_context
-    cursor, statement, parameters, context
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 590, in do_execute
-    cursor.execute(statement, parameters)
-sqlite3.InterfaceError: Error binding parameter 9 - probably unsupported type.
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
-    return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 268, in edit_task
-    db.session.commit()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/scoping.py", line 162, in do
-    return getattr(self.registry(), name)(*args, **kwargs)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 1036, in commit
-    self.transaction.commit()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 503, in commit
-    self._prepare_impl()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 482, in _prepare_impl
-    self.session.flush()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2496, in flush
-    self._flush(objects)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2637, in _flush
-    transaction.rollback(_capture_exception=True)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/util/langhelpers.py", line 69, in __exit__
-    exc_value, with_traceback=exc_tb,
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 178, in raise_
-    raise exception
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2597, in _flush
-    flush_context.execute()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/unitofwork.py", line 422, in execute
-    rec.execute(self)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/unitofwork.py", line 589, in execute
-    uow,
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/persistence.py", line 245, in save_obj
-    insert,
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/persistence.py", line 1136, in _emit_insert_statements
-    statement, params
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 984, in execute
-    return meth(self, multiparams, params)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 293, in _execute_on_connection
-    return connection._execute_clauseelement(self, multiparams, params)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1103, in _execute_clauseelement
-    distilled_params,
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1288, in _execute_context
-    e, statement, parameters, cursor, context
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1482, in _handle_dbapi_exception
-    sqlalchemy_exception, with_traceback=exc_info[2], from_=e
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 178, in raise_
-    raise exception
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1248, in _execute_context
-    cursor, statement, parameters, context
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 590, in do_execute
-    cursor.execute(statement, parameters)
-sqlalchemy.exc.InterfaceError: (sqlite3.InterfaceError) Error binding parameter 9 - probably unsupported type.
-[SQL: INSERT INTO post (body, timestamp, hour, done, depression_score, date, user_id, start_time, end_time, frequency, color, exclude) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
-[parameters: ('test', '2020-05-09 16:34:44.420594', 2, 0, 0, '2020-05-10 00:00:00.000000', 2, 120, 180, <app.main.routes.EditTask object at 0x7f4d863a2050>, '28FF2F', 437)]
-(Background on this error at: http://sqlalche.me/e/rvf5)
-2020-05-09 16:36:44,248 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
-            
-2020-05-09 16:36:48,058 ERROR: 
+2020-05-09 18:00:35,645 ERROR: 
             Exception on /edit_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
@@ -97,16 +17,20 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 262, in edit_task
-    edit_task.edit_single_freq_task()
-  File "/home/lean/Arhat/app/main/routes.py", line 170, in edit_single_freq_task
-    self.task_to_be_added = self.add_single_task(self, done=self.form.done.data)
-TypeError: add_single_task() got an unexpected keyword argument 'done'
-2020-05-09 16:37:05,855 INFO: 
+  File "/home/lean/Arhat/app/main/routes.py", line 267, in edit_task
+    edit_task.edit_all_freq_parent_and_child_tasks()
+  File "/home/lean/Arhat/app/main/routes.py", line 229, in edit_all_freq_parent_and_child_tasks
+    elif ((self.parent_task.date - task.date).days % int(self.form.frequency.data)) != 0:
+TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+2020-05-09 18:02:46,938 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-05-09 16:37:12,832 ERROR: 
+2020-05-09 19:35:02,605 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-09 19:35:08,769 ERROR: 
             Exception on /edit_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
@@ -125,16 +49,148 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 262, in edit_task
-    edit_task.edit_single_freq_task()
-  File "/home/lean/Arhat/app/main/routes.py", line 170, in edit_single_freq_task
-    self.task_to_be_added = self.add_single_task(self)
-TypeError: add_single_task() takes 1 positional argument but 2 were given
-2020-05-09 16:37:31,496 INFO: 
+  File "/home/lean/Arhat/app/main/routes.py", line 270, in edit_task
+    edit_task.edit_all_freq_parent_and_child_tasks()
+  File "/home/lean/Arhat/app/main/routes.py", line 215, in edit_all_freq_parent_and_child_tasks
+    self.parent_task = current_user.posts.filter_by(id=self.task_to_be_edited.exclude).last()
+AttributeError: 'BaseQuery' object has no attribute 'last'
+2020-05-09 19:36:05,919 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
             
-2020-05-09 16:40:35,879 INFO: 
+2020-05-09 19:38:55,634 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             91]
+            
+2020-05-09 19:39:22,390 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-09 19:40:51,995 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-09 19:41:29,463 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-09 19:42:13,448 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-09 19:44:02,375 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-09 19:45:34,462 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-09 19:47:03,649 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-09 19:47:54,560 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-09 20:51:49,618 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-09 23:11:46,060 ERROR: 
+            Exception on /new_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
+            
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/home/lean/Arhat/app/main/routes.py", line 141, in new_task
+    frequency=new_task.form.frequency.data,
+  File "/home/lean/Arhat/app/main/routes.py", line 114, in add_single_task
+    to_date=to_date
+TypeError: __init__() got an unexpected keyword argument 'date'
+2020-05-09 23:12:16,894 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-10 14:26:18,493 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-10 17:12:48,463 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-10 20:55:15,340 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-10 21:24:01,643 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-10 21:26:07,253 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-10 21:27:13,133 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-10 21:28:12,882 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-10 21:30:23,502 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-10 21:32:20,268 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-10 21:55:46,396 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-10 21:57:21,913 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-10 22:32:29,025 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-10 22:40:50,112 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-10 22:48:05,849 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-10 22:50:10,943 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-10 22:51:20,293 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            91]
+            
+2020-05-11 10:43:06,450 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            94]
             

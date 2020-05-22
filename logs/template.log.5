@@ -1,153 +1,5 @@
-2020-05-11 10:43:23,002 ERROR: 
-            Exception on /index/ph [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
-    return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 51, in index
-    current_user.check_if_depression_sent(date)
-  File "/home/lean/Arhat/app/models.py", line 354, in check_if_depression_sent
-    self.add_sent_date_check_depression(date)
-  File "/home/lean/Arhat/app/models.py", line 341, in add_sent_date_check_depression
-    self.check_depression()
-  File "/home/lean/Arhat/app/models.py", line 301, in check_depression
-    self.all_frequency_tasks = self.posts.filter(self.frequency != None).all()
-AttributeError: 'User' object has no attribute 'frequency'
-2020-05-11 10:44:49,607 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            94]
-            
-2020-05-11 10:44:52,954 ERROR: 
-            Exception on /index/ph [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
-    return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 51, in index
-    current_user.check_if_depression_sent(date)
-  File "/home/lean/Arhat/app/models.py", line 354, in check_if_depression_sent
-    self.add_sent_date_check_depression(date)
-  File "/home/lean/Arhat/app/models.py", line 341, in add_sent_date_check_depression
-    self.check_depression()
-  File "/home/lean/Arhat/app/models.py", line 309, in check_depression
-    self.check_tasks_in_days()
-  File "/home/lean/Arhat/app/models.py", line 255, in check_tasks_in_days
-    self.check_tasks_over_0()
-  File "/home/lean/Arhat/app/models.py", line 278, in check_tasks_over_0
-    self.period_precentage += daily_percentage
-NameError: name 'daily_percentage' is not defined
-2020-05-11 10:45:15,678 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            94]
-            
-2020-05-11 10:45:18,080 ERROR: 
-            Exception on /index/ph [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
-    return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 51, in index
-    current_user.check_if_depression_sent(date)
-  File "/home/lean/Arhat/app/models.py", line 354, in check_if_depression_sent
-    self.add_sent_date_check_depression(date)
-  File "/home/lean/Arhat/app/models.py", line 341, in add_sent_date_check_depression
-    self.check_depression()
-  File "/home/lean/Arhat/app/models.py", line 310, in check_depression
-    self.check_divide_days_over_0()
-  File "/home/lean/Arhat/app/models.py", line 289, in check_divide_days_over_0
-    if divide_days > 0:
-NameError: name 'divide_days' is not defined
-2020-05-11 10:45:32,885 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            94]
-            
-2020-05-11 10:45:36,205 ERROR: 
-            Exception on /index/ph [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
-    return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 51, in index
-    current_user.check_if_depression_sent(date)
-  File "/home/lean/Arhat/app/models.py", line 354, in check_if_depression_sent
-    self.add_sent_date_check_depression(date)
-  File "/home/lean/Arhat/app/models.py", line 341, in add_sent_date_check_depression
-    self.check_depression()
-  File "/home/lean/Arhat/app/models.py", line 311, in check_depression
-    self.check_percentage_against_threshold()
-  File "/home/lean/Arhat/app/models.py", line 320, in check_percentage_against_threshold
-    send_email(
-NameError: name 'send_email' is not defined
-2020-05-11 10:47:00,904 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            94]
-            
-2020-05-11 10:51:40,805 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            94]
-            
-2020-05-11 10:55:25,805 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            94]
-            
-2020-05-11 11:03:56,873 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            94]
-            
-2020-05-11 11:04:01,181 ERROR: 
-            Exception on /sub [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-11 21:41:49,494 ERROR: 
+            Exception on /api/users/1/followed [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -160,35 +12,161 @@ Traceback (most recent call last):
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2098, in make_response
     "The view function did not return a valid response. The"
 TypeError: The view function did not return a valid response. The function either returned None or ended without a return statement.
-2020-05-11 11:09:12,130 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            94]
+2020-05-11 21:42:22,454 ERROR: 
+            Exception on /api/users/1/followed [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
             
-2020-05-11 11:37:14,870 INFO: 
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1953, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1968, in finalize_request
+    response = self.make_response(rv)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2098, in make_response
+    "The view function did not return a valid response. The"
+TypeError: The view function did not return a valid response. The function either returned None or ended without a return statement.
+2020-05-11 21:42:32,400 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
-            94]
+            97]
             
-2020-05-11 11:41:43,056 INFO: 
+2020-05-11 22:00:00,628 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
-            94]
+            97]
             
-2020-05-11 11:45:55,850 INFO: 
+2020-05-11 22:00:08,946 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
-            94]
+            97]
             
-2020-05-11 11:47:48,649 INFO: 
+2020-05-11 22:03:15,339 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
-            94]
+            97]
             
-2020-05-11 11:48:32,962 INFO: 
+2020-05-13 18:11:28,013 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
-            94]
+            97]
             
-2020-05-11 11:49:15,755 INFO: 
+2020-05-13 19:08:17,538 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
-            94]
+            97]
             
-2020-05-11 11:56:19,917 INFO: 
+2020-05-13 19:08:21,139 ERROR: 
+            Exception on /api/users/tasks/2/13-05-2020 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
+            
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
+    return f(*args, **kwargs)
+  File "/home/lean/Arhat/app/api/users.py", line 78, in tasks
+    data = User.to_collection_dict(user.daily_tasks(date), None, None, None)
+AttributeError: 'User' object has no attribute 'daily_tasks'
+2020-05-13 19:08:56,177 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
-            94]
+            97]
+            
+2020-05-13 19:10:11,788 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-13 19:17:17,549 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-13 20:55:49,063 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-13 20:58:25,096 ERROR: 
+            Exception on /api/users/tasks/491 [PUT] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
+            
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
+    return f(*args, **kwargs)
+  File "/home/lean/Arhat/app/api/users.py", line 84, in update_task
+    task = Post.query.get_or_404(id)
+NameError: name 'Post' is not defined
+2020-05-13 20:58:38,287 ERROR: 
+            Exception on /api/users/tasks/491 [PUT] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
+            
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
+    return f(*args, **kwargs)
+  File "/home/lean/Arhat/app/api/users.py", line 84, in update_task
+    task = Post.query.get_or_404(id)
+NameError: name 'Post' is not defined
+2020-05-13 20:59:19,226 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-13 21:03:47,139 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-13 21:04:01,926 ERROR: 
+            Exception on /api/users/tasks/491 [PUT] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
+            
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
+    return f(*args, **kwargs)
+  File "/home/lean/Arhat/app/api/users.py", line 88, in update_task
+    elif 'start_time' in data and data['start_time'] > task.end_time:
+TypeError: '>' not supported between instances of 'str' and 'int'
+2020-05-13 21:05:24,645 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-13 21:12:07,407 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
             

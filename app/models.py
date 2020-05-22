@@ -503,16 +503,15 @@ class Post(db.Model):
             data['hour'] = 1
         if data['frequency']:
             data['frequency'] = int(data['frequency'])
-        if 'done' in data:
-                print(data['done'])
-        if 'done' in data and data['done'] == 'True':
-            data['done'] = True
+        if 'done' in data and data['done'] is True:
             data['frequency'] = None
-        elif 'done' in data and data['done'] == 'False':
-            data['done'] = False
         for field in ['body', 'done', 'start_time', 'end_time', 'user_id', 'date', 'hour', 'frequency', 'to_date']:
             if field in data:
                 setattr(self, field, data[field])
+        print(self.done)
+        print(type(self.done))
+        print(self.frequency)
+        print(type(self.frequency))
 
     def __repr__(self):
         """returns a representation of the Post object."""
