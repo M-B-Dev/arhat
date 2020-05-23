@@ -448,6 +448,10 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
             and task not in todos
         ]
         [all_tasks.append(task) for task in todos if task.done is False]
+        for task in all_tasks:
+            print(task.color)
+            if task.color == "Pink":
+                task.color = "6c757d"
         return all_tasks
 
 
@@ -505,7 +509,7 @@ class Post(db.Model):
             data['frequency'] = int(data['frequency'])
         if 'done' in data and data['done'] is True:
             data['frequency'] = None
-        for field in ['body', 'done', 'start_time', 'end_time', 'user_id', 'date', 'hour', 'frequency', 'to_date']:
+        for field in ['body', 'done', 'start_time', 'end_time', 'user_id', 'date', 'hour', 'frequency', 'to_date', 'color']:
             if field in data:
                 setattr(self, field, data[field])
         print(self.done)

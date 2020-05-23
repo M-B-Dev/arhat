@@ -25,6 +25,9 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.checkbox import CheckBox
 from kivy.uix.colorpicker import ColorPicker
 from kivymd.uix.picker import MDThemePicker
+import matplotlib
+from colour import Color
+from kivymd.color_definitions import colors
 
 class ScreenManagement(ScreenManager):
     pass
@@ -74,6 +77,7 @@ class Scrollable(ScrollView):
 class Content(BoxLayout):
     def __init__(self, task, **kwargs):
         super(Content, self).__init__(**kwargs)
+        self.id = str(task['id'])
         self.selected_color = None
         self.done_data = False
         self.body = MDTextField(text=task['body'], size_hint_y=None)
@@ -86,8 +90,6 @@ class Content(BoxLayout):
         self.color = hex_to_rgb("#" + task['color'])
         self.color_pick = Button(text="Change color", background_color=(self.color[0]/255, self.color[1]/255, self.color[2]/255, .5))
         self.color_pick.bind(on_press=self.show_theme_picker)
-        # self.color_pick = ColorPicker(hex_color=f"#{task['color']}")
-        # self.color_pick.bind(color=self.on_color)
         if not task['frequency']:
             frequency = 0
         else:
@@ -100,6 +102,7 @@ class Content(BoxLayout):
             self.to_date = Button(text=f"To date: str(task['to_date'])")
             self.date_to = task['to_date']
         self.to_date.bind(on_press=self.show_date_picker)
+        self.done_label = Label(text="Done", color=(0,0,0,1))
         self.done = CheckBox()
         self.done.bind(active=self.on_checkbox_active)
         self.add_widget(self.start_time)
@@ -107,17 +110,21 @@ class Content(BoxLayout):
         self.add_widget(self.body)
         self.add_widget(self.frequency)
         self.add_widget(self.to_date)
+        self.add_widget(self.done_label)
         self.add_widget(self.done)
         self.add_widget(self.color_pick)
         self.size_hint_y = None
         self.height = 400
 
     def color_picker(self, color):
-        print(color)
+        c = hex_to_rgb("#" + colors[color]["900"])
+        self.selected_color = colors[color]["900"]
+        self.color_pick.background_color = (c[0]/255, c[1]/255, c[2]/255, 0.5)
+        print(c)
 
     def show_theme_picker(self, instance):
-        theme_dialog = MDThemePicker()
-        theme_dialog.open()
+        self.theme_dialog = MDThemePicker(id=self.id)
+        self.theme_dialog.open()
 
     def on_color(self, instance, value):
         self.color = str(instance.hex_color)
@@ -214,7 +221,9 @@ class ImageButton(ButtonBehavior, Image):
             frequency = self.edit_task.content_cls.widg.frequency.text
             date_to = self.edit_task.content_cls.widg.date_to
             done = self.edit_task.content_cls.widg.done_data
+            color = self.edit_task.content_cls.widg.selected_color
             data = {
+                'color': color,
                 'body': body, 
                 'done': done, 
                 'start_time': start_minutes, 
@@ -248,8 +257,7 @@ class Tasks(Screen):
     token = ObjectProperty(None)
     user_id = ObjectProperty(None)
 
-    def color_picker(self, color):
-        print(color)
+    
         
     def load_tasks(self, date=datetime.strftime(datetime.today(), "%d-%m-%Y"), height=None, width=None, manager=None):
         if not width:
@@ -264,7 +272,7 @@ class Tasks(Screen):
 
         for task in self.tasks:
             color = hex_to_rgb("#" + task['color'])
-            self.button = ImageButton(
+            button = ImageButton(
                 inst=self,
                 task=task, 
                 pos=(
@@ -275,7 +283,9 @@ class Tasks(Screen):
                 color=(color[0]/255, color[1]/255, color[2]/255, .5), 
                 source=None
                 )
-            self.add_widget(self.button)
+            print(task['id'])
+            setattr(self, str(task['id']), button)
+            self.add_widget(getattr(self, str(task['id'])))
         self.manager.current = "Tasks"
 
     
