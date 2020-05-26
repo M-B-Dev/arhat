@@ -8,7 +8,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 import json
 from kivymd.theming import ThemableBehavior
-from kivymd.uix.list import OneLineIconListItem, MDList, IconLeftWidget
+from kivymd.uix.list import OneLineIconListItem, MDList, IconLeftWidget, OneLineAvatarListItem
 from kivymd.uix.picker import MDDatePicker, MDTimePicker
 from datetime import datetime
 from kivymd.uix.label import MDLabel
@@ -29,6 +29,13 @@ import matplotlib
 from colour import Color
 from kivymd.color_definitions import colors
 from validate_email import validate_email
+import cv2
+import numpy as np
+import base64
+import io
+from kivy.core.image import Image as CoreImage
+from kivy.resources import resource_find
+
 
 class ScreenManagement(ScreenManager):
     pass
@@ -136,6 +143,7 @@ class EditProfile(Screen):
             else:
                 password = False
             setattr(self, field, MDTextField(
+                write_tab=False,
                 id=field,
                 text=self.field_names[field],
                 required=True,
@@ -209,9 +217,36 @@ class Messages(Screen):
     def send_message():
         pass
 
+class Item(OneLineAvatarListItem):
+    divider = None
+    texture = ObjectProperty(None)
+
 class Contacts(Screen):
-    def show_users():
-        #Must display user avatar
+    user = ObjectProperty(None)
+    token = ObjectProperty(None)
+
+    def show_users(self):
+        hed = {'Authorization': 'Bearer ' + self.token}
+        response = requests.get('http://localhost:5000/api/users', headers=hed)
+        self.user = json.loads(response.content)
+        widg = ScrollView()
+        box = BoxLayout()
+
+        box.spacing = 10
+        for usr in self.user['items']:
+            img = base64.b64decode(usr['image'])
+            data = io.BytesIO(img)
+            fn = f"{usr['username']}.jpg"
+            im = CoreImage(data, ext="jpg").texture
+            print(im)
+            inner_widg = Item()
+            inner_widg.text = usr['username']
+            inner_widg.texture = im
+            self.children[0].children[0].children[0].add_widget(inner_widg)
+        # widg.add_widget(box)
+        # .add_widget(box)
+
+    def search_users():
         pass
 
     def show_followers():

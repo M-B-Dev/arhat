@@ -4,6 +4,10 @@
     size_hint_y: None
     height: "120dp"
 
+<Item>
+
+    ImageLeftWidget:
+        texture: root.texture
     
 <ButtonTemplate>:
     on_release: 
@@ -11,6 +15,7 @@
         app.root.ids.screen_manager.current = self.id if self.id != "Logout" else "Login"
         if self.id == "Logout": app.root.ids.nav_drawer.children[0].ids.scroll.children[0].logged_out_buttons()
         if self.id == "Edit Profile": app.root.ids.screen_manager.children[0].set_text_fields()
+        if self.id == "Contacts": app.root.ids.screen_manager.children[0].show_users()
         
 <ContentNavigationDrawer>:
     orientation: "vertical"
@@ -71,7 +76,6 @@ Screen:
                     manager: screen_manager
                     BoxLayout:
                         orientation: "vertical"
-
 
                         BoxLayout:
                             orientation: "vertical"
@@ -295,6 +299,25 @@ Screen:
                             spacing: 10
 
                         Widget:
+                
+                Contacts:
+                    id: Contacts
+                    name: 'Contacts'
+                    manager: screen_manager
+                    user: Login.user
+                    token: Login.token
+
+                    BoxLayout:
+                        orientation: "vertical"
+                        ScrollView:
+                            BoxLayout:
+                                orientation: "vertical"
+                                size_hint_y: None
+                                height: self.minimum_height
+                                padding: dp(48)
+                                spacing: 10
+
+
 
             MDNavigationDrawer:
                 id: nav_drawer
