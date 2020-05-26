@@ -3,7 +3,7 @@ import secrets
 import base64
 from datetime import datetime, timedelta
 from time import time
-
+import simplejson as json
 import jwt
 from flask import current_app, flash, url_for
 from flask_login import UserMixin, current_user
@@ -388,9 +388,20 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
         elif self.threshold and self.days:
             self.add_sent_date_check_depression(today)
 
+    def prep_image_for_json(self):
+        picture_fn = os.path.join(
+            current_app.root_path, "static/profile_pics", self.image_file
+        )
+        print(picture_fn)
+        with open(picture_fn, 'rb') as img_file:
+            img_data = base64.b64encode(img_file.read())
+        return json.dumps(img_data)
+
+
     def to_dict(self, include_email=False):
         data = {
             'id': self.id,
+            'image': self.prep_image_for_json(),
             'threshold': self.threshold,
             'days': self.days,
             'email': self.email,

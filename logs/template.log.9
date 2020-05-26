@@ -1,5 +1,5 @@
-2020-05-09 16:42:13,278 ERROR: 
-            Exception on /edit_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-11 10:43:23,002 ERROR: 
+            Exception on /index/ph [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -17,13 +17,21 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 265, in edit_task
-    edit_task.edit_all_freq_parent_and_child_tasks()
-  File "/home/lean/Arhat/app/main/routes.py", line 227, in edit_all_freq_parent_and_child_tasks
-    elif ((self.parent_task.date - task.date).days % int(self.form.frequency.data)) != 0:
-ZeroDivisionError: integer division or modulo by zero
-2020-05-09 16:42:43,860 ERROR: 
-            Exception on /edit_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+  File "/home/lean/Arhat/app/main/routes.py", line 51, in index
+    current_user.check_if_depression_sent(date)
+  File "/home/lean/Arhat/app/models.py", line 354, in check_if_depression_sent
+    self.add_sent_date_check_depression(date)
+  File "/home/lean/Arhat/app/models.py", line 341, in add_sent_date_check_depression
+    self.check_depression()
+  File "/home/lean/Arhat/app/models.py", line 301, in check_depression
+    self.all_frequency_tasks = self.posts.filter(self.frequency != None).all()
+AttributeError: 'User' object has no attribute 'frequency'
+2020-05-11 10:44:49,607 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            94]
+            
+2020-05-11 10:44:52,954 ERROR: 
+            Exception on /index/ph [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -41,17 +49,25 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 265, in edit_task
-    edit_task.edit_all_freq_parent_and_child_tasks()
-  File "/home/lean/Arhat/app/main/routes.py", line 227, in edit_all_freq_parent_and_child_tasks
-    elif ((self.parent_task.date - task.date).days % int(self.form.frequency.data)) != 0:
-ZeroDivisionError: integer division or modulo by zero
-2020-05-09 16:43:14,969 INFO: 
+  File "/home/lean/Arhat/app/main/routes.py", line 51, in index
+    current_user.check_if_depression_sent(date)
+  File "/home/lean/Arhat/app/models.py", line 354, in check_if_depression_sent
+    self.add_sent_date_check_depression(date)
+  File "/home/lean/Arhat/app/models.py", line 341, in add_sent_date_check_depression
+    self.check_depression()
+  File "/home/lean/Arhat/app/models.py", line 309, in check_depression
+    self.check_tasks_in_days()
+  File "/home/lean/Arhat/app/models.py", line 255, in check_tasks_in_days
+    self.check_tasks_over_0()
+  File "/home/lean/Arhat/app/models.py", line 278, in check_tasks_over_0
+    self.period_precentage += daily_percentage
+NameError: name 'daily_percentage' is not defined
+2020-05-11 10:45:15,678 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
+            94]
             
-2020-05-09 17:07:24,479 ERROR: 
-            Exception on /edit_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-11 10:45:18,080 ERROR: 
+            Exception on /index/ph [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -69,17 +85,23 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 265, in edit_task
-    edit_task.edit_single_freq_task()
-  File "/home/lean/Arhat/app/main/routes.py", line 227, in edit_all_freq_parent_and_child_tasks
-    task.done = self.form.done.data
-ZeroDivisionError: integer division or modulo by zero
-2020-05-09 17:11:49,491 INFO: 
+  File "/home/lean/Arhat/app/main/routes.py", line 51, in index
+    current_user.check_if_depression_sent(date)
+  File "/home/lean/Arhat/app/models.py", line 354, in check_if_depression_sent
+    self.add_sent_date_check_depression(date)
+  File "/home/lean/Arhat/app/models.py", line 341, in add_sent_date_check_depression
+    self.check_depression()
+  File "/home/lean/Arhat/app/models.py", line 310, in check_depression
+    self.check_divide_days_over_0()
+  File "/home/lean/Arhat/app/models.py", line 289, in check_divide_days_over_0
+    if divide_days > 0:
+NameError: name 'divide_days' is not defined
+2020-05-11 10:45:32,885 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
+            94]
             
-2020-05-09 17:12:01,081 ERROR: 
-            Exception on /edit_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-11 10:45:36,205 ERROR: 
+            Exception on /index/ph [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -97,80 +119,76 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 269, in edit_task
-    edit_task.edit_all_freq_parent_and_child_tasks()
-  File "/home/lean/Arhat/app/main/routes.py", line 215, in edit_all_freq_parent_and_child_tasks
-    if not self.parent_task.to_date:
-AttributeError: 'Post' object has no attribute 'to_date'
-2020-05-09 17:22:22,593 INFO: 
+  File "/home/lean/Arhat/app/main/routes.py", line 51, in index
+    current_user.check_if_depression_sent(date)
+  File "/home/lean/Arhat/app/models.py", line 354, in check_if_depression_sent
+    self.add_sent_date_check_depression(date)
+  File "/home/lean/Arhat/app/models.py", line 341, in add_sent_date_check_depression
+    self.check_depression()
+  File "/home/lean/Arhat/app/models.py", line 311, in check_depression
+    self.check_percentage_against_threshold()
+  File "/home/lean/Arhat/app/models.py", line 320, in check_percentage_against_threshold
+    send_email(
+NameError: name 'send_email' is not defined
+2020-05-11 10:47:00,904 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
+            94]
             
-2020-05-09 17:22:32,790 INFO: 
+2020-05-11 10:51:40,805 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
+            94]
             
-2020-05-09 17:23:49,242 INFO: 
+2020-05-11 10:55:25,805 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
+            94]
             
-2020-05-09 17:24:08,456 ERROR: 
-            Exception on /new_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-11 11:03:56,873 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            94]
+            
+2020-05-11 11:04:01,181 ERROR: 
+            Exception on /sub [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
-    return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 141, in new_task
-    frequency=new_task.form.frequency.data,
-  File "/home/lean/Arhat/app/main/routes.py", line 114, in add_single_task
-    to_date=date_to
-NameError: name 'date_to' is not defined
-2020-05-09 17:24:58,517 INFO: 
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1953, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1968, in finalize_request
+    response = self.make_response(rv)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2098, in make_response
+    "The view function did not return a valid response. The"
+TypeError: The view function did not return a valid response. The function either returned None or ended without a return statement.
+2020-05-11 11:09:12,130 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
+            94]
             
-2020-05-09 17:58:12,676 INFO: 
+2020-05-11 11:37:14,870 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
+            94]
             
-2020-05-09 17:59:43,082 ERROR: 
-            Exception on /edit_task/ [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
-    return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 270, in edit_task
-    edit_task.edit_all_freq_parent_and_child_tasks()
-  File "/home/lean/Arhat/app/main/routes.py", line 229, in edit_all_freq_parent_and_child_tasks
-    elif int(self.form.frequency.data) == 0:
-TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
-2020-05-09 18:00:28,105 INFO: 
+2020-05-11 11:41:43,056 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
-            91]
+            94]
+            
+2020-05-11 11:45:55,850 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            94]
+            
+2020-05-11 11:47:48,649 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            94]
+            
+2020-05-11 11:48:32,962 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            94]
+            
+2020-05-11 11:49:15,755 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            94]
+            
+2020-05-11 11:56:19,917 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            94]
             
