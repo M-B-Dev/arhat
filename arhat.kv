@@ -5,9 +5,12 @@
     height: "120dp"
 
     
-
-
-
+<ButtonTemplate>:
+    on_release: 
+        app.root.ids.nav_drawer.set_state("close")
+        app.root.ids.screen_manager.current = self.id if self.id != "Logout" else "Login"
+        if self.id == "Logout": app.root.ids.nav_drawer.children[0].ids.scroll.children[0].logged_out_buttons()
+        if self.id == "Edit Profile": app.root.ids.screen_manager.children[0].set_text_fields()
         
 <ContentNavigationDrawer>:
     orientation: "vertical"
@@ -32,81 +35,12 @@
         height: self.texture_size[1]
 
     ScrollView:
+        id: scroll
+        List:
+            id: list
+            name: 'List'
 
-        MDList:
-            
-            LoginButton:
-                id: LoginButton
-                on_release:
-                    root.nav_drawer.set_state("close")
-                    root.screen_manager.current = "Login"
-                IconLeftWidget:
-                    id: icon
-                    icon: LoginButton.icon
 
-            RegisterButton:
-                id: RegisterButton
-                on_release:
-                    root.nav_drawer.set_state("close")
-                    root.screen_manager.current = "Register"
-                IconLeftWidget:
-                    id: icon
-                    icon: RegisterButton.icon
-
-            EditProfileButton:
-                id: EditProfileButton
-                on_release:
-                    root.nav_drawer.set_state("close")
-                    root.screen_manager.current = "Register"
-                IconLeftWidget:
-                    id: icon
-                    icon: EditProfileButton.icon
-
-            ContactsButton:
-                id: ContactsButton
-                on_release:
-                    root.nav_drawer.set_state("close")
-                    root.screen_manager.current = "Register"
-                IconLeftWidget:
-                    id: icon
-                    icon: ContactsButton.icon
-            
-            TasksButton:
-                id: TasksButton
-                on_release:
-                    root.nav_drawer.set_state("close")
-                    root.screen_manager.current = "Tasks"
-                IconLeftWidget:
-                    id: icon
-                    icon: TasksButton.icon
-
-            NewTaskButton:
-                id: NewTaskButton
-                on_release:
-                    root.nav_drawer.set_state("close")
-                    root.screen_manager.current = "New Task"
-                IconLeftWidget:
-                    id: icon
-                    icon: NewTaskButton.icon
-
-            MessagesButton:
-                id: MessagesButton
-                on_release:
-                    root.nav_drawer.set_state("close")
-                    root.screen_manager.current = "Register"
-                IconLeftWidget:
-                    id: icon
-                    icon: MessagesButton.icon
-
-            LogoutButton:
-                pos_hint: {'y': 0}
-                id: LogoutButton
-                on_release:
-                    root.nav_drawer.set_state("close")
-                    root.screen_manager.current = "Login"
-                IconLeftWidget:
-                    id: icon
-                    icon: LogoutButton.icon
             
 
 Screen:
@@ -167,6 +101,7 @@ Screen:
                                 on_release: 
                                     screen_manager.current = 'Tasks' if Login.login_user() else 'Login'
                                     if screen_manager.current == 'Tasks': Tasks.load_tasks()
+                                    if screen_manager.current == 'Tasks': root.ids.nav_drawer.children[0].ids.scroll.children[0].logged_in_buttons()
                         Widget:
 
 
@@ -336,13 +271,35 @@ Screen:
                                 text: "Register"
                                 pos_hint: {"center_x": 0.5, "center_y": 0.4}
                                 on_release: 
-                                    screen_manager.current = 'Login'
+                                    screen_manager.current = 'Login' if Register.register_new_user() else 'Register'
                                     screen_manager.transition.direction = "right"
+
+                        Widget:
+
+                EditProfile:
+                    id: EditProfile
+                    name: 'Edit Profile'
+                    manager: screen_manager
+                    user: Login.user
+                    internal_password: Login.internal_password
+                    token: Login.token
+
+                    BoxLayout:
+                        orientation: "vertical"
+
+                        BoxLayout:
+                            orientation: "vertical"
+                            size_hint_y: None
+                            height: self.minimum_height
+                            padding: dp(48)
+                            spacing: 10
+
                         Widget:
 
             MDNavigationDrawer:
                 id: nav_drawer
 
                 ContentNavigationDrawer:
+                    id: content
                     screen_manager: screen_manager
                     nav_drawer: nav_drawer

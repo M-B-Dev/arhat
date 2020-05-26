@@ -391,6 +391,9 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
     def to_dict(self, include_email=False):
         data = {
             'id': self.id,
+            'threshold': self.threshold,
+            'days': self.days,
+            'email': self.email,
             'username': self.username,
             'last_seen': self.last_seen.isoformat() + 'Z',
             'post_count': self.posts.count(),
@@ -450,7 +453,7 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
         [all_tasks.append(task) for task in todos if task.done is False]
         for task in all_tasks:
             print(task.color)
-            if task.color == "Pink":
+            if task.color == "Pink" or not task.color:
                 task.color = "6c757d"
         return all_tasks
 
