@@ -8,7 +8,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 import json
 from kivymd.theming import ThemableBehavior
-from kivymd.uix.list import OneLineIconListItem, MDList
+from kivymd.uix.list import OneLineIconListItem, MDList, IconLeftWidget
 from kivymd.uix.picker import MDDatePicker, MDTimePicker
 from datetime import datetime
 from kivymd.uix.label import MDLabel
@@ -19,7 +19,7 @@ from kivy.uix.button import Button
 from kivy.uix.behaviors import ButtonBehavior  
 from kivy.uix.image import Image  
 from kivymd.uix.dialog import MDDialog
-from kivymd.uix.button import MDFlatButton, MDRoundFlatButton
+from kivymd.uix.button import MDFlatButton, MDRoundFlatButton, MDRaisedButton
 from kivymd.uix.textfield import MDTextField
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.checkbox import CheckBox
@@ -28,6 +28,7 @@ from kivymd.uix.picker import MDThemePicker
 import matplotlib
 from colour import Color
 from kivymd.color_definitions import colors
+from validate_email import validate_email
 
 class ScreenManagement(ScreenManager):
     pass
@@ -41,7 +42,12 @@ class Login(Screen):
     password = ObjectProperty(None)
     token = ObjectProperty(None)
     user_id = ObjectProperty(None)
+    user = ObjectProperty(None)
+    internal_password = ObjectProperty(None)
 
+    def __init__(self, **kwargs):
+        super(Login, self).__init__(**kwargs)
+        self.token = ''
 
     def login_user(self):
         if self.username.text and self.password.text:
@@ -52,16 +58,173 @@ class Login(Screen):
                 self.manager.current = "Tasks"
             else:
                 return None
+            self.internal_password = self.password.text
             self.username.text = ''
             self.password.text = ''
+            hed = {'Authorization': 'Bearer ' + self.token}
+            self.user = json.loads(requests.get(f'http://localhost:5000/api/users/{self.user_id}', headers=hed).content)
             return self.token
 
 
 class Register(Screen):
-    Rusername = ObjectProperty(None)
+    rusername = ObjectProperty(None)
     email = ObjectProperty(None)
     password1 = ObjectProperty(None)
-    password12 = ObjectProperty(None)
+    password2 = ObjectProperty(None)
+
+    def register_new_user(self):
+        errors = {}
+        if not self.email.text or validate_email(self.email.text) is not True:
+            errors['email'] = "Please enter a valid email address."
+        if not self.password1.text and not self.password2.text or self.password1.text != self.password2.text:
+            errors['password'] = "Please enter matching passwords."
+        if errors:
+            for error in errors.keys():
+                if error == 'email':
+                    self.email.helper_text_mode = "persistent"
+                    self.email.helper_text = errors['email']
+                    self.email.error = True
+                if error == 'password':
+                    self.password1.helper_text_mode = "persistent"
+                    self.password2.helper_text_mode = "persistent"
+                    self.password1.error = True
+                    self.password2.error = True
+                    self.password1.helper_text = errors['password']
+                    self.password2.helper_text = errors['password']
+            return False
+        data = {
+            'username': self.rusername.text,
+            'email': self.email.text,
+            'password': self.password1.text
+        }
+        response = requests.post('http://localhost:5000/api/users', json=data)
+        if 'error' in json.loads(response.content):
+            if 'username' in json.loads(response.content)['message']:
+                self.rusername.helper_text_mode = "persistent"
+                self.rusername.helper_text = json.loads(response.content)['message']
+                self.rusername.error = True
+            if 'email' in json.loads(response.content)['message']:
+                self.email.helper_text_mode = "persistent"
+                self.email.error = True
+                self.email.helper_text = json.loads(response.content)['email']
+            return False
+        return True
+
+
+
+class EditProfile(Screen):
+    user = ObjectProperty(None)
+    internal_password = ObjectProperty(None)
+    token = ObjectProperty(None)
+
+    def set_text_fields(self):
+        number_of_widgets = len(self.children[0].children[1].children)
+        for i in range(number_of_widgets):
+            self.children[0].children[1].remove_widget(self.children[0].children[1].children[0])
+        self.field_names = {
+            'username': self.user['username'],
+            'email': self.user['email'],
+            'password1': self.internal_password,
+            'password2': self.internal_password,
+            'days': str(self.user['days']),
+            'threshold': str(self.user['threshold']) 
+        }
+        y = 0.9
+        for field in self.field_names.keys():
+            if 'password' in field:
+                password = True
+            else:
+                password = False
+            setattr(self, field, MDTextField(
+                id=field,
+                text=self.field_names[field],
+                required=True,
+                mode="rectangle",
+                pos_hint={"center_x": 0.5, "center_y": y},
+                password=password
+            ))
+            y - 0.2
+            widget = getattr(self, field)
+            self.children[0].children[1].add_widget(widget)
+        self.edit_profile_button = MDRaisedButton(text="Edit Profile", pos_hint={"center_x": 0.5, "center_y": 0})
+        self.edit_profile_button.bind(on_release=self.edit_profile)
+        self.children[0].children[1].add_widget(self.edit_profile_button)
+        
+            
+
+    def edit_profile(self, instance):
+        errors = False
+        if self.password1.text != self.password2.text or len(self.password1.text) < 8:
+            self.password1.helper_text = "Please enter identical passwords of 8 characters or more."
+            self.password2.helper_text = "Please enter identical passwords of 8 characters or more."
+            self.password1.helper_text_mode = "persistent"
+            self.password2.helper_text_mode = "persistent"
+            errors = True
+        if not self.email.text or validate_email(self.email.text) is False:
+            self.email.helper_text = "Please enter a valid email address"
+            self.email.helper_text_mode = "persistent"
+            errors = True
+        if not self.threshold.text or self.threshold.text.isnumeric() is False or int(self.threshold.text) > 100:
+            self.threshold.helper_text = "Please enter a number between 0 and 100"
+            self.threshold.helper_text_mode = "persistent"
+            errors = True
+        if not self.days.text or self.days.text.isnumeric() is False:
+            self.days.helper_text = "Please enter a number"
+            self.days.helper_text_mode = "persistent"
+            errors = True
+        if errors is True:
+            return False
+        hed = {'Authorization': 'Bearer ' + self.token}
+        data = {
+            'username': self.username.text,
+            'email': self.email.text,
+            'threshold': int(self.threshold.text),
+            'days': int(self.days.text),
+            'password': self.password1.text
+            }
+        response = requests.put(f'http://localhost:5000/api/users/{self.user["id"]}', json=data, headers=hed)
+        if 'error' in json.loads(response.content):
+            if 'username' in json.loads(response.content)['error']:
+                self.username.helper_text = "That username is taken" 
+                self.username.helper_text_mode = "persistent"
+            if 'email' in json.loads(response.content)['error']:
+                self.email.helper_text = "That email is already registered" 
+                self.email.helper_text_mode = "persistent"
+            return False
+        self.update_fields()
+
+    def update_fields(self):
+        hed = {'Authorization': 'Bearer ' + self.token}
+        self.user = json.loads(requests.get(f'http://localhost:5000/api/users/{self.user["id"]}', headers=hed).content)
+        self.set_text_fields()
+
+
+class Messages(Screen):
+    def show_received_messages():
+        pass
+    
+    def show_sent_messages():
+        pass
+
+    def send_message():
+        pass
+
+class Contacts(Screen):
+    def show_users():
+        #Must display user avatar
+        pass
+
+    def show_followers():
+        pass
+
+    def show_following():
+        pass
+
+    def follow():
+        pass
+
+    def unfollow():
+        pass
 
 class MyLabel(MDLabel):
     pass
@@ -120,7 +283,6 @@ class Content(BoxLayout):
         c = hex_to_rgb("#" + colors[color]["900"])
         self.selected_color = colors[color]["900"]
         self.color_pick.background_color = (c[0]/255, c[1]/255, c[2]/255, 0.5)
-        print(c)
 
     def show_theme_picker(self, instance):
         self.theme_dialog = MDThemePicker(id=self.id)
@@ -221,7 +383,10 @@ class ImageButton(ButtonBehavior, Image):
             frequency = self.edit_task.content_cls.widg.frequency.text
             date_to = self.edit_task.content_cls.widg.date_to
             done = self.edit_task.content_cls.widg.done_data
-            color = self.edit_task.content_cls.widg.selected_color
+            if self.edit_task.content_cls.widg.selected_color:
+                color = self.edit_task.content_cls.widg.selected_color
+            else:
+                color = self.task['color']
             data = {
                 'color': color,
                 'body': body, 
@@ -260,6 +425,7 @@ class Tasks(Screen):
     
         
     def load_tasks(self, date=datetime.strftime(datetime.today(), "%d-%m-%Y"), height=None, width=None, manager=None):
+        self.date = date
         if not width:
             width = self.parent.width
         if not height:
@@ -283,11 +449,27 @@ class Tasks(Screen):
                 color=(color[0]/255, color[1]/255, color[2]/255, .5), 
                 source=None
                 )
-            print(task['id'])
             setattr(self, str(task['id']), button)
             self.add_widget(getattr(self, str(task['id'])))
+        self.date_button = Button(text=f"Change date: {self.date}", pos=(width/2-250, 0), size_hint_y=None, size_hint_x=None, size=(500, 50))
+        self.date_button.bind(on_press=self.show_date_picker)
+        self.add_widget(self.date_button)
         self.manager.current = "Tasks"
 
+    def get_date(self, date):
+        '''
+        :type date: <class 'datetime.date'>
+        '''
+        self.date = datetime.strftime(date, "%d-%m-%Y")
+        
+        original_widgets = [child for child in self.children if "ImageButton" in str(type(child))]
+        self.load_tasks(date=self.date)
+        for child in original_widgets:
+            self.remove_widget(child)
+
+    def show_date_picker(self, instance):
+        date_dialog = MDDatePicker(callback=self.get_date)
+        date_dialog.open()
     
     def show_edit_task(self, task):
         print(task['id'])
@@ -302,7 +484,7 @@ class Tasks(Screen):
             return f"{hour}:{minutes}"
         else:
             return f"{hour}:0{minutes}"
-
+            
 class NewTask(Screen):
     token = ObjectProperty(None)
     user_id = ObjectProperty(None)
@@ -388,65 +570,51 @@ class NewTask(Screen):
             self.end_time_minutes = ObjectProperty(None)
             self.updated_tasks = json.loads(response.content)
             self.manager.current = "Tasks"
-        
-class LoginButton(OneLineIconListItem):
-    hide = ObjectProperty(None)
+
+class ButtonTemplate(OneLineIconListItem):
+    pass
+
+class List(MDList):
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        if not self.hide:
-            self.text = "Login"
-            self.icon = "account-circle"
+        super(List, self).__init__(**kwargs)
+        self.nav_buttons = {
+            'Tasks': "calendar-multiple-check",
+            'New Task': "calendar-check",
+            'Messages': "message-text-outline",
+            'Contacts': "account-multiple",
+            'Edit Profile': "account-circle-outline",
+            'Logout': "logout",
+            'Login': "account-circle",
+            'Register': "account-plus"
+        }
+        self.logged_out_buttons()
 
+    def logged_out_buttons(self):
+        self.remove_buttons()
+        for button_name in self.nav_buttons.keys():
+            if button_name == 'Login' or button_name == 'Register':
+                button = ButtonTemplate()
+                button.text = button_name
+                button.icon = self.nav_buttons[button_name]
+                button.id = button_name
+                button.add_widget(IconLeftWidget(id=button.icon, icon=button.icon))
+                self.add_widget(button)
 
-class RegisterButton(OneLineIconListItem):
-    hide = ObjectProperty(None)
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.text = "Register"
-        self.icon = "account-plus"
+    def remove_buttons(self):
+        number_of_kids = range(len(self.children))
+        for i in number_of_kids:
+            self.remove_widget(self.children[0])
 
-class EditProfileButton(OneLineIconListItem):
-    hide = ObjectProperty(None)
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.text = "Edit Profile"
-        self.icon = "account-circle-outline"
-
-class ContactsButton(OneLineIconListItem):
-    hide = ObjectProperty(None)
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.text = "Contacts"
-        self.icon = "account-multiple"
-
-class TasksButton(OneLineIconListItem):
-    hide = ObjectProperty(None)
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.text = "Tasks"
-        self.icon = "calendar-multiple-check"
-
-class NewTaskButton(OneLineIconListItem):
-    hide = ObjectProperty(None)
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.text = "New Task"
-        self.icon = "calendar-check"
-
-class MessagesButton(OneLineIconListItem):
-    hide = ObjectProperty(None)
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.text = "Messages"
-        self.icon = "message-text-outline"
-
-class LogoutButton(OneLineIconListItem):
-    hide = ObjectProperty(None)
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.text = "Logout"
-        self.icon = "logout"
-
+    def logged_in_buttons(self):
+        self.remove_buttons()
+        for button_name in self.nav_buttons.keys():
+            if button_name != 'Login' and button_name != 'Register':
+                button = ButtonTemplate()
+                button.text = button_name
+                button.icon = self.nav_buttons[button_name]
+                button.id = button_name
+                button.add_widget(IconLeftWidget(id=button.icon, icon=button.icon))
+                self.add_widget(button)     
 
 class MainApp(MDApp):
     def __init__(self, **kwargs):
