@@ -1,10 +1,11 @@
 from app.api import bp
-from flask import jsonify, request, url_for, g, abort
-from app.models import User, Post
+from flask import jsonify, request, url_for, g, abort, current_app, render_template
+from app.models import User, Post, Message
 from app import db
 from app.api.auth import token_auth
 from app.api.errors import bad_request
 from datetime import datetime
+from app.email import send_email
 
 @bp.route('/users/<int:id>', methods=['GET'])
 @token_auth.login_required
@@ -15,7 +16,7 @@ def get_user(id):
 @token_auth.login_required
 def get_users():
     page = request.args.get('page', 1, type=int)
-    per_page = min(request.args.get('per_page', 10, type=int), 100)
+    per_page = min(request.args.get('per_page', 100, type=int), 100)
     data = User.to_collection_dict(User.query, page, per_page, 'api.get_users')
     return jsonify(data)
 
@@ -24,7 +25,7 @@ def get_users():
 def get_followers(id):
     user = User.query.get_or_404(id)
     page = request.args.get('page', 1, type=int)
-    per_page = min(request.args.get('per_page', 10, type=int), 100)
+    per_page = min(request.args.get('per_page', 100, type=int), 100)
     data = User.to_collection_dict(user.followers, page, per_page,
                                    'api.get_followers', id=id)
     return jsonify(data)
@@ -34,10 +35,21 @@ def get_followers(id):
 def get_followed(id):
     user = User.query.get_or_404(id)
     page = request.args.get('page', 1, type=int)
-    per_page = min(request.args.get('per_page', 10, type=int), 100)
+    per_page = min(request.args.get('per_page', 100, type=int), 100)
     data = User.to_collection_dict(user.followed, page, per_page,
                                    'api.get_followed', id=id)
     return jsonify(data)
+
+@bp.route('/users/<int:id>/penders', methods=['GET'])
+@token_auth.login_required
+def get_penders(id):
+    user = User.query.get_or_404(id)
+    page = request.args.get('page', 1, type=int)
+    per_page = min(request.args.get('per_page', 100, type=int), 100)
+    data = User.to_collection_dict(user.pended, page, per_page,
+                                   'api.get_penders', id=id)
+    return jsonify(data)
+
 
 @bp.route('/users', methods=['POST'])
 def create_user():
@@ -115,3 +127,36 @@ def check_start_and_end(data, task=None):
         return True
     elif 'end_time' in data and task and int(data['end_time']) < task.start_time:
         return True
+
+@bp.route('/users/follow/<int:id>/<user_id>', methods=['POST'])
+@token_auth.login_required
+def follow_request(id, user_id):
+    user = User.query.filter_by(id=id).first_or_404()
+    current_user = User.query.filter_by(id=user_id).first_or_404()
+    current_user.pend(user)
+    token = user.get_follow_request_token()
+    send_email(
+        "[Arhat] Connection Request",
+        sender=current_app.config["ADMINS"][0],
+        recipients=[user.email],
+        text_body=render_template(
+            "email/follow_request.txt",
+            user=user,
+            follow_requester=current_user,
+            token=token,
+        ),
+        html_body=render_template(
+            "email/follow_request.html",
+            user=user,
+            follow_requester=current_user,
+            token=token,
+        ),
+    )
+    msg = Message(
+        author=current_user,
+        recipient=user,
+        body="Check your email, I have sent you a connection request",
+    )
+    db.session.add(msg)
+    db.session.commit()
+    return jsonify('success')

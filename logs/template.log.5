@@ -1,5 +1,5 @@
-2020-05-18 22:02:54,553 ERROR: 
-            Exception on /api/users/tasks/2/18-05-2020 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-21 15:33:30,409 ERROR: 
+            Exception on /api/users/tasks/517 [PUT] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -15,15 +15,15 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/app/api/users.py", line 107, in create_task
-    data = User.to_collection_dict(user.get_daily_tasks(date), None, None, None)
-  File "/home/lean/Arhat/app/models.py", line 441, in get_daily_tasks
-    for task in all_frequency_tasks
-  File "/home/lean/Arhat/app/models.py", line 443, in <listcomp>
-    and (date - task.date).days > 0
-TypeError: unsupported operand type(s) for -: 'str' and 'datetime.datetime'
-2020-05-18 22:08:30,427 ERROR: 
-            Exception on /api/users/tasks/2/18-05-2020 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
+    return f(*args, **kwargs)
+  File "/home/lean/Arhat/app/api/users.py", line 89, in update_task
+    task.from_dict(data)
+  File "/home/lean/Arhat/app/models.py", line 505, in from_dict
+    data['frequency'] = int(data['frequency'])
+ValueError: invalid literal for int() with base 10: 'None'
+2020-05-21 15:33:33,147 ERROR: 
+            Exception on /api/users/tasks/517 [PUT] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -39,15 +39,15 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/app/api/users.py", line 107, in create_task
-    date = datetime.strptime(date, "%d-%m-%Y")
-  File "/home/lean/Arhat/app/models.py", line 441, in get_daily_tasks
-    for task in all_frequency_tasks
-  File "/home/lean/Arhat/app/models.py", line 443, in <listcomp>
-    and (date - task.date).days > 0
-TypeError: unsupported operand type(s) for -: 'str' and 'datetime.datetime'
-2020-05-18 22:12:34,714 ERROR: 
-            Exception on /api/users/tasks/2/18-05-2020 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
+    return f(*args, **kwargs)
+  File "/home/lean/Arhat/app/api/users.py", line 89, in update_task
+    task.from_dict(data)
+  File "/home/lean/Arhat/app/models.py", line 505, in from_dict
+    data['frequency'] = int(data['frequency'])
+ValueError: invalid literal for int() with base 10: 'None'
+2020-05-21 15:48:44,357 ERROR: 
+            Exception on /api/users/tasks/518 [PUT] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -63,19 +63,15 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/app/api/users.py", line 107, in create_task
-    date = datetime.strptime(date, "%d-%m-%Y")
-  File "/home/lean/Arhat/app/models.py", line 441, in get_daily_tasks
-    for task in all_frequency_tasks
-  File "/home/lean/Arhat/app/models.py", line 443, in <listcomp>
-    and (date - task.date).days > 0
-TypeError: unsupported operand type(s) for -: 'str' and 'datetime.datetime'
-2020-05-18 22:14:09,834 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-18 22:14:43,921 ERROR: 
-            Exception on /api/users/tasks/2/19-05-2020 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
+    return f(*args, **kwargs)
+  File "/home/lean/Arhat/app/api/users.py", line 89, in update_task
+    task.from_dict(data)
+  File "/home/lean/Arhat/app/models.py", line 505, in from_dict
+    data['frequency'] = int(data['frequency'])
+ValueError: invalid literal for int() with base 10: 'None'
+2020-05-21 15:48:46,883 ERROR: 
+            Exception on /api/users/tasks/518 [PUT] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -91,15 +87,15 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/app/api/users.py", line 107, in create_task
-    date = datetime.strptime(date, "%d-%m-%Y")
-NameError: name 'datetime' is not defined
-2020-05-18 22:17:15,490 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-18 22:17:45,014 ERROR: 
-            Exception on /api/users/tasks/2/21-05-2020 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
+    return f(*args, **kwargs)
+  File "/home/lean/Arhat/app/api/users.py", line 89, in update_task
+    task.from_dict(data)
+  File "/home/lean/Arhat/app/models.py", line 505, in from_dict
+    data['frequency'] = int(data['frequency'])
+ValueError: invalid literal for int() with base 10: 'None'
+2020-05-21 15:48:48,519 ERROR: 
+            Exception on /api/users/tasks/518 [PUT] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -115,25 +111,15 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/app/api/users.py", line 109, in create_task
-    data = User.to_collection_dict(user.get_daily_tasks(date), None, None, None)
-  File "/home/lean/Arhat/app/models.py", line 437, in get_daily_tasks
-    todos = self.posts.filter_by(date=datetime.strptime(date, "%d-%m-%Y"))
-TypeError: strptime() argument 1 must be str, not datetime.datetime
-2020-05-18 22:19:57,887 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-19 13:35:53,122 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-19 14:15:26,014 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-19 19:51:05,519 ERROR: 
-            Exception on /api/users/tasks/2/None [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
+    return f(*args, **kwargs)
+  File "/home/lean/Arhat/app/api/users.py", line 89, in update_task
+    task.from_dict(data)
+  File "/home/lean/Arhat/app/models.py", line 505, in from_dict
+    data['frequency'] = int(data['frequency'])
+ValueError: invalid literal for int() with base 10: 'None'
+2020-05-21 16:22:52,022 ERROR: 
+            Exception on /api/users/tasks/2/<Screen name='Tasks'> [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -159,4 +145,4 @@ Traceback (most recent call last):
     tt, fraction, gmtoff_fraction = _strptime(data_string, format)
   File "/usr/lib/python3.7/_strptime.py", line 359, in _strptime
     (data_string, format))
-ValueError: time data 'None' does not match format '%d-%m-%Y'
+ValueError: time data "<Screen name='Tasks'>" does not match format '%d-%m-%Y'

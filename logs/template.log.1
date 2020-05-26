@@ -1,69 +1,9 @@
-2020-05-26 13:38:39,294 ERROR: 
-            Exception on /api/users [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
-    return f(*args, **kwargs)
-  File "/home/lean/Arhat/app/api/users.py", line 19, in get_users
-    data = User.to_collection_dict(User.query, page, per_page, 'api.get_users')
-  File "/home/lean/Arhat/app/models.py", line 35, in to_collection_dict
-    'items': [item.to_dict() for item in resources.items],
-  File "/home/lean/Arhat/app/models.py", line 35, in <listcomp>
-    'items': [item.to_dict() for item in resources.items],
-  File "/home/lean/Arhat/app/models.py", line 402, in to_dict
-    'image': self.prep_image_for_json().encode('base64'),
-  File "/home/lean/Arhat/app/models.py", line 396, in prep_image_for_json
-    return img_file.read()
-  File "/usr/lib/python3.7/codecs.py", line 322, in decode
-    (result, consumed) = self._buffer_decode(data, self.errors, final)
-UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte
-2020-05-26 13:40:05,592 ERROR: 
-            Exception on /api/users/2 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
-    return f(*args, **kwargs)
-  File "/home/lean/Arhat/app/api/users.py", line 12, in get_user
-    return jsonify(User.query.get_or_404(id).to_dict())
-  File "/home/lean/Arhat/app/models.py", line 402, in to_dict
-    'image': self.prep_image_for_json().encode('base64'),
-  File "/home/lean/Arhat/app/models.py", line 396, in prep_image_for_json
-    return img_file.read()
-  File "/usr/lib/python3.7/codecs.py", line 322, in decode
-    (result, consumed) = self._buffer_decode(data, self.errors, final)
-UnicodeDecodeError: 'utf-8' codec can't decode byte 0x89 in position 0: invalid start byte
-2020-05-26 13:40:42,164 INFO: 
+2020-05-26 20:32:28,069 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-05-26 13:40:54,396 ERROR: 
-            Exception on /api/users/2 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-26 20:32:43,658 ERROR: 
+            Exception on /api/users/2/penders [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -81,17 +21,31 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
     return f(*args, **kwargs)
-  File "/home/lean/Arhat/app/api/users.py", line 12, in get_user
-    return jsonify(User.query.get_or_404(id).to_dict())
-  File "/home/lean/Arhat/app/models.py", line 402, in to_dict
-    'image': self.prep_image_for_json().encode('base64'),
-  File "/home/lean/Arhat/app/models.py", line 396, in prep_image_for_json
-    return img_file.read()
-  File "/usr/lib/python3.7/codecs.py", line 322, in decode
-    (result, consumed) = self._buffer_decode(data, self.errors, final)
-UnicodeDecodeError: 'utf-8' codec can't decode byte 0x89 in position 0: invalid start byte
-2020-05-26 13:42:43,097 ERROR: 
-            Exception on /api/users/2 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+  File "/home/lean/Arhat/app/api/users.py", line 48, in get_penders
+    data = User.to_collection_dict(user.pendered, page, per_page,
+AttributeError: 'User' object has no attribute 'pendered'
+2020-05-26 20:34:36,847 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-26 20:37:11,440 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-26 21:43:09,318 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-26 21:44:46,417 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-26 22:50:40,276 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-26 22:50:59,017 ERROR: 
+            Exception on /api/users/follow/5/2 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -109,17 +63,11 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
     return f(*args, **kwargs)
-  File "/home/lean/Arhat/app/api/users.py", line 12, in get_user
-    return jsonify(User.query.get_or_404(id).to_dict())
-  File "/home/lean/Arhat/app/models.py", line 402, in to_dict
-    data = {
-  File "/home/lean/Arhat/app/models.py", line 396, in prep_image_for_json
-    img_data = img_file.read()
-  File "/usr/lib/python3.7/codecs.py", line 322, in decode
-    (result, consumed) = self._buffer_decode(data, self.errors, final)
-UnicodeDecodeError: 'utf-8' codec can't decode byte 0x89 in position 0: invalid start byte
-2020-05-26 13:44:00,195 ERROR: 
-            Exception on /api/users/2 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+  File "/home/lean/Arhat/app/api/users.py", line 137, in follow_request
+    send_email(
+NameError: name 'send_email' is not defined
+2020-05-26 22:51:01,590 ERROR: 
+            Exception on /api/users/follow/5/2 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -137,16 +85,76 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
     return f(*args, **kwargs)
-  File "/home/lean/Arhat/app/api/users.py", line 12, in get_user
-    return jsonify(User.query.get_or_404(id).to_dict())
-  File "/home/lean/Arhat/app/models.py", line 402, in to_dict
-    def to_dict(self, include_email=False):
-  File "/home/lean/Arhat/app/models.py", line 396, in prep_image_for_json
-    img_file = open(picture_fn, "r")
-  File "/usr/lib/python3.7/codecs.py", line 322, in decode
-    (result, consumed) = self._buffer_decode(data, self.errors, final)
-UnicodeDecodeError: 'utf-8' codec can't decode byte 0x89 in position 0: invalid start byte
-2020-05-26 13:44:59,033 INFO: 
+  File "/home/lean/Arhat/app/api/users.py", line 137, in follow_request
+    send_email(
+NameError: name 'send_email' is not defined
+2020-05-26 22:51:03,747 ERROR: 
+            Exception on /api/users/follow/4/2 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
+            
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
+    return f(*args, **kwargs)
+  File "/home/lean/Arhat/app/api/users.py", line 137, in follow_request
+    send_email(
+NameError: name 'send_email' is not defined
+2020-05-26 22:51:07,549 ERROR: 
+            Exception on /api/users/follow/7/2 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
+            
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
+    return f(*args, **kwargs)
+  File "/home/lean/Arhat/app/api/users.py", line 137, in follow_request
+    send_email(
+NameError: name 'send_email' is not defined
+2020-05-26 22:51:09,822 ERROR: 
+            Exception on /api/users/follow/7/2 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
+            
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
+    return f(*args, **kwargs)
+  File "/home/lean/Arhat/app/api/users.py", line 137, in follow_request
+    send_email(
+NameError: name 'send_email' is not defined
+2020-05-26 22:52:34,395 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
