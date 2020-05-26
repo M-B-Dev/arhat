@@ -306,16 +306,20 @@ Screen:
                     manager: screen_manager
                     user: Login.user
                     token: Login.token
+                    user_id: Login.user_id
 
                     BoxLayout:
                         orientation: "vertical"
                         ScrollView:
                             BoxLayout:
+
                                 orientation: "vertical"
                                 size_hint_y: None
-                                height: self.minimum_height
+                                size_hint_x: None
                                 padding: dp(48)
                                 spacing: 10
+                                size: [(self.parent.width/2)+(self.parent.width/16), self.minimum_height]
+
 
 
 

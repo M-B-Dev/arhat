@@ -224,30 +224,74 @@ class Item(OneLineAvatarListItem):
 class Contacts(Screen):
     user = ObjectProperty(None)
     token = ObjectProperty(None)
+    user_id = ObjectProperty(None)
+    search = ObjectProperty(None)
 
-    def show_users(self):
+    def search_users(self, instance):
         hed = {'Authorization': 'Bearer ' + self.token}
         response = requests.get('http://localhost:5000/api/users', headers=hed)
-        self.user = json.loads(response.content)
-        widg = ScrollView()
-        box = BoxLayout()
+        self.users = json.loads(response.content)['items']
+        users = [user for user in self.users if self.search.text in user['username'] or self.search.text in user['email']]
+        self.show_users(users=users)
 
-        box.spacing = 10
-        for usr in self.user['items']:
+    def show_users(self, users=None):
+        number_of_widgets = len(self.children[0].children[0].children[0].children)
+        for i in range(number_of_widgets):
+            self.children[0].children[0].children[0].remove_widget(self.children[0].children[0].children[0].children[0])
+        self.search = MDTextField(hint_text="search", id='search', pos_hint = {'x': 0.5, 'y': 0.5})
+        self.button = MDRoundFlatButton(text="Search", pos_hint = {'x': 0.5, 'y': 0.5})
+        self.button.bind(on_release=self.search_users)
+        self.children[0].children[0].children[0].add_widget(self.search)
+        self.children[0].children[0].children[0].add_widget(self.button)
+        hed = {'Authorization': 'Bearer ' + self.token}
+        response = requests.get('http://localhost:5000/api/users', headers=hed)
+        if not users:
+            self.users = json.loads(response.content)['items']
+        else:
+            self.users = users
+        response = requests.get(f'http://localhost:5000/api/users/{self.user_id}/followers', headers=hed)
+        self.followers = json.loads(response.content)
+        self.followers_ids = [ident['id'] for ident in self.followers['items']]
+        response = requests.get(f'http://localhost:5000/api/users/{self.user_id}/followed', headers=hed)
+        self.followed = json.loads(response.content)
+        self.followed_ids = [ident['id'] for ident in self.followed['items']]
+        response = requests.get(f'http://localhost:5000/api/users/{self.user_id}/penders', headers=hed)
+        self.penders = json.loads(response.content)
+        self.pender_ids = [ident['id'] for ident in self.penders['items']]
+
+        for usr in self.users:
             img = base64.b64decode(usr['image'])
             data = io.BytesIO(img)
             fn = f"{usr['username']}.jpg"
             im = CoreImage(data, ext="jpg").texture
-            print(im)
             inner_widg = Item()
-            inner_widg.text = usr['username']
-            inner_widg.texture = im
-            self.children[0].children[0].children[0].add_widget(inner_widg)
-        # widg.add_widget(box)
-        # .add_widget(box)
+            inner_widg.pos_hint = {'x': 0.5, 'y': 0.5}
+            inner_widg.bg_color = (0,0,0,0.25)
+            if usr['id'] in self.followers_ids and usr['id'] not in self.followed_ids:
+                inner_widg.text = f"{usr['username']} follows you, follow them back?"
+                inner_widg.id = str(usr['id'])
+                inner_widg.bind(on_release=self.follow_user)
+                self.add_widg(im, inner_widg)
+            elif usr['id'] in self.followed_ids:
+                inner_widg.text = f"You follow {usr['username']}, send message?"
+                self.add_widg(im, inner_widg)
+            elif usr['id'] in self.pender_ids:
+                inner_widg.text = f"Pending {usr['username']} to accept your follow request"
+                self.add_widg(im, inner_widg)
+            elif int(usr['id']) != int(self.user_id):
+                inner_widg.text = f"Follow {usr['username']}"
+                inner_widg.id = str(usr['id'])
+                inner_widg.bind(on_release=self.follow_user)
+                self.add_widg(im, inner_widg)
 
-    def search_users():
-        pass
+    def add_widg(self, im, inner_widg):
+        inner_widg.texture = im
+        self.children[0].children[0].children[0].add_widget(inner_widg)
+
+    def follow_user(self, instance):
+        hed = {'Authorization': 'Bearer ' + self.token}
+        response = requests.post(f'http://localhost:5000/api/users/follow/{instance.id}/{self.user_id}', headers=hed)
+        self.show_users()
 
     def show_followers():
         pass

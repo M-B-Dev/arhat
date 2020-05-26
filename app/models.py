@@ -392,7 +392,6 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
         picture_fn = os.path.join(
             current_app.root_path, "static/profile_pics", self.image_file
         )
-        print(picture_fn)
         with open(picture_fn, 'rb') as img_file:
             img_data = base64.b64encode(img_file.read())
         return json.dumps(img_data)
@@ -463,7 +462,6 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
         ]
         [all_tasks.append(task) for task in todos if task.done is False]
         for task in all_tasks:
-            print(task.color)
             if task.color == "Pink" or not task.color:
                 task.color = "6c757d"
         return all_tasks
@@ -526,10 +524,7 @@ class Post(db.Model):
         for field in ['body', 'done', 'start_time', 'end_time', 'user_id', 'date', 'hour', 'frequency', 'to_date', 'color']:
             if field in data:
                 setattr(self, field, data[field])
-        print(self.done)
-        print(type(self.done))
-        print(self.frequency)
-        print(type(self.frequency))
+
 
     def __repr__(self):
         """returns a representation of the Post object."""
