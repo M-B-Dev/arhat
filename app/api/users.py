@@ -133,6 +133,8 @@ def check_start_and_end(data, task=None):
 def follow_request(id, user_id):
     user = User.query.filter_by(id=id).first_or_404()
     current_user = User.query.filter_by(id=user_id).first_or_404()
+    if user is None or current_user.is_following(user) or current_user.is_pending(user):
+        return jsonify('failure')
     current_user.pend(user)
     token = user.get_follow_request_token()
     send_email(
@@ -160,3 +162,13 @@ def follow_request(id, user_id):
     db.session.add(msg)
     db.session.commit()
     return jsonify('success')
+
+@bp.route('/users/unfollow/<int:id>/<user_id>', methods=['POST'])
+@token_auth.login_required
+def unfollow(id, user_id):
+    user = User.query.filter_by(id=id).first_or_404()
+    current_user = User.query.filter_by(id=user_id).first_or_404()
+    current_user.unfollow(user)
+    db.session.commit()
+    return jsonify('success')
+

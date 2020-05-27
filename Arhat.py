@@ -238,11 +238,17 @@ class Contacts(Screen):
         number_of_widgets = len(self.children[0].children[0].children[0].children)
         for i in range(number_of_widgets):
             self.children[0].children[0].children[0].remove_widget(self.children[0].children[0].children[0].children[0])
-        self.search = MDTextField(hint_text="search", id='search', pos_hint = {'x': 0.5, 'y': 0.5})
-        self.button = MDRoundFlatButton(text="Search", pos_hint = {'x': 0.5, 'y': 0.5})
+        self.search = MDTextField(hint_text="search", id='search', pos_hint={'x': 0.5, 'y': 0.5})
+        self.button = MDRaisedButton(text="Search", pos_hint={'x': 0.5, 'y': 0.5})
         self.button.bind(on_release=self.search_users)
+        self.followers_button = MDRaisedButton(text="Followers", pos_hint={'x': 0.5, 'y': 0.5})
+        self.followers_button.bind(on_release=self.show_followers)
+        self.followed_button = MDRaisedButton(text="Followed by me", pos_hint={'x': 0.5, 'y': 0.5})
+        self.followed_button.bind(on_release=self.show_followed)
         self.children[0].children[0].children[0].add_widget(self.search)
         self.children[0].children[0].children[0].add_widget(self.button)
+        self.children[0].children[0].children[0].add_widget(self.followers_button)
+        self.children[0].children[0].children[0].add_widget(self.followed_button)
         hed = {'Authorization': 'Bearer ' + self.token}
         response = requests.get('http://localhost:5000/api/users', headers=hed)
         if not users:
@@ -267,25 +273,23 @@ class Contacts(Screen):
             inner_widg = Item()
             inner_widg.pos_hint = {'x': 0.5, 'y': 0.5}
             inner_widg.bg_color = (0,0,0,0.25)
+            inner_widg.id = json.dumps(usr)
             if usr['id'] in self.followers_ids and usr['id'] not in self.followed_ids:
-                inner_widg.text = f"{usr['username']} follows you, follow them back?"
-                inner_widg.id = str(usr['id'])
-                inner_widg.bind(on_release=self.follow_user)
+                inner_widg.text = f"{usr['username']} follows you"
                 self.add_widg(im, inner_widg)
             elif usr['id'] in self.followed_ids:
-                inner_widg.text = f"You follow {usr['username']}, send message?"
+                inner_widg.text = f"You follow {usr['username']}"
                 self.add_widg(im, inner_widg)
             elif usr['id'] in self.pender_ids:
-                inner_widg.text = f"Pending {usr['username']} to accept your follow request"
+                inner_widg.text = f"Pending {usr['username']}"
                 self.add_widg(im, inner_widg)
             elif int(usr['id']) != int(self.user_id):
                 inner_widg.text = f"Follow {usr['username']}"
-                inner_widg.id = str(usr['id'])
-                inner_widg.bind(on_release=self.follow_user)
                 self.add_widg(im, inner_widg)
 
     def add_widg(self, im, inner_widg):
         inner_widg.texture = im
+        inner_widg.bind(on_release=self.show_user)
         self.children[0].children[0].children[0].add_widget(inner_widg)
 
     def follow_user(self, instance):
@@ -293,17 +297,135 @@ class Contacts(Screen):
         response = requests.post(f'http://localhost:5000/api/users/follow/{instance.id}/{self.user_id}', headers=hed)
         self.show_users()
 
-    def show_followers():
-        pass
+    def unfollow_user(self, instance):
+        hed = {'Authorization': 'Bearer ' + self.token}
+        response = requests.post(f'http://localhost:5000/api/users/unfollow/{instance.id}/{self.user_id}', headers=hed)
+        self.show_users()
+
+    def show_followers(self, instance):
+        layout = BoxLayout()
+        for usr in self.followers['items']:
+            img = base64.b64decode(usr['image'])
+            data = io.BytesIO(img)
+            fn = f"{usr['username']}.jpg"
+            im = CoreImage(data, ext="jpg").texture
+            inner_widg = Item()
+            inner_widg.pos_hint = {'x': 0.5, 'y': 0.5}
+            inner_widg.bg_color = (0,0,0,0.25)
+            inner_widg.text = f"{usr['username']} follows you"
+            inner_widg.texture = im
+            inner_widg.bind(on_release=self.show_user)
+            inner_widg.id = json.dumps(usr)
+            layout.add_widget(inner_widg)
+        scroller = ScrollView()
+        scroller.add_widget(layout)
+        self.followers_dialog = MDDialog(
+                auto_dismiss=False,
+                title="Followers",
+                type="custom",
+                content_cls=scroller,
+                buttons=[
+                    MDFlatButton(
+                        text="Close",
+                        on_press=self.close_dialog
+                    )
+                ],
+            )
+        self.followers_dialog.open()
+
+    def show_followed(self, instance):
+        layout = BoxLayout()
+        for usr in self.followed['items']:
+            img = base64.b64decode(usr['image'])
+            data = io.BytesIO(img)
+            fn = f"{usr['username']}.jpg"
+            im = CoreImage(data, ext="jpg").texture
+            inner_widg = Item()
+            inner_widg.pos_hint = {'x': 0.5, 'y': 0.5}
+            inner_widg.bg_color = (0,0,0,0.25)
+            inner_widg.text = f"You follow {usr['username']}"
+            inner_widg.texture = im
+            inner_widg.bind(on_release=self.show_user)
+            inner_widg.id = json.dumps(usr)
+            layout.add_widget(inner_widg)
+        scroller = ScrollView()
+        scroller.add_widget(layout)
+        self.followed_dialog = MDDialog(
+                auto_dismiss=False,
+                title="Followed by me",
+                type="custom",
+                content_cls=scroller,
+                buttons=[
+                    MDFlatButton(
+                        text="Close",
+                        on_press=self.close_followed_dialog
+                    )
+                ],
+            )
+        self.followed_dialog.open()
+
+    def close_followed_dialog(self, instance):
+        self.followed_dialog.dismiss()
+    
+    def close_dialog(self, instance):
+        self.followers_dialog.dismiss()
+    
+    def close_then_open(self, instance):
+        self.followers_dialog.dismiss()
+        self.show_user(instance)
 
     def show_following():
         pass
 
-    def follow():
-        pass
+    def show_user(self, instance):
+        usr = json.loads(instance.id)
+        layout = BoxLayout()
+        layout.orientation = 'vertical'
+        img = base64.b64decode(usr['image'])
+        data = io.BytesIO(img)
+        fn = f"{usr['username']}.jpg"
+        im = CoreImage(data, ext="jpg").texture
+        layout.add_widget(Image(texture=im))
+        if usr['id'] in self.followed_ids:
+            unfollow_button = Button(text=f"Unfollow?")
+            unfollow_button.id = str(usr['id'])
+            unfollow_button.bind(on_release=self.unfollow_user, on_press=self.close_user_dialog)
+            message_button = Button(text=f"Send {usr['username']} a message?")
+            layout.add_widget(unfollow_button)
+            layout.add_widget(message_button)
+        elif usr['id'] in self.pender_ids:
+            pend_label = MDLabel(text=f"waiting for {usr['username']} to accept your request")
+            layout.add_widget(pend_label)
+        elif usr['id'] in self.followers_ids:
+            follow_button = Button(text=f"{usr['username']} follows you, follow them back?")
+            follow_button.id = str(usr['id'])
+            follow_button.bind(on_release=self.follow_user, on_press=self.close_user_dialog)
+            layout.add_widget(follow_button)
+        else:
+            follow_button = Button(text=f"Follow {usr['username']}")
+            follow_button.id = str(usr['id'])
+            follow_button.bind(on_release=self.follow_user, on_press=self.close_user_dialog)
+            layout.add_widget(follow_button)        
+        layout.height = layout.minimum_height
+        scroller = ScrollView()
+        scroller.height = 300
+        scroller.add_widget(layout)
+        self.user_dialog = MDDialog(
+                auto_dismiss=False,
+                title=usr['username'],
+                type="custom",
+                content_cls=scroller,
+                buttons=[
+                    MDFlatButton(
+                        text="Close",
+                        on_press=self.close_user_dialog
+                    )
+                ],
+            )
+        self.user_dialog.open()
 
-    def unfollow():
-        pass
+    def close_user_dialog(self, instance):
+        self.user_dialog.dismiss()
 
 class MyLabel(MDLabel):
     pass
@@ -549,9 +671,6 @@ class Tasks(Screen):
     def show_date_picker(self, instance):
         date_dialog = MDDatePicker(callback=self.get_date)
         date_dialog.open()
-    
-    def show_edit_task(self, task):
-        print(task['id'])
 
     def set_time(self, time):
         if time > 599:
