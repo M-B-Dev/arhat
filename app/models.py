@@ -691,4 +691,13 @@ class Message(db.Model):
         """returns a representation of the Message object."""
         return "<Message {}>".format(self.body)
 
+    def to_dict(self):
+        data = {
+            'id': self.id,
+            'body': self.body,
+            'sender_id': self.sender_id,
+            'recipient_id': self.recipient_id,
+            'timestamp': datetime.strftime(self.timestamp, "%d-%m-%y %H:%M")
+        }
+        return data
 

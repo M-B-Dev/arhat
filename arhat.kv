@@ -16,6 +16,7 @@
         if self.id == "Logout": app.root.ids.nav_drawer.children[0].ids.scroll.children[0].logged_out_buttons()
         if self.id == "Edit Profile": app.root.ids.screen_manager.children[0].set_text_fields()
         if self.id == "Contacts": app.root.ids.screen_manager.children[0].show_users()
+        if self.id == "Messages": app.root.ids.screen_manager.children[0].show_messages()
         
 <ContentNavigationDrawer>:
     orientation: "vertical"
@@ -320,7 +321,25 @@ Screen:
                                 spacing: 10
                                 size: [(self.parent.width/2)+(self.parent.width/16), self.minimum_height]
 
+                Messages:
+                    id: Messages
+                    name: 'Messages'
+                    manager: screen_manager
+                    user: Login.user
+                    token: Login.token
+                    user_id: Login.user_id
 
+                    BoxLayout:
+                        orientation: "vertical"
+                        ScrollView:
+                            BoxLayout:
+
+                                orientation: "vertical"
+                                size_hint_y: None
+                                size_hint_x: None
+                                padding: dp(48)
+                                spacing: 10
+                                size: [(self.parent.width/2)+(self.parent.width/16), self.minimum_height]
 
 
             MDNavigationDrawer:

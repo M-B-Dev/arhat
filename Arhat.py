@@ -35,6 +35,7 @@ import base64
 import io
 from kivy.core.image import Image as CoreImage
 from kivy.resources import resource_find
+from urllib.parse import quote_plus
 
 
 class ScreenManagement(ScreenManager):
@@ -207,19 +208,140 @@ class EditProfile(Screen):
         self.set_text_fields()
 
 
-class Messages(Screen):
-    def show_received_messages():
-        pass
-    
-    def show_sent_messages():
-        pass
-
-    def send_message():
-        pass
-
 class Item(OneLineAvatarListItem):
     divider = None
     texture = ObjectProperty(None)
+
+class Messages(Screen):
+    user = ObjectProperty(None)
+    token = ObjectProperty(None)
+    user_id = ObjectProperty(None)
+    body = ObjectProperty(None)
+
+    def show_messages(self, message_type="received"):
+        number_of_widgets = len(self.children[0].children[0].children[0].children)
+        for i in range(number_of_widgets):
+            self.children[0].children[0].children[0].remove_widget(self.children[0].children[0].children[0].children[0])
+        if message_type == "received":
+            button_text = "sent"
+            id_type = "sender_id"
+        else:
+            button_text = "received" 
+            id_type = "recipient_id"  
+        self.button = MDRaisedButton(text=button_text, pos_hint={'x': 0.5, 'y': 0.5})
+        self.button.id = button_text
+        self.button.bind(on_release=self.display_correct_messages)
+        self.children[0].children[0].children[0].add_widget(self.button)
+        hed = {'Authorization': 'Bearer ' + self.token}
+        response = requests.get(f'http://localhost:5000/api/users/messages/{message_type}/{self.user_id}', headers=hed)
+        self.messages = json.loads(response.content)['items']
+        ids = ''
+        for id in self.messages:
+            ids += f'A{id[id_type]}'
+        response = requests.get(f'http://localhost:5000/api/users/{ids}', headers=hed)
+        self.idents = json.loads(response.content)
+        for msg in self.messages:
+            inner_widg = MDRaisedButton()
+            inner_widg.pos_hint = {'x': 0.5, 'y': 0.5}
+            inner_widg.bg_color = (0,0,0,0.25)
+            for user in self.idents:
+                if user['id'] == msg[id_type]:
+                    if message_type == "received":
+                        inner_widg.text = f'{user["username"]} sent you a message on {msg["timestamp"]}'
+                    else:
+                        inner_widg.text = f'You sent a message to {user["username"]} on {msg["timestamp"]}'   
+                    msg[f'{message_type}'] = user["username"]
+            inner_widg.id = json.dumps(msg)
+            inner_widg.bind(on_release=self.show_message)
+            self.children[0].children[0].children[0].add_widget(inner_widg)
+
+    def display_correct_messages(self, instance):
+        print(instance.id)
+        self.show_messages(message_type=instance.id)
+
+    def show_message(self, instance):
+        msg = json.loads(instance.id)
+        if 'received' in msg:
+            interlocutor = msg['received']
+            title = f'Message from {interlocutor}'
+            label_text = f'{interlocutor} wrote: {msg["body"]}'
+            button_id = str(msg['sender_id'])
+        else:
+            interlocutor = msg['sent']
+            title = f'You sent this to {interlocutor}'
+            label_text = f'You wrote: {msg["body"]}'
+            button_id = str(msg['recipient_id'])
+        layout = BoxLayout()
+        layout.orientation = 'vertical'
+        body = MDLabel(text=label_text)
+        sent_date = MDLabel(text=f'On {msg["timestamp"]}')
+        reply_button = Button(text=f'Reply to {interlocutor}')
+        reply_button.id = button_id
+        reply_button.bind(on_release=self.create_message, on_press=self.close_message_dialog)
+        layout.add_widget(body)
+        layout.add_widget(sent_date)
+        layout.add_widget(reply_button)        
+        layout.height = layout.minimum_height
+        scroller = ScrollView()
+        scroller.height = 300
+        scroller.add_widget(layout)
+        self.msg_dialog = MDDialog(
+                auto_dismiss=False,
+                title=title,
+                type="custom",
+                content_cls=scroller,
+                buttons=[
+                    MDFlatButton(
+                        text="Close",
+                        on_press=self.close_message_dialog
+                    )
+                ],
+            )
+        self.msg_dialog.open()
+
+    def close_message_dialog(self, instance):
+        self.msg_dialog.dismiss()
+
+    def create_message(self, instance):
+        layout = BoxLayout()
+        layout.orientation = 'vertical'
+        for user in self.idents:
+            if int(user['id']) == int(instance.id):
+                title = f"reply to {user['username']}"
+                break
+        self.body = MDTextField(hint_text="Type your message here", multiline=True)
+        send_button = Button(text='Send Message')
+        send_button.bind(on_release=self.send_message, on_press=self.close_send_dialog)
+        self.recipient = instance.id
+        layout.add_widget(self.body)
+        layout.add_widget(send_button)
+        scroller = ScrollView()
+        scroller.height = 300
+        scroller.add_widget(layout)
+        self.send_dialog = MDDialog(
+                auto_dismiss=False,
+                title=title,
+                type="custom",
+                content_cls=scroller,
+                buttons=[
+                    MDFlatButton(
+                        text="Close",
+                        on_press=self.close_send_dialog
+                    )
+                ],
+            )
+        self.send_dialog.open()
+
+    def close_send_dialog(self, instance):
+        self.send_dialog.dismiss()
+
+    def send_message(self, instance):
+        hed = {'Authorization': 'Bearer ' + self.token}
+        response = requests.post(f'http://localhost:5000/api/users/send/{self.recipient}/{self.user_id}/{quote_plus(self.body.text)}', headers=hed)
+        print(json.loads(response.content))
+        if json.loads(response.content) == 'success':
+            self.show_messages(message_type="sent")
+
 
 class Contacts(Screen):
     user = ObjectProperty(None)
@@ -233,7 +355,7 @@ class Contacts(Screen):
         self.users = json.loads(response.content)['items']
         users = [user for user in self.users if self.search.text in user['username'] or self.search.text in user['email']]
         self.show_users(users=users)
-
+        
     def show_users(self, users=None):
         number_of_widgets = len(self.children[0].children[0].children[0].children)
         for i in range(number_of_widgets):
@@ -391,6 +513,8 @@ class Contacts(Screen):
             unfollow_button.id = str(usr['id'])
             unfollow_button.bind(on_release=self.unfollow_user, on_press=self.close_user_dialog)
             message_button = Button(text=f"Send {usr['username']} a message?")
+            message_button.id = json.dumps(usr)
+            message_button.bind(on_release=self.create_message, on_press=self.close_user_dialog)
             layout.add_widget(unfollow_button)
             layout.add_widget(message_button)
         elif usr['id'] in self.pender_ids:
@@ -426,6 +550,43 @@ class Contacts(Screen):
 
     def close_user_dialog(self, instance):
         self.user_dialog.dismiss()
+
+    def create_message(self, instance):
+        user = json.loads(instance.id)
+        layout = BoxLayout()
+        layout.orientation = 'vertical'
+        title = f"Message {user['username']}"
+        self.body = MDTextField(hint_text="Type your message here", multiline=True)
+        send_button = Button(text='Send Message')
+        send_button.bind(on_release=self.send_message, on_press=self.close_send_dialog)
+        self.recipient = user['id']
+        layout.add_widget(self.body)
+        layout.add_widget(send_button)
+        scroller = ScrollView()
+        scroller.height = 300
+        scroller.add_widget(layout)
+        self.send_dialog = MDDialog(
+                auto_dismiss=False,
+                title=title,
+                type="custom",
+                content_cls=scroller,
+                buttons=[
+                    MDFlatButton(
+                        text="Close",
+                        on_press=self.close_send_dialog
+                    )
+                ],
+            )
+        self.send_dialog.open()
+
+    def close_send_dialog(self, instance):
+        self.send_dialog.dismiss()
+
+    def send_message(self, instance):
+        hed = {'Authorization': 'Bearer ' + self.token}
+        response = requests.post(f'http://localhost:5000/api/users/send/{self.recipient}/{self.user_id}/{quote_plus(self.body.text)}', headers=hed)
+        print(json.loads(response.content))
+
 
 class MyLabel(MDLabel):
     pass
@@ -622,8 +783,7 @@ class Tasks(Screen):
     tasks = ObjectProperty(None)
     token = ObjectProperty(None)
     user_id = ObjectProperty(None)
-
-    
+  
         
     def load_tasks(self, date=datetime.strftime(datetime.today(), "%d-%m-%Y"), height=None, width=None, manager=None):
         self.date = date
