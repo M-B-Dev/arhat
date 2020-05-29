@@ -1,109 +1,5 @@
-2020-05-19 19:51:44,492 ERROR: 
-            Exception on /api/users/tasks/2/None [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
-    return f(*args, **kwargs)
-  File "/home/lean/Arhat/app/api/users.py", line 79, in tasks
-    data = User.to_collection_dict(user.get_daily_tasks(date), None, None, None)
-  File "/home/lean/Arhat/app/models.py", line 436, in get_daily_tasks
-    date = datetime.strptime(date, "%d-%m-%Y")
-  File "/usr/lib/python3.7/_strptime.py", line 577, in _strptime_datetime
-    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
-  File "/usr/lib/python3.7/_strptime.py", line 359, in _strptime
-    (data_string, format))
-ValueError: time data 'None' does not match format '%d-%m-%Y'
-2020-05-20 09:02:29,214 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-20 21:15:41,968 ERROR: 
-            Exception on /api/users/tasks/2/<Screen name='Tasks'> [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
-    return f(*args, **kwargs)
-  File "/home/lean/Arhat/app/api/users.py", line 79, in tasks
-    data = User.to_collection_dict(user.get_daily_tasks(date), None, None, None)
-  File "/home/lean/Arhat/app/models.py", line 436, in get_daily_tasks
-    date = datetime.strptime(date, "%d-%m-%Y")
-  File "/usr/lib/python3.7/_strptime.py", line 577, in _strptime_datetime
-    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
-  File "/usr/lib/python3.7/_strptime.py", line 359, in _strptime
-    (data_string, format))
-ValueError: time data "<Screen name='Tasks'>" does not match format '%d-%m-%Y'
-2020-05-20 21:46:57,481 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-21 01:14:48,446 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-21 01:15:17,274 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-21 01:17:47,289 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-21 01:19:32,938 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-21 01:34:11,522 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-21 01:34:32,263 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-21 10:20:46,411 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-21 10:25:26,711 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-21 10:26:26,910 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-21 10:27:12,264 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-21 15:31:07,601 ERROR: 
-            Exception on /api/users/tasks/517 [PUT] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-21 19:55:45,277 ERROR: 
+            Exception on /api/users/tasks/523 [PUT] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -126,8 +22,8 @@ Traceback (most recent call last):
   File "/home/lean/Arhat/app/models.py", line 505, in from_dict
     data['frequency'] = int(data['frequency'])
 ValueError: invalid literal for int() with base 10: 'None'
-2020-05-21 15:33:27,102 ERROR: 
-            Exception on /api/users/tasks/517 [PUT] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-21 20:00:26,312 ERROR: 
+            Exception on /api/users/tasks/524 [PUT] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -150,8 +46,20 @@ Traceback (most recent call last):
   File "/home/lean/Arhat/app/models.py", line 505, in from_dict
     data['frequency'] = int(data['frequency'])
 ValueError: invalid literal for int() with base 10: 'None'
-2020-05-21 15:33:28,767 ERROR: 
-            Exception on /api/users/tasks/517 [PUT] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-22 14:16:51,178 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-23 00:21:06,819 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-23 00:34:30,942 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-23 00:34:44,249 ERROR: 
+            Exception on /api/users/tasks/2/23-05-2020 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -169,8 +77,90 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
     return f(*args, **kwargs)
-  File "/home/lean/Arhat/app/api/users.py", line 89, in update_task
-    task.from_dict(data)
-  File "/home/lean/Arhat/app/models.py", line 505, in from_dict
-    data['frequency'] = int(data['frequency'])
-ValueError: invalid literal for int() with base 10: 'None'
+  File "/home/lean/Arhat/app/api/users.py", line 81, in tasks
+    print(task.color)
+AttributeError: 'str' object has no attribute 'color'
+2020-05-23 00:36:48,994 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-23 00:37:39,281 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-23 00:38:06,782 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-23 13:58:08,595 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-23 14:48:45,846 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-24 19:40:48,515 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-25 10:37:24,609 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-25 14:04:30,126 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-25 14:05:32,494 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-25 18:21:00,599 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-25 23:30:14,934 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-25 23:36:22,345 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-26 09:09:50,202 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-26 13:37:11,776 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-26 13:38:28,208 ERROR: 
+            Exception on /api/users/2 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
+            
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
+    return f(*args, **kwargs)
+  File "/home/lean/Arhat/app/api/users.py", line 12, in get_user
+    return jsonify(User.query.get_or_404(id).to_dict())
+  File "/home/lean/Arhat/app/models.py", line 402, in to_dict
+    'image': self.prep_image_for_json().encode('base64'),
+  File "/home/lean/Arhat/app/models.py", line 396, in prep_image_for_json
+    return img_file.read()
+  File "/usr/lib/python3.7/codecs.py", line 322, in decode
+    (result, consumed) = self._buffer_decode(data, self.errors, final)
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0x89 in position 0: invalid start byte

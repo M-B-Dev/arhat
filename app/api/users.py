@@ -6,11 +6,20 @@ from app.api.auth import token_auth
 from app.api.errors import bad_request
 from datetime import datetime
 from app.email import send_email
+import json
 
-@bp.route('/users/<int:id>', methods=['GET'])
+@bp.route('/users/<id>', methods=['GET'])
 @token_auth.login_required
 def get_user(id):
-    return jsonify(User.query.get_or_404(id).to_dict())
+    if str(id)[0].isnumeric() is True:
+        return jsonify(User.query.get_or_404(int(id)).to_dict())
+    else:
+        ids = id[1:]
+        id_list = ids.split('A')
+        id_list = list(dict.fromkeys(id_list))
+        ids = [User.query.get_or_404(int(ident)).to_dict() for ident in id_list]
+        return jsonify(ids)
+            
 
 @bp.route('/users', methods=['GET'])
 @token_auth.login_required
@@ -172,3 +181,30 @@ def unfollow(id, user_id):
     db.session.commit()
     return jsonify('success')
 
+@bp.route('/users/messages/<msg_type>/<int:id>', methods=['GET'])
+@token_auth.login_required
+def get_messages(id, msg_type):
+    user = User.query.filter_by(id=id).first_or_404()
+    if not user:
+        return jsonify('failure')
+    user.last_message_read_time = datetime.utcnow()
+    db.session.commit()
+    if msg_type == "received":
+        messages = user.messages_received.order_by(Message.timestamp.desc())
+    if msg_type == "sent":
+        messages = user.messages_sent.order_by(Message.timestamp.desc())
+    data = User.to_collection_dict(messages, None, None, None)
+    return jsonify(data)
+
+@bp.route('/users/send/<int:id>/<user_id>/<body>', methods=['POST'])
+@token_auth.login_required
+def send_message(id, user_id, body):
+    """Sends a private message to another user."""
+    user = User.query.filter_by(id=int(id)).first_or_404()
+    current_user = User.query.filter_by(id=int(user_id)).first_or_404()
+    if not user or not current_user:
+        return jsonify('failure')
+    msg = Message(author=current_user, recipient=user, body=body)
+    db.session.add(msg)
+    db.session.commit()
+    return jsonify('success')
