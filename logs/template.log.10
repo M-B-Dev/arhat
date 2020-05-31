@@ -1,5 +1,5 @@
-2020-05-13 21:12:11,432 ERROR: 
-            Exception on /api/users/tasks/491 [PUT] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-28 23:41:46,303 ERROR: 
+            Exception on /api/users/send/4/2/test [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -17,21 +17,65 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
     return f(*args, **kwargs)
-  File "/home/lean/Arhat/app/api/users.py", line 86, in update_task
-    if check_start_and_end(data) is True:
-  File "/home/lean/Arhat/app/api/users.py", line 110, in check_start_and_end
-    elif 'start_time' in data and int(data['start_time']) > task.end_time:
-NameError: name 'task' is not defined
-2020-05-13 21:14:09,472 INFO: 
+  File "/home/lean/Arhat/app/api/users.py", line 205, in send_message
+    # body = json.loads(body)
+  File "/usr/lib/python3.7/json/__init__.py", line 348, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.7/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.7/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2020-05-28 23:42:17,334 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-05-13 21:23:48,013 INFO: 
+2020-05-28 23:48:33,736 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-05-13 21:31:13,285 ERROR: 
-            Exception on /api/users/tasks/2/13-05-2020 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-28 23:54:22,284 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-29 00:06:16,685 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-29 00:09:13,924 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-29 00:22:20,499 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-29 00:25:20,043 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-30 12:32:20,885 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-30 13:05:39,161 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-30 13:09:12,758 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-30 13:10:06,152 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-30 13:11:03,775 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-30 13:11:44,409 ERROR: 
+            Exception on /api/users/tasks/2/30-05-2020 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -47,132 +91,20 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/app/api/users.py", line 100, in create_task
-    data['user_id'] = id
-  File "/home/lean/Arhat/app/models.py", line 498, in from_dict
-    data['user_id'] = int(data['user_id'])
-KeyError: 'user_id'
-2020-05-13 21:32:08,879 INFO: 
+  File "/home/lean/Arhat/app/api/users.py", line 123, in create_task
+    task.from_dict(data)
+  File "/home/lean/Arhat/app/models.py", line 526, in from_dict
+    print(f'{field} is {data[field]}')
+KeyError: 'done'
+2020-05-30 13:13:56,296 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-05-13 21:32:11,732 ERROR: 
-            Exception on /api/users/tasks/2/13-05-2020 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-TypeError: create_task() got an unexpected keyword argument 'ident'
-2020-05-13 21:32:42,731 INFO: 
+2020-05-30 13:15:24,198 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-05-14 16:19:34,998 INFO: 
+2020-05-30 13:16:32,935 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-05-14 16:43:11,740 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-14 23:46:34,357 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-15 09:35:20,669 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-15 22:50:16,230 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-16 13:29:44,328 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-16 14:33:42,970 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-16 15:25:52,806 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-16 16:52:25,272 ERROR: 
-            Exception on /api/users/tasks/2/16-05-2020 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/app/api/users.py", line 95, in create_task
-    if check_start_and_end(data) is True:
-  File "/home/lean/Arhat/app/api/users.py", line 111, in check_start_and_end
-    if 'start_time' in data and 'end_time' in data and int(data['start_time']) > int(data['end_time']):
-ValueError: invalid literal for int() with base 10: ''
-2020-05-16 16:58:43,797 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-17 10:28:48,804 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-17 21:44:52,823 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-17 23:35:45,644 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-18 12:43:15,876 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-18 22:01:19,881 ERROR: 
-            Exception on /api/users/tasks/2/18-05-2020 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/app/api/users.py", line 107, in create_task
-    data = User.to_collection_dict(user.get_daily_tasks(date), None, None, None)
-  File "/home/lean/Arhat/app/models.py", line 441, in get_daily_tasks
-    for task in all_frequency_tasks
-  File "/home/lean/Arhat/app/models.py", line 443, in <listcomp>
-    and (date - task.date).days > 0
-TypeError: unsupported operand type(s) for -: 'str' and 'datetime.datetime'

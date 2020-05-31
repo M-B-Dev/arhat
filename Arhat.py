@@ -602,9 +602,11 @@ class Scrollable(ScrollView):
 class Content(BoxLayout):
     def __init__(self, task, **kwargs):
         super(Content, self).__init__(**kwargs)
+        self.single_event_data = None
         self.id = str(task['id'])
         self.selected_color = None
         self.done_data = False
+        self.page_date = task['page_date']
         self.body = MDTextField(text=task['body'], size_hint_y=None)
         self.start_time_minutes = self.set_time(task['start_time'])
         self.end_time_minutes = self.set_time(task['end_time'])
@@ -615,16 +617,14 @@ class Content(BoxLayout):
         self.color = hex_to_rgb("#" + task['color'])
         self.color_pick = Button(text="Change color", background_color=(self.color[0]/255, self.color[1]/255, self.color[2]/255, .5))
         self.color_pick.bind(on_press=self.show_theme_picker)
-        if not task['frequency']:
-            frequency = 0
-        else:
-            frequency = task['frequency']
-        self.frequency = MDTextField(text=str(frequency), size_hint_y=None)
+        self.frequency = MDTextField(size_hint_y=None, helper_text="Frequency", helper_text_mode="persistent")
+        if task['frequency']: 
+            self.frequency.text=str(task['frequency'])
         if str(task['to_date']) == "None":
             self.to_date = Button(text="Enter to date")
             self.date_to = None
         else:
-            self.to_date = Button(text=f"To date: str(task['to_date'])")
+            self.to_date = Button(text=f"To date: {str(task['to_date'])}")
             self.date_to = task['to_date']
         self.to_date.bind(on_press=self.show_date_picker)
         self.done_label = Label(text="Done", color=(0,0,0,1))
@@ -638,6 +638,12 @@ class Content(BoxLayout):
         self.add_widget(self.done_label)
         self.add_widget(self.done)
         self.add_widget(self.color_pick)
+        if str(task['to_date']) != "None" or task['frequency'] or task['exclude']:
+            self.single_event_label = Label(text="Edit just this event?", color=(0,0,0,1))
+            self.single_event = CheckBox()
+            self.single_event.bind(active=self.single_event_active)
+            self.add_widget(self.single_event_label)
+            self.add_widget(self.single_event)
         self.size_hint_y = None
         self.height = 400
 
@@ -668,6 +674,10 @@ class Content(BoxLayout):
         if value:
             self.done_data = True
 
+
+    def single_event_active(self, checkbox, value):
+        if value:
+            self.single_event_data = True
 
     def show_start_time_picker(self, instance):
         time_dialog = MDTimePicker()
@@ -745,6 +755,8 @@ class ImageButton(ButtonBehavior, Image):
             frequency = self.edit_task.content_cls.widg.frequency.text
             date_to = self.edit_task.content_cls.widg.date_to
             done = self.edit_task.content_cls.widg.done_data
+            single_event = self.edit_task.content_cls.widg.single_event_data
+            page_date = self.edit_task.content_cls.widg.page_date
             if self.edit_task.content_cls.widg.selected_color:
                 color = self.edit_task.content_cls.widg.selected_color
             else:
@@ -756,7 +768,9 @@ class ImageButton(ButtonBehavior, Image):
                 'start_time': start_minutes, 
                 'end_time': end_minutes, 
                 'frequency': frequency, 
-                'to_date': date_to
+                'to_date': date_to, 
+                'single_event': single_event,
+                'page_date': page_date
             }
             hed = {'Authorization': 'Bearer ' + self.inst.token}
             response = requests.put(f'http://localhost:5000/api/users/tasks/{self.task["id"]}', json=data, headers=hed)
@@ -796,8 +810,8 @@ class Tasks(Screen):
         hed = {'Authorization': 'Bearer ' + self.token}
         user_tasks = requests.get(f'http://localhost:5000/api/users/tasks/{self.user_id}/{date}', headers=hed)
         self.tasks = json.loads(user_tasks.content)['items']
-
         for task in self.tasks:
+            task['page_date'] = self.date
             color = hex_to_rgb("#" + task['color'])
             button = ImageButton(
                 inst=self,

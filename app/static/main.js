@@ -272,7 +272,7 @@ function Rectangle(ypos, height, task, id, color, frequency) {
 	newTask.style.left = '0px';
 	newTask.style.top = `${ypos}px`;
 	newTask.style.height = `${height}px`;
-	newTask.style.width = `${taskArea.clientWidth}px`;
+	newTask.style.width = '100%';
 	newTask.style.backgroundColor = hexToRgbA(`#${color}`)
 	taskArea.appendChild(newTask);
 	taskEndTimeIDs[`${ypos + height}`] = [id, task];

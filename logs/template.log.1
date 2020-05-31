@@ -1,13 +1,5 @@
-2020-05-28 14:42:27,141 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-28 14:49:22,736 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-28 14:49:28,372 ERROR: 
-            Exception on /api/users/[4, 4, 4, 4, 4, 4, 4, 4, 4, 1] [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-31 00:54:38,165 ERROR: 
+            Exception on /api/users/tasks/2/31-05-2020 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -25,19 +17,19 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
     return f(*args, **kwargs)
-  File "/home/lean/Arhat/app/api/users.py", line 16, in get_user
-    id_list = json.loads(id)
-NameError: name 'json' is not defined
-2020-05-28 14:50:16,250 INFO: 
+  File "/home/lean/Arhat/app/api/users.py", line 102, in tasks
+    task['to_date'] = datetime.strftime(task['to_date'], "%d-%m-%Y")
+TypeError: descriptor 'strftime' requires a 'datetime.date' object but received a 'NoneType'
+2020-05-31 00:56:22,246 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-05-28 15:01:34,764 INFO: 
+2020-05-31 00:56:48,202 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-05-28 15:02:01,904 ERROR: 
-            Exception on /api/users/"-4-4-4-4-4-4-4-4-4-1" [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-31 00:58:46,098 ERROR: 
+            Exception on /api/users/tasks/591 [PUT] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -55,15 +47,15 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
     return f(*args, **kwargs)
-  File "/home/lean/Arhat/app/api/users.py", line 18, in get_user
-    id_list - list(dict.fromkeys(id_list))
-TypeError: unsupported operand type(s) for -: 'list' and 'list'
-2020-05-28 15:02:34,695 INFO: 
+  File "/home/lean/Arhat/app/api/users.py", line 124, in update_task
+    formated_date = datetime.strftime(formated_date, "%Y-%m-%d, 00:00:00")
+UnboundLocalError: local variable 'formated_date' referenced before assignment
+2020-05-31 00:59:29,360 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-05-28 15:02:44,035 ERROR: 
-            Exception on /api/users/"-4-4-4-4-4-4-4-4-4-1" [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-31 00:59:55,407 ERROR: 
+            Exception on /api/users/tasks/591 [PUT] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -81,13 +73,15 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
     return f(*args, **kwargs)
-  File "/home/lean/Arhat/app/api/users.py", line 19, in get_user
-    ids = [User.query.get_or_404(int(ident)).to_dict() for ident in id_list]
-  File "/home/lean/Arhat/app/api/users.py", line 19, in <listcomp>
-    ids = [User.query.get_or_404(int(ident)).to_dict() for ident in id_list]
-ValueError: invalid literal for int() with base 10: '"'
-2020-05-28 15:04:17,301 ERROR: 
-            Exception on /api/users/"-4-4-4-4-4-4-4-4-4-1" [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+  File "/home/lean/Arhat/app/api/users.py", line 130, in update_task
+    if tasks.date == data['date']:
+UnboundLocalError: local variable 'tasks' referenced before assignment
+2020-05-31 01:00:10,626 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-31 01:00:29,311 ERROR: 
+            Exception on /api/users/tasks/590 [PUT] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -105,13 +99,11 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
     return f(*args, **kwargs)
-  File "/home/lean/Arhat/app/api/users.py", line 19, in get_user
-    ids = [User.query.get_or_404(int(ident)).to_dict() for ident in id_list]
-  File "/home/lean/Arhat/app/api/users.py", line 19, in <listcomp>
-    ids = [User.query.get_or_404(int(ident)).to_dict() for ident in id_list]
-ValueError: invalid literal for int() with base 10: '"'
-2020-05-28 15:05:04,470 ERROR: 
-            Exception on /api/users/"4-4-4-4-4-4-4-4-4-1" [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+  File "/home/lean/Arhat/app/api/users.py", line 130, in update_task
+    if tasks.date == data['date']:
+UnboundLocalError: local variable 'tasks' referenced before assignment
+2020-05-31 01:00:31,418 ERROR: 
+            Exception on /api/users/tasks/590 [PUT] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -129,72 +121,44 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
     return f(*args, **kwargs)
-  File "/home/lean/Arhat/app/api/users.py", line 19, in get_user
-    ids = [User.query.get_or_404(int(ident)).to_dict() for ident in id_list]
-  File "/home/lean/Arhat/app/api/users.py", line 19, in <listcomp>
-    ids = [User.query.get_or_404(int(ident)).to_dict() for ident in id_list]
-ValueError: invalid literal for int() with base 10: '"4'
-2020-05-28 15:06:24,059 INFO: 
+  File "/home/lean/Arhat/app/api/users.py", line 130, in update_task
+    if tasks.date == data['date']:
+UnboundLocalError: local variable 'tasks' referenced before assignment
+2020-05-31 01:01:18,573 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-05-28 15:07:43,601 INFO: 
+2020-05-31 01:01:20,477 ERROR: 
+            Exception on /api/users/tasks/590 [PUT] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
+            
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
+    return f(*args, **kwargs)
+  File "/home/lean/Arhat/app/api/users.py", line 130, in update_task
+    if task.date == data['date']:
+KeyError: 'date'
+2020-05-31 01:01:51,495 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-05-28 15:08:34,458 INFO: 
+2020-05-31 01:02:42,337 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-05-28 15:09:09,304 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-28 15:10:18,359 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-28 15:11:27,547 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-28 15:11:56,415 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-28 15:13:40,071 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-28 15:36:36,797 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-28 15:37:52,529 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-28 22:17:04,295 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-28 22:26:55,694 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-28 23:28:04,524 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-28 23:35:21,642 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-28 23:36:01,527 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-28 23:37:18,770 INFO: 
+2020-05-31 12:48:35,048 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             

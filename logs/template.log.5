@@ -1,7 +1,18 @@
-2020-05-26 13:38:39,294 ERROR: 
-            Exception on /api/users [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-30 17:43:56,113 ERROR: 
+            Exception on /api/users/tasks/556 [PUT] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1175, in _execute_context
+    context = constructor(dialect, self, conn, *args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 836, in _init_compiled
+    param.append(processors[key](compiled_params[key]))
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/dialects/sqlite/base.py", line 768, in process
+    "SQLite DateTime type only accepts Python "
+TypeError: SQLite DateTime type only accepts Python datetime and date objects as input.
+
+The above exception was the direct cause of the following exception:
+
 Traceback (most recent call last):
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -17,21 +28,57 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
     return f(*args, **kwargs)
-  File "/home/lean/Arhat/app/api/users.py", line 19, in get_users
-    data = User.to_collection_dict(User.query, page, per_page, 'api.get_users')
-  File "/home/lean/Arhat/app/models.py", line 35, in to_collection_dict
-    'items': [item.to_dict() for item in resources.items],
-  File "/home/lean/Arhat/app/models.py", line 35, in <listcomp>
-    'items': [item.to_dict() for item in resources.items],
-  File "/home/lean/Arhat/app/models.py", line 402, in to_dict
-    'image': self.prep_image_for_json().encode('base64'),
-  File "/home/lean/Arhat/app/models.py", line 396, in prep_image_for_json
-    return img_file.read()
-  File "/usr/lib/python3.7/codecs.py", line 322, in decode
-    (result, consumed) = self._buffer_decode(data, self.errors, final)
-UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte
-2020-05-26 13:40:05,592 ERROR: 
-            Exception on /api/users/2 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+  File "/home/lean/Arhat/app/api/users.py", line 111, in update_task
+    db.session.commit()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/scoping.py", line 162, in do
+    return getattr(self.registry(), name)(*args, **kwargs)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 1036, in commit
+    self.transaction.commit()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 503, in commit
+    self._prepare_impl()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 482, in _prepare_impl
+    self.session.flush()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2496, in flush
+    self._flush(objects)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2637, in _flush
+    transaction.rollback(_capture_exception=True)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/util/langhelpers.py", line 69, in __exit__
+    exc_value, with_traceback=exc_tb,
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 178, in raise_
+    raise exception
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2597, in _flush
+    flush_context.execute()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/unitofwork.py", line 422, in execute
+    rec.execute(self)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/unitofwork.py", line 589, in execute
+    uow,
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/persistence.py", line 236, in save_obj
+    update,
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/persistence.py", line 995, in _emit_update_statements
+    statement, multiparams
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 984, in execute
+    return meth(self, multiparams, params)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 293, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1103, in _execute_clauseelement
+    distilled_params,
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1178, in _execute_context
+    e, util.text_type(statement), parameters, None, None
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1482, in _handle_dbapi_exception
+    sqlalchemy_exception, with_traceback=exc_info[2], from_=e
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 178, in raise_
+    raise exception
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1175, in _execute_context
+    context = constructor(dialect, self, conn, *args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 836, in _init_compiled
+    param.append(processors[key](compiled_params[key]))
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/dialects/sqlite/base.py", line 768, in process
+    "SQLite DateTime type only accepts Python "
+sqlalchemy.exc.StatementError: (builtins.TypeError) SQLite DateTime type only accepts Python datetime and date objects as input.
+[SQL: UPDATE post SET done=?, frequency=?, to_date=? WHERE post.id = ?]
+[parameters: [{'to_date': 'Sat, 06 Jun 2020 00:00:00 GMT', 'frequency': '2', 'done': True, 'post_id': 556}]]
+2020-05-30 17:45:24,840 ERROR: 
+            Exception on /api/users/tasks/2/30-05-2020 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -47,23 +94,39 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
-    return f(*args, **kwargs)
-  File "/home/lean/Arhat/app/api/users.py", line 12, in get_user
-    return jsonify(User.query.get_or_404(id).to_dict())
-  File "/home/lean/Arhat/app/models.py", line 402, in to_dict
-    'image': self.prep_image_for_json().encode('base64'),
-  File "/home/lean/Arhat/app/models.py", line 396, in prep_image_for_json
-    return img_file.read()
-  File "/usr/lib/python3.7/codecs.py", line 322, in decode
-    (result, consumed) = self._buffer_decode(data, self.errors, final)
-UnicodeDecodeError: 'utf-8' codec can't decode byte 0x89 in position 0: invalid start byte
-2020-05-26 13:40:42,164 INFO: 
+  File "/home/lean/Arhat/app/api/users.py", line 152, in create_task
+    data = User.to_collection_dict(user.get_daily_tasks(data['date']), None, None, None)
+  File "/home/lean/Arhat/app/models.py", line 449, in get_daily_tasks
+    date = datetime.strptime(date, "%d-%m-%Y")
+TypeError: strptime() argument 1 must be str, not datetime.datetime
+2020-05-30 17:47:51,639 ERROR: 
+            Exception on /api/users/tasks/2/30-05-2020 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
+            
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/app/api/users.py", line 152, in create_task
+    data = User.to_collection_dict(user.get_daily_tasks(date), None, None, None)
+  File "/home/lean/Arhat/app/models.py", line 449, in get_daily_tasks
+    date = datetime.strptime(date, "%d-%m-%Y")
+TypeError: strptime() argument 1 must be str, not datetime.datetime
+2020-05-30 17:48:05,456 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-05-26 13:40:54,396 ERROR: 
-            Exception on /api/users/2 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-30 17:49:46,614 ERROR: 
+            Exception on /api/users/tasks/2/30-05-2020 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -79,74 +142,10 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
-    return f(*args, **kwargs)
-  File "/home/lean/Arhat/app/api/users.py", line 12, in get_user
-    return jsonify(User.query.get_or_404(id).to_dict())
-  File "/home/lean/Arhat/app/models.py", line 402, in to_dict
-    'image': self.prep_image_for_json().encode('base64'),
-  File "/home/lean/Arhat/app/models.py", line 396, in prep_image_for_json
-    return img_file.read()
-  File "/usr/lib/python3.7/codecs.py", line 322, in decode
-    (result, consumed) = self._buffer_decode(data, self.errors, final)
-UnicodeDecodeError: 'utf-8' codec can't decode byte 0x89 in position 0: invalid start byte
-2020-05-26 13:42:43,097 ERROR: 
-            Exception on /api/users/2 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
-    return f(*args, **kwargs)
-  File "/home/lean/Arhat/app/api/users.py", line 12, in get_user
-    return jsonify(User.query.get_or_404(id).to_dict())
-  File "/home/lean/Arhat/app/models.py", line 402, in to_dict
-    data = {
-  File "/home/lean/Arhat/app/models.py", line 396, in prep_image_for_json
-    img_data = img_file.read()
-  File "/usr/lib/python3.7/codecs.py", line 322, in decode
-    (result, consumed) = self._buffer_decode(data, self.errors, final)
-UnicodeDecodeError: 'utf-8' codec can't decode byte 0x89 in position 0: invalid start byte
-2020-05-26 13:44:00,195 ERROR: 
-            Exception on /api/users/2 [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
-    return f(*args, **kwargs)
-  File "/home/lean/Arhat/app/api/users.py", line 12, in get_user
-    return jsonify(User.query.get_or_404(id).to_dict())
-  File "/home/lean/Arhat/app/models.py", line 402, in to_dict
-    def to_dict(self, include_email=False):
-  File "/home/lean/Arhat/app/models.py", line 396, in prep_image_for_json
-    img_file = open(picture_fn, "r")
-  File "/usr/lib/python3.7/codecs.py", line 322, in decode
-    (result, consumed) = self._buffer_decode(data, self.errors, final)
-UnicodeDecodeError: 'utf-8' codec can't decode byte 0x89 in position 0: invalid start byte
-2020-05-26 13:44:59,033 INFO: 
+  File "/home/lean/Arhat/app/api/users.py", line 133, in create_task
+    reformated_date = datetime.strftime(date, "%Y-%m-%d, 00:00:00")
+TypeError: descriptor 'strftime' requires a 'datetime.date' object but received a 'str'
+2020-05-30 17:50:53,765 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             

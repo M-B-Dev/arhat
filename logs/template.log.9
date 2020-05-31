@@ -1,7 +1,18 @@
-2020-05-18 22:02:54,553 ERROR: 
-            Exception on /api/users/tasks/2/18-05-2020 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-05-30 13:41:28,050 ERROR: 
+            Exception on /api/users/tasks/2/30-05-2020 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1175, in _execute_context
+    context = constructor(dialect, self, conn, *args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 836, in _init_compiled
+    param.append(processors[key](compiled_params[key]))
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/dialects/sqlite/base.py", line 768, in process
+    "SQLite DateTime type only accepts Python "
+TypeError: SQLite DateTime type only accepts Python datetime and date objects as input.
+
+The above exception was the direct cause of the following exception:
+
 Traceback (most recent call last):
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -15,148 +26,52 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/app/api/users.py", line 107, in create_task
-    data = User.to_collection_dict(user.get_daily_tasks(date), None, None, None)
-  File "/home/lean/Arhat/app/models.py", line 441, in get_daily_tasks
-    for task in all_frequency_tasks
-  File "/home/lean/Arhat/app/models.py", line 443, in <listcomp>
-    and (date - task.date).days > 0
-TypeError: unsupported operand type(s) for -: 'str' and 'datetime.datetime'
-2020-05-18 22:08:30,427 ERROR: 
-            Exception on /api/users/tasks/2/18-05-2020 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/app/api/users.py", line 107, in create_task
-    date = datetime.strptime(date, "%d-%m-%Y")
-  File "/home/lean/Arhat/app/models.py", line 441, in get_daily_tasks
-    for task in all_frequency_tasks
-  File "/home/lean/Arhat/app/models.py", line 443, in <listcomp>
-    and (date - task.date).days > 0
-TypeError: unsupported operand type(s) for -: 'str' and 'datetime.datetime'
-2020-05-18 22:12:34,714 ERROR: 
-            Exception on /api/users/tasks/2/18-05-2020 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/app/api/users.py", line 107, in create_task
-    date = datetime.strptime(date, "%d-%m-%Y")
-  File "/home/lean/Arhat/app/models.py", line 441, in get_daily_tasks
-    for task in all_frequency_tasks
-  File "/home/lean/Arhat/app/models.py", line 443, in <listcomp>
-    and (date - task.date).days > 0
-TypeError: unsupported operand type(s) for -: 'str' and 'datetime.datetime'
-2020-05-18 22:14:09,834 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-18 22:14:43,921 ERROR: 
-            Exception on /api/users/tasks/2/19-05-2020 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/app/api/users.py", line 107, in create_task
-    date = datetime.strptime(date, "%d-%m-%Y")
-NameError: name 'datetime' is not defined
-2020-05-18 22:17:15,490 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-18 22:17:45,014 ERROR: 
-            Exception on /api/users/tasks/2/21-05-2020 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/app/api/users.py", line 109, in create_task
-    data = User.to_collection_dict(user.get_daily_tasks(date), None, None, None)
-  File "/home/lean/Arhat/app/models.py", line 437, in get_daily_tasks
-    todos = self.posts.filter_by(date=datetime.strptime(date, "%d-%m-%Y"))
-TypeError: strptime() argument 1 must be str, not datetime.datetime
-2020-05-18 22:19:57,887 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-19 13:35:53,122 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-19 14:15:26,014 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-05-19 19:51:05,519 ERROR: 
-            Exception on /api/users/tasks/2/None [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
-            1892]
-            
-Traceback (most recent call last):
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_httpauth.py", line 162, in decorated
-    return f(*args, **kwargs)
-  File "/home/lean/Arhat/app/api/users.py", line 79, in tasks
-    data = User.to_collection_dict(user.get_daily_tasks(date), None, None, None)
-  File "/home/lean/Arhat/app/models.py", line 436, in get_daily_tasks
-    date = datetime.strptime(date, "%d-%m-%Y")
-  File "/usr/lib/python3.7/_strptime.py", line 577, in _strptime_datetime
-    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
-  File "/usr/lib/python3.7/_strptime.py", line 359, in _strptime
-    (data_string, format))
-ValueError: time data 'None' does not match format '%d-%m-%Y'
+  File "/home/lean/Arhat/app/api/users.py", line 127, in create_task
+    db.session.commit()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/scoping.py", line 162, in do
+    return getattr(self.registry(), name)(*args, **kwargs)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 1036, in commit
+    self.transaction.commit()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 503, in commit
+    self._prepare_impl()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 482, in _prepare_impl
+    self.session.flush()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2496, in flush
+    self._flush(objects)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2637, in _flush
+    transaction.rollback(_capture_exception=True)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/util/langhelpers.py", line 69, in __exit__
+    exc_value, with_traceback=exc_tb,
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 178, in raise_
+    raise exception
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2597, in _flush
+    flush_context.execute()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/unitofwork.py", line 422, in execute
+    rec.execute(self)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/unitofwork.py", line 589, in execute
+    uow,
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/persistence.py", line 245, in save_obj
+    insert,
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/orm/persistence.py", line 1136, in _emit_insert_statements
+    statement, params
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 984, in execute
+    return meth(self, multiparams, params)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 293, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1103, in _execute_clauseelement
+    distilled_params,
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1178, in _execute_context
+    e, util.text_type(statement), parameters, None, None
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1482, in _handle_dbapi_exception
+    sqlalchemy_exception, with_traceback=exc_info[2], from_=e
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 178, in raise_
+    raise exception
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1175, in _execute_context
+    context = constructor(dialect, self, conn, *args)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 836, in _init_compiled
+    param.append(processors[key](compiled_params[key]))
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/sqlalchemy/dialects/sqlite/base.py", line 768, in process
+    "SQLite DateTime type only accepts Python "
+sqlalchemy.exc.StatementError: (builtins.TypeError) SQLite DateTime type only accepts Python datetime and date objects as input.
+[SQL: INSERT INTO post (body, timestamp, hour, done, depression_score, date, user_id, start_time, end_time, frequency, color, exclude, to_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+[parameters: [{'end_time': 120, 'hour': 1, 'frequency': 1, 'body': 'test', 'to_date': '31-05-2020', 'start_time': 0, 'date': datetime.datetime(2020, 5, 30, 0, 0), 'user_id': 2, 'exclude': None}]]

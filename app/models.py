@@ -405,7 +405,7 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
             'days': self.days,
             'email': self.email,
             'username': self.username,
-            'last_seen': self.last_seen.isoformat() + 'Z',
+            'last_seen': self.last_seen.isoformat(),
             'post_count': self.posts.count(),
             'follower_count': self.followers.count(),
             'followed_count': self.followed.count(),
@@ -450,7 +450,7 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
         all_frequency_tasks = self.posts.filter(Post.frequency != None).all()
         todos = self.posts.filter_by(date=date)
         exclusions = [todo.exclude for todo in todos if todo.exclude]
-        all_tasks = [
+        frequency_tasks = [
             task
             for task in all_frequency_tasks
             if task.frequency > 0
@@ -458,12 +458,9 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
             and ((date - task.date).days % task.frequency) == 0
             and task.date < date
             and task.id not in exclusions
-            and task not in todos
         ]
-        [all_tasks.append(task) for task in todos if task.done is False]
-        for task in all_tasks:
-            if task.color == "Pink" or not task.color:
-                task.color = "6c757d"
+        all_tasks = [task for task in todos if task.done is False]
+        [all_tasks.append(todo) for todo in frequency_tasks if todo not in todos]
         return all_tasks
 
 
@@ -500,6 +497,7 @@ class Post(db.Model):
     to_date = db.Column(db.DateTime, nullable=True)
 
     def to_dict(self):
+        print(self.to_date)
         data = {
             'id': self.id,
             'body': self.body,
@@ -508,23 +506,15 @@ class Post(db.Model):
             'color': self.color,
             'frequency': self.frequency,
             'to_date': self.to_date,
-            'done': self.done
+            'done': self.done,
+            'exclude': self.exclude
         }
         return data
 
     def from_dict(self, data):
-        if 'date' in data:
-            data['date'] = datetime.strptime(data['date'], "%d-%m-%Y")
-            data['user_id'] = int(data['user_id'])
-            data['hour'] = 1
-        if data['frequency']:
-            data['frequency'] = int(data['frequency'])
-        if 'done' in data and data['done'] is True:
-            data['frequency'] = None
         for field in ['body', 'done', 'start_time', 'end_time', 'user_id', 'date', 'hour', 'frequency', 'to_date', 'color']:
             if field in data:
                 setattr(self, field, data[field])
-
 
     def __repr__(self):
         """returns a representation of the Post object."""
@@ -547,11 +537,11 @@ class Post(db.Model):
 
     def add_multiple_tasks(self):
         """Adds multiple tasks, triggered when a repeating task has a date_to value."""
-        for self.i in range((self.to_date - self.date).days, -1, -1):
+        for self.i in range(0, (self.to_date - self.date).days + 1, self.form.frequency.data):
             self.task_to_be_added = self.add_single_task(to_date=self.to_date)
             db.session.add(self.task_to_be_added)
             self.commit_flush()
-            if self.i == (self.to_date - self.date).days:
+            if self.i == 0:
                 self.ident = self.task_to_be_added.id
             self.task_to_be_added.exclude = self.ident
             db.session.commit()

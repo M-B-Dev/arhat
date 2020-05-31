@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="content-section">
 <h1>Sent Messages</h1>
 {% for post in sent_messages %}
     {% include 'sn/_reply.html' %}
@@ -12,4 +13,5 @@
 <a class="btn btn-outline-info" href="{{ sent_next_url }}">Next page</a>
 {% endif %}
 <p></p><a class="btn btn-outline-info" href="{{ url_for('sn.messages') }}">Received Messages</a></p>
+</div>
 {% endblock %}
