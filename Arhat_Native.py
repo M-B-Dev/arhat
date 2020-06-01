@@ -233,7 +233,7 @@ class Messages(Screen):
         self.button.bind(on_release=self.display_correct_messages)
         self.children[0].children[0].children[0].add_widget(self.button)
         hed = {'Authorization': 'Bearer ' + self.token}
-        response = requests.get(f'http://localhost:5000/api/users/messages/{message_type}/{self.user_id}', headers=hed)
+        response = requests.get(f'http://localhost:5000/api/messages/{message_type}/{self.user_id}', headers=hed)
         self.messages = json.loads(response.content)['items']
         ids = ''
         for id in self.messages:
@@ -416,12 +416,12 @@ class Contacts(Screen):
 
     def follow_user(self, instance):
         hed = {'Authorization': 'Bearer ' + self.token}
-        response = requests.post(f'http://localhost:5000/api/users/follow/{instance.id}/{self.user_id}', headers=hed)
+        response = requests.post(f'http://localhost:5000/api/follow/{instance.id}/{self.user_id}', headers=hed)
         self.show_users()
 
     def unfollow_user(self, instance):
         hed = {'Authorization': 'Bearer ' + self.token}
-        response = requests.post(f'http://localhost:5000/api/users/unfollow/{instance.id}/{self.user_id}', headers=hed)
+        response = requests.post(f'http://localhost:5000/api/unfollow/{instance.id}/{self.user_id}', headers=hed)
         self.show_users()
 
     def show_followers(self, instance):
@@ -584,7 +584,7 @@ class Contacts(Screen):
 
     def send_message(self, instance):
         hed = {'Authorization': 'Bearer ' + self.token}
-        response = requests.post(f'http://localhost:5000/api/users/send/{self.recipient}/{self.user_id}/{quote_plus(self.body.text)}', headers=hed)
+        response = requests.post(f'http://localhost:5000/api/send/{self.recipient}/{self.user_id}/{quote_plus(self.body.text)}', headers=hed)
         print(json.loads(response.content))
 
 
@@ -773,7 +773,7 @@ class ImageButton(ButtonBehavior, Image):
                 'page_date': page_date
             }
             hed = {'Authorization': 'Bearer ' + self.inst.token}
-            response = requests.put(f'http://localhost:5000/api/users/tasks/{self.task["id"]}', json=data, headers=hed)
+            response = requests.put(f'http://localhost:5000/api/tasks/{self.task["id"]}', json=data, headers=hed)
             original_widgets = [child for child in self.parent.children if "ImageButton" in str(type(child))]
             self.parent.load_tasks()
             for child in original_widgets:
@@ -808,7 +808,7 @@ class Tasks(Screen):
         if manager:
             self.manager = manager
         hed = {'Authorization': 'Bearer ' + self.token}
-        user_tasks = requests.get(f'http://localhost:5000/api/users/tasks/{self.user_id}/{date}', headers=hed)
+        user_tasks = requests.get(f'http://localhost:5000/api/tasks/{self.user_id}/{date}', headers=hed)
         self.tasks = json.loads(user_tasks.content)['items']
         for task in self.tasks:
             task['page_date'] = self.date
@@ -931,7 +931,7 @@ class NewTask(Screen):
                 'user_id': self.user_id
             }
             hed = {'Authorization': 'Bearer ' + self.token}
-            response = requests.post(f'http://localhost:5000/api/users/tasks/{self.user_id}/{self.start_date.text}', json=data, headers=hed)
+            response = requests.post(f'http://localhost:5000/api/tasks/{self.user_id}/{self.start_date.text}', json=data, headers=hed)
             self.task_description = ObjectProperty(None)
             self.start_time = ObjectProperty(None)
             self.end_time = ObjectProperty(None)
@@ -995,7 +995,7 @@ class MainApp(MDApp):
         super().__init__(**kwargs)
 
     def build(self):
-        return Builder.load_file("arhat.kv")
+        return Builder.load_file("arhat_native.kv")
 
 if __name__ == "__main__":
     MainApp().run()

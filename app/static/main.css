@@ -2,8 +2,9 @@
   float: right;
   position:absolute;
   height: 1440;
-  background-color: white;
+  background-color: #fafafa;
   display:block;
+  border:1px solid #5f788a;
 }
 
 
@@ -11,7 +12,14 @@
   position:absolute;
   width: 100%;
   height: 5;
-  background-color: black;
+  border-top:5px dashed #5f788a;
+}
+
+#hourline{
+  position:relative;
+  width: 100%;
+  height: 60px;
+  border-top:1px dotted #5f788a;
 }
 
 .contentWrapper{
@@ -34,8 +42,11 @@
   float: right;
   width: 10%;
   height: 1440;
-  background-color: white;
+  background-color: #fafafa;
+  border:1px solid #5f788a;
 }
+
+
 
 .taskText{
   display: inline-block;
@@ -305,3 +316,9 @@ body {
     text-decoration: none;
     cursor: pointer;
   }
+
+@media screen and (max-width:768px){
+  .leftCol{
+    display: none;
+  }
+}

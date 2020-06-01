@@ -18,8 +18,11 @@
         <div class="leftCol" id="colLeft"></div>
         <div class="content" id="taskArea">
             {% if today == true %}
-            <div id="timeline"></div>
+                <div id="timeline"></div>
             {% endif %}
+            {% for i in range(24) %}
+                <div id="hourline"></div>
+            {% endfor %}
         </div>
     </div>
 </div>
@@ -73,7 +76,7 @@
                 {{ form.frequency(class='form-control form-control-lg', id="editFrequency") }}
                 {{ form.to_date.label }}
                 {{ form.to_date(class="dtpick form-control") }}
-                {{ form.single_event.label }}
+                {{ form.single_event.label(id="editSingleEventLabel")}}
                 {{ form.single_event(class='form-control form-control-lg', id="editSingleEvent", value=false, onclick="javascript:indOrGrp();") }}
                 {{ form.submit(class="btn btn-outline-info", id="editTasks") }}
             </form>
