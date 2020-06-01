@@ -22,8 +22,7 @@ from app.models import Post, User
 
 @bp.route("/", methods=["GET", "POST"])
 def home():
-    """This reroutes to index with the date_set argument."""
-    return redirect(url_for("main.index", date_set="ph"))
+    return render_template('home.html')
 
 
 @bp.route("/index/<date_set>", methods=["GET", "POST"])

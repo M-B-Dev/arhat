@@ -272,7 +272,7 @@ function Rectangle(ypos, height, task, id, color, frequency) {
 	newTask.style.left = '0px';
 	newTask.style.top = `${ypos}px`;
 	newTask.style.height = `${height}px`;
-	newTask.style.width = `${taskArea.clientWidth}px`;
+	newTask.style.width = '100%';
 	newTask.style.backgroundColor = hexToRgbA(`#${color}`)
 	taskArea.appendChild(newTask);
 	taskEndTimeIDs[`${ypos + height}`] = [id, task];
@@ -457,7 +457,7 @@ $(function () {
 		},
 
 		containment: "parent",
-
+		grid: [50, 10],
 		handles: 'n, s',
 		stop: function (event, ui) {
 			var old_end = ui.originalPosition.top + ui.originalSize.height + 2;
@@ -467,21 +467,29 @@ $(function () {
 			}
 			var index = taskEndTimes.indexOf(old_end);
 			taskEndTimes[index] = parseInt(event.target.style.top) + parseInt(event.target.style.height) + 2;
+			var height = (parseInt(event.target.style.top) + parseInt(event.target.style.height) + 2);
+			var new_height;
+			if (height > 1440){
+				new_height = (parseInt(event.target.style.height) + 2) - (height - 1440)
+			}
+			else {
+				new_height = parseInt(event.target.style.height) + 2
+			}
 			$.ajax({
 				type: "POST",
 				contentType: "application/json;charset=utf-8",
 				url: '/update_task/',
-				data: JSON.stringify({ 'id': event.target.id, 'height': `${parseInt(event.target.style.height) + 2}`, 'top': event.target.style.top }), // serializes the form's elements.
+				data: JSON.stringify({ 'id': event.target.id, 'height': `${new_height}`, 'top': event.target.style.top }), // serializes the form's elements.
 				success: function (data) {
-					event.target.querySelector(".taskText").innerHTML = `${data.task} from ${setTime(parseInt(event.target.style.top))} to ${setTime(parseInt(event.target.style.top) + parseInt(event.target.style.height) + 2)}`;
-					event.target.style.height = parseInt(event.target.style.height) + 2;
+					event.target.querySelector(".taskText").innerHTML = `${data.task} from ${setTime(parseInt(event.target.style.top))} to ${setTime(parseInt(event.target.style.top) + new_height)}`;
+					event.target.style.height = new_height;
 					taskModal.style.display = "none";
 					editTaskModal.style.display = "none";
 					noClick = false
 				}
 			});
 		},
-		grid: [50, 10]
+		
 	});
 });
 
