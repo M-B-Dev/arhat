@@ -273,13 +273,14 @@ function Rectangle(ypos, height, task, id, color, frequency) {
 	newTask.style.top = `${ypos}px`;
 	newTask.style.height = `${height}px`;
 	newTask.style.width = '100%';
-	newTask.style.backgroundColor = hexToRgbA(`#${color}`)
+	newTask.style.borderRadius = '5px';
+	newTask.style.borderLeft = '10px solid #5f788a';
+	newTask.style.backgroundColor = hexToRgbA(`#${color}`, 0.3)
 	taskArea.appendChild(newTask);
 	taskEndTimeIDs[`${ypos + height}`] = [id, task];
 	taskEndTimes.push(ypos + height);
 	newTask.onclick = function (e) {
 		document.addEventListener("click", handler, true);
-
 		editTaskModal.style.display = "block";
 		var top = parseInt(e.target.style.top);
 		setTime(top, "editStart");
@@ -291,6 +292,7 @@ function Rectangle(ypos, height, task, id, color, frequency) {
 		if (frequency == "None") {
 			document.getElementById('editFrequency').value = '';
 			document.getElementById('editSingleEvent').style.visibility = 'hidden';
+			document.getElementById('editSingleEventLabel').style.visibility = 'hidden';
 		}
 		else {
 			document.getElementById('editFrequency').value = frequency;
@@ -415,7 +417,8 @@ function handler(e) {
 	}
 }
 
-
+var og_height;
+var changed_height;
 $(function () {
 
 
@@ -454,35 +457,56 @@ $(function () {
 	).resizable({
 		start: function (event, ui) {
 			noClick = true;
+			og_height = event.target.style.height;
 		},
 
 		containment: "parent",
 		grid: [50, 10],
 		handles: 'n, s',
 		stop: function (event, ui) {
-			var old_end = ui.originalPosition.top + ui.originalSize.height + 2;
+			changed_height = event.target.style.height;
+			var changeValue;
+			if (ui.originalPosition.top == '0' && event.target.style.top == '0px' && og_height == changed_height){
+				console.log('here');
+				changeValue = 0;
+			}
+			else {
+				changeValue = 2
+			}
+			var old_end = ui.originalPosition.top + ui.originalSize.height + changeValue;
 			if (parseInt(event.target.style.top) + parseInt(event.target.style.height) != old_end) {
-				taskEndTimeIDs[`${parseInt(event.target.style.top) + parseInt(event.target.style.height) + 2}`] = taskEndTimeIDs[`${old_end}`];
+				taskEndTimeIDs[`${parseInt(event.target.style.top) + parseInt(event.target.style.height) + changeValue}`] = taskEndTimeIDs[`${old_end}`];
 				delete taskEndTimeIDs[`${old_end}`];
 			}
 			var index = taskEndTimes.indexOf(old_end);
-			taskEndTimes[index] = parseInt(event.target.style.top) + parseInt(event.target.style.height) + 2;
-			var height = (parseInt(event.target.style.top) + parseInt(event.target.style.height) + 2);
-			var new_height;
-			if (height > 1440){
-				new_height = (parseInt(event.target.style.height) + 2) - (height - 1440)
+			taskEndTimes[index] = parseInt(event.target.style.top) + parseInt(event.target.style.height) + changeValue;
+			var top = parseInt(event.target.style.top)
+			var new_top;
+			if (top < 0) {
+				new_top = 0
+				event.target.style.height = ui.originalPosition.top + ui.originalSize.height
 			}
 			else {
-				new_height = parseInt(event.target.style.height) + 2
+				new_top = parseInt(event.target.style.top)
 			}
+			var height = (new_top + parseInt(event.target.style.height) + changeValue);
+			var new_height;
+			if (height > 1440){
+				new_height = (parseInt(event.target.style.height) + changeValue) - (height - 1440)
+			}
+			else {
+				new_height = parseInt(event.target.style.height) + changeValue
+			}
+
 			$.ajax({
 				type: "POST",
 				contentType: "application/json;charset=utf-8",
 				url: '/update_task/',
-				data: JSON.stringify({ 'id': event.target.id, 'height': `${new_height}`, 'top': event.target.style.top }), // serializes the form's elements.
+				data: JSON.stringify({ 'id': event.target.id, 'height': `${new_height}`, 'top': `${new_top}` }), // serializes the form's elements.
 				success: function (data) {
-					event.target.querySelector(".taskText").innerHTML = `${data.task} from ${setTime(parseInt(event.target.style.top))} to ${setTime(parseInt(event.target.style.top) + new_height)}`;
+					event.target.querySelector(".taskText").innerHTML = `${data.task} from ${setTime(new_top)} to ${setTime(new_top + new_height)}`;
 					event.target.style.height = new_height;
+					event.target.style.top = new_top;
 					taskModal.style.display = "none";
 					editTaskModal.style.display = "none";
 					noClick = false
@@ -493,7 +517,7 @@ $(function () {
 	});
 });
 
-function hexToRgbA(hex) {
+function hexToRgbA(hex, opacity) {
 	var c;
 	if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
 		c = hex.substring(1).split('');
@@ -501,7 +525,7 @@ function hexToRgbA(hex) {
 			c = [c[0], c[0], c[1], c[1], c[2], c[2]];
 		}
 		c = '0x' + c.join('');
-		return 'rgba(' + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(',') + ',.7)';
+		return 'rgba(' + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(',') + ',' + opacity + ')';
 	}
 	throw new Error('Bad Hex');
 }

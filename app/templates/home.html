@@ -1,20 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="content-section">
     <div class="media">
         <div class="media-body">
             <h2 class="account-heading">About Us</h2>
             <p>This site allows you to set to-do tasks using the online calendar on the homepage. 
                 Tasks can be set to repeat and end on a cetain date. 
-                You can also connect with other users of Arhat via the contacts page.
-                Edit your profile by setting your threshold level. 
+                You can also connect with other users of Arhat via the contacts page.</p>
+            <p> Edit your profile by setting your threshold level. 
                 The thereshold value must be between 0 and 100 and dictates when Arhat will prompt your friends to contact you. 
-                For instance, a threhold of 100% will mean that 100% of your to-do tasks will need to be completed. 
-                The days value should also be set to take advantage of this feature. This tells Arhat how far back to chack your to-do tasks. For example, the users you follow 
+                For instance, a threhold of 100% will mean that 100% of your to-do tasks will need to be completed. </p>
+            <p>The days value should also be set to take advantage of the friend-contact feature. This tells Arhat how far back to chack your to-do tasks. For example, the users you follow 
                 will receive a message, prompting them to contact you if you have a threhsold of 50% and a days value of 7 if you only completed 
-                4 out of 10 tasks that you ste yourself in the last 7 days.  </p>
+                4 out of 10 tasks that you set yourself in the last 7 days.  </p>
         </div>
     </div>
-</div>
 {% endblock %}
