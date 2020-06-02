@@ -53,7 +53,7 @@
                             <!-- Navbar Right Side -->
                             <div class="navbar-nav">
                                 {% if current_user.is_anonymous %}
-                                <a class="nav-item nav-link" href="{{ url_for('auth.login') }}" >Login</a>
+                                <a class="nav-item nav-link" href="{{ url_for('auth.login_page') }}" >Login</a>
                                 <a class="nav-item nav-link" href="{{ url_for('auth.register') }}">Register</a>
                                 {% else %}
                                 <a class="nav-item nav-link" href="{{ url_for('sn.messages') }}">

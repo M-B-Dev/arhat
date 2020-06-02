@@ -3,6 +3,9 @@
 {% block content %}
 <div class="conten-section">
     <div class="content">
+        <h2>Daily Tasks</h2>
+        <p>Welcome {{current_user.username}}, below are your daily tasks</p>
+        <p>Click the task area to add a new task, click on a task in order to edit it.</p>
         <form action='' id="date" method='post' enctype="multipart/form-data">
             {{ date_form.hidden_tag() }}
             <div class="row">
