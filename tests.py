@@ -241,7 +241,7 @@ class UserModelCase(unittest.TestCase):
     def test_login_page(self):
         """This tests login page renders correctly."""
         tester = self.app.test_client()
-        response = tester.get("auth/login", content_type="html/text")
+        response = tester.get("login_page", content_type="html/text")
 
         self.assertEqual(response.status_code, 200)
         self.assertTrue(
@@ -263,7 +263,7 @@ class UserModelCase(unittest.TestCase):
         form.email.data = "test@test.com"
         form.password.data = "Password1"
         form.password2.data = "Password1"
-        response = tester.post("auth/register", data=form.data, follow_redirects=False)
+        response = tester.post("register", data=form.data, follow_redirects=False)
 
         self.assertEqual(User.query.all()[0].username, "test")
 
@@ -278,7 +278,7 @@ class UserModelCase(unittest.TestCase):
         """Tests that after logout login page is rendered correctly."""
         tester = self.app.test_client()
         login_helper(self, tester)
-        response = tester.get("auth/logout", follow_redirects=True)
+        response = tester.get("logout", follow_redirects=True)
 
         self.assertIn(
             b"Sign In"
@@ -766,7 +766,7 @@ def login_helper(self, client):
     form = LoginForm()
     form.username.data = "dave"
     form.password.data = "test"
-    response = client.post("auth/login", data=form.data, follow_redirects=True)
+    response = client.post("login_page", data=form.data, follow_redirects=True)
     return response
 
 

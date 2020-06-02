@@ -1,4 +1,4 @@
-2020-05-30 13:41:28,050 ERROR: 
+2020-05-30 14:30:42,880 ERROR: 
             Exception on /api/users/tasks/2/30-05-2020 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
@@ -74,4 +74,64 @@ Traceback (most recent call last):
     "SQLite DateTime type only accepts Python "
 sqlalchemy.exc.StatementError: (builtins.TypeError) SQLite DateTime type only accepts Python datetime and date objects as input.
 [SQL: INSERT INTO post (body, timestamp, hour, done, depression_score, date, user_id, start_time, end_time, frequency, color, exclude, to_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
-[parameters: [{'end_time': 120, 'hour': 1, 'frequency': 1, 'body': 'test', 'to_date': '31-05-2020', 'start_time': 0, 'date': datetime.datetime(2020, 5, 30, 0, 0), 'user_id': 2, 'exclude': None}]]
+[parameters: [{'end_time': 120, 'hour': 1, 'body': 'test', 'to_date': '31-05-2020', 'start_time': 0, 'date': datetime.datetime(2020, 5, 30, 0, 0), 'user_id': 2, 'exclude': None, 'frequency': None}]]
+2020-05-30 14:33:49,947 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-30 14:34:16,764 ERROR: 
+            Exception on /api/users/tasks/2/30-05-2020 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
+            
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/app/api/users.py", line 123, in create_task
+    task.from_dict(data)
+  File "/home/lean/Arhat/app/models.py", line 522, in from_dict
+    datetime.strftime(data['to_date'], "%Y-%m-%d, 00:00:00"), "%Y-%m-%d, %H:%M:%S")
+TypeError: descriptor 'strftime' requires a 'datetime.date' object but received a 'str'
+2020-05-30 14:35:56,787 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-05-30 14:36:24,023 ERROR: 
+            Exception on /api/users/tasks/2/30-05-2020 [POST] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
+            
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/app/api/users.py", line 123, in create_task
+    task.from_dict(data)
+  File "/home/lean/Arhat/app/models.py", line 521, in from_dict
+    data['to_date'] = datetime.strptime(data['to_date'], "%Y-%m-%d, %H:%M:%S")
+  File "/usr/lib/python3.7/_strptime.py", line 577, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+  File "/usr/lib/python3.7/_strptime.py", line 359, in _strptime
+    (data_string, format))
+ValueError: time data '31-05-2020' does not match format '%Y-%m-%d, %H:%M:%S'
+2020-05-30 14:39:14,750 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
