@@ -117,7 +117,7 @@ def follow_request(username):
     flash(f"your follow request for {username} has been sent!", "warning")
     token = user.get_follow_request_token()
     send_email(
-        "[Template] Connection Request",
+        "[Arhat] Connection Request",
         sender=current_app.config["ADMINS"][0],
         recipients=[user.email],
         text_body=render_template(

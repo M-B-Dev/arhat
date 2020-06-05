@@ -11,3 +11,6 @@
 *public_key.txt
 *vapid_private.pem
 *.git-old
+*Dockerfile
+*commands.text
+*boot.shq

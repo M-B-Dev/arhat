@@ -28,7 +28,7 @@ def login_page():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
             flash(f"Invalid username or password", "danger")
-            return redirect(url_for("auth.login"))
+            return redirect(url_for("auth.login_page"))
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get("next")
         if not next_page or url_parse(next_page).netloc != "":
@@ -80,7 +80,7 @@ def reset_password_request():
         flash(
             f"Check your email for the instructions to reset your password", "warning"
         )
-        return redirect(url_for("auth.login"))
+        return redirect(url_for("auth.login_page"))
     return render_template(
         "auth/reset_password_request.html", title="Reset Password", form=form
     )
@@ -93,13 +93,13 @@ def reset_password(token):
         return redirect(url_for("main.index", date_set="ph"))
     user = User.verify_reset_password_token(token)
     if not user:
-        return redirect(url_for("auth.login"))
+        return redirect(url_for("auth.login_page"))
     form = ResetPasswordForm()
     if form.validate_on_submit():
         user.set_password(form.password.data)
         db.session.commit()
         flash("Your password has been reset.")
-        return redirect(url_for("auth.login"))
+        return redirect(url_for("auth.login_page"))
     return render_template("auth/.html", form=form)
 
 
@@ -123,7 +123,7 @@ def login():
         ]
     request_uri = client.prepare_request_uri(
         authorization_endpoint,
-        redirect_uri=request.base_url + "/callback",
+        redirect_uri=url + "/callback",
         scope=["openid", "email", "profile"],
         prompt='consent'
     )
@@ -146,6 +146,8 @@ def callback():
     token_endpoint = google_provider_cfg["token_endpoint"]
     if request.url[4] == 's':
         url = "https" + request.url[5:]
+    else:
+        url = "https" + request.url[4:]
     token_url, headers, body = client.prepare_token_request(
         token_endpoint,
         authorization_response=url,
@@ -178,7 +180,7 @@ def callback():
         if User.query.filter_by(email=users_email).first():
             user = User.query.filter_by(email=users_email).first()
             if user is None or not user.check_password(unique_id):
-                return redirect(url_for('main.index', date_set="ph"))
+                return redirect(url_for('auth.login_page'))
             login_user(user, remember=False)
             next_page = request.args.get('next')
             if not next_page or url_parse(next_page).netloc != '':

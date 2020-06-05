@@ -1,53 +1,5 @@
-2020-06-01 17:50:22,897 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-06-01 18:07:33,908 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-06-01 18:19:06,151 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-06-01 21:19:51,794 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-06-01 22:30:25,720 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-06-01 22:37:02,345 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-06-01 22:41:16,183 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-06-01 22:41:37,067 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-06-01 22:42:16,964 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-06-01 22:47:53,579 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-06-01 22:49:20,906 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-06-01 22:53:17,326 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-06-01 22:53:18,856 ERROR: 
-            Exception on /index/ph [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-06-02 13:22:42,237 ERROR: 
+            Exception on /auth/login_page [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -63,63 +15,49 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask_login/utils.py", line 272, in decorated_view
-    return func(*args, **kwargs)
-  File "/home/lean/Arhat/app/main/routes.py", line 72, in index
-    date_form=date_form,
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/templating.py", line 138, in render_template
-    ctx.app.jinja_env.get_or_select_template(template_name_or_list),
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/jinja2/environment.py", line 930, in get_or_select_template
-    return self.get_template(template_name_or_list, parent, globals)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/jinja2/environment.py", line 883, in get_template
-    return self._load_template(name, self.make_globals(globals))
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/jinja2/environment.py", line 857, in _load_template
-    template = self.loader.load(self, name, globals)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/jinja2/loaders.py", line 129, in load
-    code = environment.compile(source, name, filename)
-  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/jinja2/environment.py", line 638, in compile
-    self.handle_exception(source=source_hint)
+  File "/home/lean/Arhat/app/auth/routes.py", line 37, in login_page
+    return render_template("auth/login.html", title="Sign In", form=form)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/templating.py", line 140, in render_template
+    ctx.app,
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/templating.py", line 120, in _render
+    rv = template.render(context)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/jinja2/environment.py", line 1090, in render
+    self.environment.handle_exception()
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/jinja2/environment.py", line 832, in handle_exception
     reraise(*rewrite_traceback_stack(source=source))
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/jinja2/_compat.py", line 28, in reraise
     raise value.with_traceback(tb)
-  File "/home/lean/Arhat/app/templates/index.html", line 79, in template
-    {{ form.single_event.label id="editSingleEventLabel"}}
-jinja2.exceptions.TemplateSyntaxError: expected token 'end of print statement', got 'id'
-2020-06-01 22:53:42,663 INFO: 
+  File "/home/lean/Arhat/app/templates/auth/login.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "/home/lean/Arhat/app/templates/base.html", line 88, in top-level template code
+    {% block content %}
+  File "/home/lean/Arhat/app/templates/auth/login.html", line 21, in block "content"
+    <a href="{{ url_for('auth.google_login') }}"><button class="btn btn-outline-warning">Google</button>
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/helpers.py", line 370, in url_for
+    return appctx.app.handle_url_build_error(error, endpoint, values)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2216, in handle_url_build_error
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/helpers.py", line 358, in url_for
+    endpoint, values, method=method, force_external=external
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/werkzeug/routing.py", line 2179, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.BuildError: Could not build url for endpoint 'auth.google_login'. Did you mean 'auth.login' instead?
+2020-06-02 13:23:03,530 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-06-01 22:55:07,405 INFO: 
+2020-06-02 13:24:28,283 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-06-01 23:47:21,728 INFO: 
+2020-06-02 13:25:49,804 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-06-02 09:19:48,490 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-06-02 09:24:29,982 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-06-02 13:04:34,344 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-06-02 13:13:39,757 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-06-02 13:17:53,868 INFO: 
-            Template startup [in /home/lean/Arhat/app/__init__.py:
-            97]
-            
-2020-06-02 13:18:00,755 ERROR: 
-            Exception on /auth/google_login [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+2020-06-02 13:26:15,749 ERROR: 
+            Exception on /login/callback [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
             1892]
             
 Traceback (most recent call last):
@@ -135,26 +73,114 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/lean/Arhat/app/auth/routes.py", line 119, in google_login
-    client = WebApplicationClient(current_app.config['GOOGLE_CLIENT_ID'])
-NameError: name 'WebApplicationClient' is not defined
-2020-06-02 13:18:28,544 INFO: 
+  File "/home/lean/Arhat/app/auth/routes.py", line 194, in callback
+    return redirect(url_for("main.index"))
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/helpers.py", line 370, in url_for
+    return appctx.app.handle_url_build_error(error, endpoint, values)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2216, in handle_url_build_error
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/helpers.py", line 358, in url_for
+    endpoint, values, method=method, force_external=external
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/werkzeug/routing.py", line 2179, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.BuildError: Could not build url for endpoint 'main.index'. Did you forget to specify values ['date_set']?
+2020-06-02 13:27:54,961 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-06-02 13:18:55,241 INFO: 
+2020-06-02 13:28:17,722 ERROR: 
+            Exception on /login/callback [GET] [in /home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py:
+            1892]
+            
+Traceback (most recent call last):
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/lean/Arhat/app/auth/routes.py", line 185, in callback
+    next_page = url_for('shop.index')
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/helpers.py", line 370, in url_for
+    return appctx.app.handle_url_build_error(error, endpoint, values)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/app.py", line 2216, in handle_url_build_error
+    reraise(exc_type, exc_value, tb)
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/flask/helpers.py", line 358, in url_for
+    endpoint, values, method=method, force_external=external
+  File "/home/lean/Arhat/venv/lib/python3.7/site-packages/werkzeug/routing.py", line 2179, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.BuildError: Could not build url for endpoint 'shop.index'. Did you mean 'main.index' instead?
+2020-06-02 13:29:03,952 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-06-02 13:19:27,264 INFO: 
+2020-06-02 13:36:29,526 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-06-02 13:20:32,321 INFO: 
+2020-06-02 13:37:11,412 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
-2020-06-02 13:22:31,418 INFO: 
+2020-06-02 13:39:25,320 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-06-02 13:40:05,066 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-06-02 13:40:49,831 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-06-02 13:41:09,720 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-06-02 13:41:27,836 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-06-02 13:42:13,942 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-06-02 13:43:19,190 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-06-02 14:30:18,743 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-06-02 14:33:09,845 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-06-02 15:55:04,014 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-06-03 00:18:34,137 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-06-03 00:18:44,791 INFO: 
+            Template startup [in /home/lean/Arhat/app/__init__.py:
+            97]
+            
+2020-06-03 22:19:06,448 INFO: 
             Template startup [in /home/lean/Arhat/app/__init__.py:
             97]
             
