@@ -77,7 +77,8 @@ function subscribeUser() {
 			updateSubscriptionOnServer(subscription);
 			localStorage.setItem('sub_token', JSON.stringify(subscription));
 			isSubscribed = true;
-			location.reload();
+				var url = window.location.href;
+				location.replace(url);
 			updateBtn();
 		})
 		
@@ -157,9 +158,10 @@ $(document).ready(function () {
 const channel = new BroadcastChannel('sw-messages');
 channel.addEventListener('message', event => {
 	modal.style.display = "none";
+	var url = window.location.href;
 	fetch(`/complete?id=${pushed_task}`).then(response => (
 		pushed_task = false,
-		location.reload()
+		location.replace(url)
 	));
 
 });
@@ -247,8 +249,9 @@ if (document.getElementById("timeline")) {
 			var button = document.getElementsByClassName("flashing effect")[0];
 			button.onclick = function () {
 				modal.style.display = "none";
+				var url = window.location.href;
 				fetch(`/complete?id=${taskEndTimeIDs[unlock][0]}`).then(response => (
-					location.reload()
+					location.replace(url)
 				));
 
 			}
@@ -387,7 +390,6 @@ $(document).ready(function () {
 });
 
 
-
 $(document).ready(function () {
 	$('#tasks').submit(function (e) {
 		taskModal.style.display = "none";
@@ -397,7 +399,9 @@ $(document).ready(function () {
 			data: $('#tasks').serialize(),
 			success: function (data) {
 				new Rectangle(data.minutes, data.height, data.task, data.id, data.color, data.frequency);
-				location.reload()
+				var url = window.location.href
+				location.replace(url);
+
 			}
 		});
 		e.preventDefault();
@@ -467,7 +471,6 @@ $(function () {
 			changed_height = event.target.style.height;
 			var changeValue;
 			if (ui.originalPosition.top == '0' && event.target.style.top == '0px' && og_height == changed_height){
-				console.log('here');
 				changeValue = 0;
 			}
 			else {

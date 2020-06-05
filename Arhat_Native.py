@@ -59,7 +59,7 @@ class Login(Screen):
 
     def login_user(self):
         if self.username.text and self.password.text:
-            response = requests.post('http://localhost:5000/api/tokens', auth=HTTPBasicAuth(self.username.text, self.password.text))
+            response = requests.post('https://arhat.uk/api/tokens', auth=HTTPBasicAuth(self.username.text, self.password.text))
             if 'token' in json.loads(response.content):
                 self.token = json.loads(response.content)['token']
                 self.user_id = json.loads(response.content)['id']
@@ -70,7 +70,7 @@ class Login(Screen):
             self.username.text = ''
             self.password.text = ''
             hed = {'Authorization': 'Bearer ' + self.token}
-            self.user = json.loads(requests.get(f'http://localhost:5000/api/users/{self.user_id}', headers=hed).content)
+            self.user = json.loads(requests.get(f'https://arhat.uk/api/users/{self.user_id}', headers=hed).content)
             return self.token
 
 
@@ -105,7 +105,7 @@ class Register(Screen):
             'email': self.email.text,
             'password': self.password1.text
         }
-        response = requests.post('http://localhost:5000/api/users', json=data)
+        response = requests.post('https://arhat.uk/api/users', json=data)
         if 'error' in json.loads(response.content):
             if 'username' in json.loads(response.content)['message']:
                 self.rusername.helper_text_mode = "persistent"
@@ -191,7 +191,7 @@ class EditProfile(Screen):
             'days': int(self.days.text),
             'password': self.password1.text
             }
-        response = requests.put(f'http://localhost:5000/api/users/{self.user["id"]}', json=data, headers=hed)
+        response = requests.put(f'https://arhat.uk/api/users/{self.user["id"]}', json=data, headers=hed)
         if 'error' in json.loads(response.content):
             if 'username' in json.loads(response.content)['error']:
                 self.username.helper_text = "That username is taken" 
@@ -204,13 +204,16 @@ class EditProfile(Screen):
 
     def update_fields(self):
         hed = {'Authorization': 'Bearer ' + self.token}
-        self.user = json.loads(requests.get(f'http://localhost:5000/api/users/{self.user["id"]}', headers=hed).content)
+        self.user = json.loads(requests.get(f'https://arhat.uk/api/users/{self.user["id"]}', headers=hed).content)
         self.set_text_fields()
 
 
 class Item(OneLineAvatarListItem):
     divider = None
     texture = ObjectProperty(None)
+
+class MessageScrollView(ScrollView):
+    pass
 
 class Messages(Screen):
     user = ObjectProperty(None)
@@ -233,13 +236,14 @@ class Messages(Screen):
         self.button.bind(on_release=self.display_correct_messages)
         self.children[0].children[0].children[0].add_widget(self.button)
         hed = {'Authorization': 'Bearer ' + self.token}
-        response = requests.get(f'http://localhost:5000/api/messages/{message_type}/{self.user_id}', headers=hed)
+        response = requests.get(f'https://arhat.uk/api/messages/{message_type}/{self.user_id}', headers=hed)
         self.messages = json.loads(response.content)['items']
         ids = ''
         for id in self.messages:
             ids += f'A{id[id_type]}'
-        response = requests.get(f'http://localhost:5000/api/users/{ids}', headers=hed)
+        response = requests.get(f'https://arhat.uk/api/users/{ids}', headers=hed)
         self.idents = json.loads(response.content)
+        
         for msg in self.messages:
             inner_widg = MDRaisedButton()
             inner_widg.pos_hint = {'x': 0.5, 'y': 0.5}
@@ -256,7 +260,6 @@ class Messages(Screen):
             self.children[0].children[0].children[0].add_widget(inner_widg)
 
     def display_correct_messages(self, instance):
-        print(instance.id)
         self.show_messages(message_type=instance.id)
 
     def show_message(self, instance):
@@ -337,7 +340,7 @@ class Messages(Screen):
 
     def send_message(self, instance):
         hed = {'Authorization': 'Bearer ' + self.token}
-        response = requests.post(f'http://localhost:5000/api/users/send/{self.recipient}/{self.user_id}/{quote_plus(self.body.text)}', headers=hed)
+        response = requests.post(f'https://arhat.uk/api/users/send/{self.recipient}/{self.user_id}/{quote_plus(self.body.text)}', headers=hed)
         print(json.loads(response.content))
         if json.loads(response.content) == 'success':
             self.show_messages(message_type="sent")
@@ -351,7 +354,7 @@ class Contacts(Screen):
 
     def search_users(self, instance):
         hed = {'Authorization': 'Bearer ' + self.token}
-        response = requests.get('http://localhost:5000/api/users', headers=hed)
+        response = requests.get('https://arhat.uk/api/users', headers=hed)
         self.users = json.loads(response.content)['items']
         users = [user for user in self.users if self.search.text in user['username'] or self.search.text in user['email']]
         self.show_users(users=users)
@@ -372,18 +375,18 @@ class Contacts(Screen):
         self.children[0].children[0].children[0].add_widget(self.followers_button)
         self.children[0].children[0].children[0].add_widget(self.followed_button)
         hed = {'Authorization': 'Bearer ' + self.token}
-        response = requests.get('http://localhost:5000/api/users', headers=hed)
+        response = requests.get('https://arhat.uk/api/users', headers=hed)
         if not users:
             self.users = json.loads(response.content)['items']
         else:
             self.users = users
-        response = requests.get(f'http://localhost:5000/api/users/{self.user_id}/followers', headers=hed)
+        response = requests.get(f'https://arhat.uk/api/users/{self.user_id}/followers', headers=hed)
         self.followers = json.loads(response.content)
         self.followers_ids = [ident['id'] for ident in self.followers['items']]
-        response = requests.get(f'http://localhost:5000/api/users/{self.user_id}/followed', headers=hed)
+        response = requests.get(f'https://arhat.uk/api/users/{self.user_id}/followed', headers=hed)
         self.followed = json.loads(response.content)
         self.followed_ids = [ident['id'] for ident in self.followed['items']]
-        response = requests.get(f'http://localhost:5000/api/users/{self.user_id}/penders', headers=hed)
+        response = requests.get(f'https://arhat.uk/api/users/{self.user_id}/penders', headers=hed)
         self.penders = json.loads(response.content)
         self.pender_ids = [ident['id'] for ident in self.penders['items']]
 
@@ -416,12 +419,12 @@ class Contacts(Screen):
 
     def follow_user(self, instance):
         hed = {'Authorization': 'Bearer ' + self.token}
-        response = requests.post(f'http://localhost:5000/api/follow/{instance.id}/{self.user_id}', headers=hed)
+        response = requests.post(f'https://arhat.uk/api/follow/{instance.id}/{self.user_id}', headers=hed)
         self.show_users()
 
     def unfollow_user(self, instance):
         hed = {'Authorization': 'Bearer ' + self.token}
-        response = requests.post(f'http://localhost:5000/api/unfollow/{instance.id}/{self.user_id}', headers=hed)
+        response = requests.post(f'https://arhat.uk/api/unfollow/{instance.id}/{self.user_id}', headers=hed)
         self.show_users()
 
     def show_followers(self, instance):
@@ -584,7 +587,7 @@ class Contacts(Screen):
 
     def send_message(self, instance):
         hed = {'Authorization': 'Bearer ' + self.token}
-        response = requests.post(f'http://localhost:5000/api/send/{self.recipient}/{self.user_id}/{quote_plus(self.body.text)}', headers=hed)
+        response = requests.post(f'https://arhat.uk/api/send/{self.recipient}/{self.user_id}/{quote_plus(self.body.text)}', headers=hed)
         print(json.loads(response.content))
 
 
@@ -773,7 +776,7 @@ class ImageButton(ButtonBehavior, Image):
                 'page_date': page_date
             }
             hed = {'Authorization': 'Bearer ' + self.inst.token}
-            response = requests.put(f'http://localhost:5000/api/tasks/{self.task["id"]}', json=data, headers=hed)
+            response = requests.put(f'https://arhat.uk/api/tasks/{self.task["id"]}', json=data, headers=hed)
             original_widgets = [child for child in self.parent.children if "ImageButton" in str(type(child))]
             self.parent.load_tasks()
             for child in original_widgets:
@@ -808,7 +811,7 @@ class Tasks(Screen):
         if manager:
             self.manager = manager
         hed = {'Authorization': 'Bearer ' + self.token}
-        user_tasks = requests.get(f'http://localhost:5000/api/tasks/{self.user_id}/{date}', headers=hed)
+        user_tasks = requests.get(f'https://arhat.uk/api/tasks/{self.user_id}/{date}', headers=hed)
         self.tasks = json.loads(user_tasks.content)['items']
         for task in self.tasks:
             task['page_date'] = self.date
@@ -870,7 +873,7 @@ class NewTask(Screen):
     end_time_minutes = ObjectProperty(None)
     updated_tasks = ObjectProperty(None)
     
-
+    
     def get_end_date(self, date):
         '''
         :type date: <class 'datetime.date'>
@@ -931,15 +934,15 @@ class NewTask(Screen):
                 'user_id': self.user_id
             }
             hed = {'Authorization': 'Bearer ' + self.token}
-            response = requests.post(f'http://localhost:5000/api/tasks/{self.user_id}/{self.start_date.text}', json=data, headers=hed)
-            self.task_description = ObjectProperty(None)
-            self.start_time = ObjectProperty(None)
-            self.end_time = ObjectProperty(None)
-            self.frequency = ObjectProperty(None)
-            self.start_date = ObjectProperty(None)
-            self.end_date = ObjectProperty(None)
-            self.start_time_minutes = ObjectProperty(None)
-            self.end_time_minutes = ObjectProperty(None)
+            response = requests.post(f'https://arhat.uk/api/tasks/{self.user_id}/{self.start_date.text}', json=data, headers=hed)
+            self.task_description.text = ""
+            self.start_time.text = ""
+            self.end_time.text = ""
+            self.frequency.text = ""
+            self.start_date.text = ""
+            self.end_date.text = ""
+            self.start_time_minutes = 0
+            self.end_time_minutes = 0
             self.updated_tasks = json.loads(response.content)
             self.manager.current = "Tasks"
 

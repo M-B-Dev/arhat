@@ -19,7 +19,7 @@ class Config(object):
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') is not None
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    ADMINS = ['benjamin.m.horner@gmail.com']
+    ADMINS = ['admin@arhat.uk']
     POSTS_PER_PAGE = 5
     DER_BASE64_ENCODED_PRIVATE_KEY_FILE_PATH = os.path.join(
         os.getcwd(),"private_key.txt"
@@ -34,7 +34,7 @@ class Config(object):
         DER_BASE64_ENCODED_PUBLIC_KEY_FILE_PATH, 
         "r+").read().strip("\n")
     VAPID_CLAIMS = {
-    "sub": "mailto:benjamin.m.horner@gmail.com"
+    "sub": "mailto:admin@arhat.uk"
     }
     SUB_KEY ={
         'endpoint': """https://fcm.googleapis.com/fcm/send/fP-WhA51C

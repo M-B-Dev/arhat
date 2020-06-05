@@ -156,16 +156,19 @@ Screen:
                             spacing: 10
                             MDLabel:
                                 text: "Create a new task: "
+                                width: task_description.width
                                 theme_text_color: "Primary"
                                 halign: "left"
                             MDRaisedButton:
                                 text: "Enter the task date"
                                 required: True
+                                width: task_description.width
                                 halign: "left"
                                 on_release: NewTask.show_date_picker("start")
                             
                             MDLabel:
                                 id: start_date
+                                width: task_description.width
                                 theme_text_color: "Primary"
                                 halign: "left"
 
@@ -173,35 +176,41 @@ Screen:
 
                             MDRaisedButton:
                                 text: "When does the task start?"
+                                width: task_description.width
                                 required: True
                                 halign: "left"
                                 on_release: NewTask.show_start_time_picker()
 
                             MDLabel:
                                 id: start_time
+                                width: task_description.width
                                 theme_text_color: "Primary"
                                 halign: "left"
 
                             MDRaisedButton:
                                 text: "When does the task end?"
+                                width: task_description.width
                                 required: True
                                 halign: "left"
                                 on_release: NewTask.show_end_time_picker()
 
                             MDLabel:
                                 id: end_time
+                                width: task_description.width
                                 theme_text_color: "Primary"
                                 halign: "left"
                                 
 
 
                             MDRaisedButton:
+                                width: task_description.width
                                 text: "If you would like this task to stop repeating on a certain date, enter it here"
                                 required: True
                                 halign: "left"
                                 on_release: NewTask.show_date_picker("end")
                             
                             MDLabel:
+                                width: task_description.width
                                 id: end_date
                                 theme_text_color: "Primary"
                                 halign: "left"
@@ -331,7 +340,7 @@ Screen:
 
                     BoxLayout:
                         orientation: "vertical"
-                        ScrollView:
+                        MessageScrollView:
                             BoxLayout:
 
                                 orientation: "vertical"
