@@ -54,7 +54,7 @@ oauthlib==3.1.0
 pathspec==0.8.0
 pbr==5.4.5
 pep517==0.6.0
-Pillow==7.1.1
+Pillow==8.2.0
 plotly==4.6.0
 pre-commit==2.3.0
 progress==1.4
