@@ -44,7 +44,7 @@ itsdangerous==1.1.0
 Jinja2==2.11.1
 jsonschema==3.2.0
 jupyter-core==4.6.3
-Mako==1.1.2
+Mako==1.2.2
 mando==0.6.4
 MarkupSafe==1.1.1
 mccabe==0.6.1
